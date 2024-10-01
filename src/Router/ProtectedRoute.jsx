@@ -1,11 +1,25 @@
-import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
+import React, { createContext, useState } from "react";
 
-export default function ProtectedRoute({ children }) {
-  console.log({ accessToken: localStorage.getItem('accessToken') });
-  if (!localStorage.getItem('accessToken')) {
-    return <Navigate to='/login' />;
-  }
+export const AuthContext = createContext();
 
-  return <Outlet />;
-}
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem("accessToken", userData.token);
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("accessToken");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthProvider;
