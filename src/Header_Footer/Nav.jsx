@@ -7,6 +7,7 @@ import {
   faUser,
   faIdCard,
   faFileContract,
+  faNewspaper,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = () => {
@@ -52,6 +53,14 @@ const Nav = () => {
               className="route text-lg lg:text-xl font-extrabold"
             >
               <FontAwesomeIcon icon={faFileContract} /> Contract
+            </Link>
+          </li>
+          <li className="w-full lg:hover:px-5 py-2 hover:bg-[#eaf9e7] hover:text-[#4ca771] text-center lg:text-left rounded-full mb-4">
+            <Link
+              to="ListReservation"
+              className="route text-lg lg:text-xl font-extrabold"
+            >
+              <FontAwesomeIcon icon={faNewspaper} /> Reservation
             </Link>
           </li>
         </ul>

@@ -17,6 +17,7 @@ import CreateDriver from "../AdminPage/Driver/CreateDriver.jsx";
 import ListAccount from "../AdminPage/Account/ListAccount.jsx";
 import ListContract from "../AdminPage/Contract/ListContract.jsx";
 import DetailContract from "../AdminPage/Contract/DetailContract.jsx";
+import ListReservation from "../AdminPage/Reservation/ListReservation.jsx";
 
 const AuthLayout = () => {
   return (
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
           {
             path: "DetailContract/:id",
             element: <DetailContract />,
+          },
+          {
+            path: "ListReservation",
+            element: <ListReservation />,
           },
         ],
       },

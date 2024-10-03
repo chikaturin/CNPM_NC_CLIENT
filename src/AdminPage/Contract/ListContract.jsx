@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 
 const ListContract = () => {
@@ -87,7 +87,7 @@ const ListContract = () => {
               className="font-semibold bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] outline-none px-4 py-2 rounded-lg"
               onClick={() => setOpenDropdown(!openDropdown)}
             >
-              Sort by state
+              <FontAwesomeIcon className="mr-2" icon={faFilter} /> Sort by state
             </div>
             {openDropdown && (
               <ul
