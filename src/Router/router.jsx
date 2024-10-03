@@ -10,6 +10,13 @@ import ListVehicle from "../AdminPage/Vehicle/ListVehicle.jsx";
 import DetailVehicle from "../AdminPage/Vehicle/DetailVehicle.jsx";
 import CreateVehicle from "../AdminPage/Vehicle/CreateVehicle.jsx";
 import EditVehicle from "../AdminPage/Vehicle/EditVehicle.jsx";
+import ListDriver from "../AdminPage/Driver/ListDriver.jsx";
+import DetailDriver from "../AdminPage/Driver/DetailDriver.jsx";
+import EditDriver from "../AdminPage/Driver/EditDriver.jsx";
+import CreateDriver from "../AdminPage/Driver/CreateDriver.jsx";
+import ListAccount from "../AdminPage/Account/ListAccount.jsx";
+import ListContract from "../AdminPage/Contract/ListContract.jsx";
+import DetailContract from "../AdminPage/Contract/DetailContract.jsx";
 
 const AuthLayout = () => {
   return (
@@ -55,6 +62,38 @@ const router = createBrowserRouter([
           {
             path: "EditVehicle/:id",
             element: <EditVehicle />,
+          },
+          {
+            path: "ListDriver",
+            element: <ListDriver />,
+          },
+          {
+            path: "DetailDriver/:id",
+            element: <DetailDriver />,
+          },
+          {
+            path: "DetailDriver/:id",
+            element: <DetailDriver />,
+          },
+          {
+            path: "EditDriver/:id",
+            element: <EditDriver />,
+          },
+          {
+            path: "CreateDriver",
+            element: <CreateDriver />,
+          },
+          {
+            path: "ListAccount",
+            element: <ListAccount />,
+          },
+          {
+            path: "ListContract",
+            element: <ListContract />,
+          },
+          {
+            path: "DetailContract/:id",
+            element: <DetailContract />,
           },
         ],
       },

@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faCar, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChartLine,
+  faCar,
+  faUser,
+  faIdCard,
+  faFileContract,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Nav = () => {
   return (
@@ -22,6 +28,30 @@ const Nav = () => {
               className="route text-lg lg:text-xl font-extrabold"
             >
               <FontAwesomeIcon icon={faCar} /> Vehicle
+            </Link>
+          </li>
+          <li className="w-full lg:hover:px-5 py-2 hover:bg-[#eaf9e7] hover:text-[#4ca771] text-center lg:text-left rounded-full mb-4">
+            <Link
+              to="ListDriver"
+              className="route text-lg lg:text-xl font-extrabold"
+            >
+              <FontAwesomeIcon icon={faIdCard} /> Driver
+            </Link>
+          </li>
+          <li className="w-full lg:hover:px-5 py-2 hover:bg-[#eaf9e7] hover:text-[#4ca771] text-center lg:text-left rounded-full mb-4">
+            <Link
+              to="ListAccount"
+              className="route text-lg lg:text-xl font-extrabold"
+            >
+              <FontAwesomeIcon icon={faUser} /> Account
+            </Link>
+          </li>
+          <li className="w-full lg:hover:px-5 py-2 hover:bg-[#eaf9e7] hover:text-[#4ca771] text-center lg:text-left rounded-full mb-4">
+            <Link
+              to="ListContract"
+              className="route text-lg lg:text-xl font-extrabold"
+            >
+              <FontAwesomeIcon icon={faFileContract} /> Contract
             </Link>
           </li>
         </ul>

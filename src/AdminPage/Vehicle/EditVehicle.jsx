@@ -60,6 +60,22 @@ const EditVehicle = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+        Loading...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+        {error}
+      </div>
+    );
+  }
+
   return (
     <div className="lg:bg-[#eaf9e7] bg-[#4ca771]">
       <div className="w-full bg-[#eaf9e7] p-4 px-10 rounded-t-xl">
@@ -180,20 +196,27 @@ const EditVehicle = () => {
                 />
               </div>
             </div>
-            <div className="">
+          </div>
+          <div className="grid grid-cols-12 gap-10 w-full justify-center mt-10">
+            <div className="col-span-1"></div>
+            <div className="col-span-5">
               <button
                 onClick={handleSubmit}
-                className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-2 rounded-lg flex items-center justify-center w-full"
+                className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-5 rounded-lg flex items-center justify-center w-full"
               >
-                <FontAwesomeIcon icon={faEdit} /> Sửa
+                <FontAwesomeIcon icon={faEdit} />
+                <span className="ml-2">Edit</span>
               </button>
             </div>
-            <div className="">
-              <button className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-2 rounded-lg flex items-center justify-center w-full">
-                <FontAwesomeIcon icon={faXmark} className="mr-2" />
-                <Link to={"/MainAdmin/ListVehicle"}>Cancel</Link>
-              </button>
+            <div className="col-span-5">
+              <Link to={"/MainAdmin/ListVehicle"}>
+                <button className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-5 rounded-lg flex items-center justify-center w-full">
+                  <FontAwesomeIcon icon={faXmark} className="mr-2" />
+                  Cancel
+                </button>
+              </Link>
             </div>
+            <div className="col-span-1"></div>
           </div>
         </form>
       </div>

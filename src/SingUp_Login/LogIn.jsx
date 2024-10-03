@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LogIn = () => {
   const [Name, setName] = useState("");
@@ -8,6 +8,7 @@ const LogIn = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const URL = "http://localhost:8000/api";
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const LogIn = () => {
     setSuccess("");
 
     if (!Name || !Password) {
-      setError("Vui lòng nhập email và mật khẩu.");
+      setError("Vui lòng nhập tên và mật khẩu.");
       return;
     }
 
@@ -27,14 +28,30 @@ const LogIn = () => {
 
       if (response.status === 200) {
         const token = response.data.token;
-        console.log(token);
-        localStorage.setItem("token", token);
 
-        const userRole = response.data.role;
+        const res = await fetch("http://localhost:8000/api/user", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const userData = await res.json();
+        const userRole = userData.role;
+
+        console.log("Token:", token);
+        console.log("Role received:", userRole);
+
+        localStorage.setItem("accessToken", token);
         localStorage.setItem("role", userRole);
 
         setSuccess("Đăng nhập thành công!");
-        window.location.href = "/";
+
+        if (userRole === "Admin") {
+          navigate("/MainAdmin");
+        } else {
+          navigate("/");
+        }
       } else {
         throw new Error("Đăng nhập không thành công.");
       }

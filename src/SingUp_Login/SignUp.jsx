@@ -6,11 +6,11 @@ const SignUp = () => {
   const [NumberPhone, setNumberPhone] = useState("");
   const [IDCard, setIDCard] = useState("");
   const [TypeCard, setTypeCard] = useState("");
-  const [Image, setImage] = useState("");
+  const [Image, setImage] = useState(null); // Sử dụng null ban đầu cho hình ảnh
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const URL = "https://cnpmnc-server.vercel.app/api";
+  const URL = "http://localhost:8000/api";
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -31,24 +31,24 @@ const SignUp = () => {
       return;
     }
 
+    const formData = new FormData();
+    formData.append("NameCus", username);
+    formData.append("IDCard", IDCard);
+    formData.append("NumberPhone", NumberPhone);
+    formData.append("TypeCard", TypeCard);
+    formData.append("Image", Image);
     try {
-      const response = await axios.post(
-        "https://cnpm-nc-server.vercel.app/api/register",
-        {
-          NameCus: username,
-          IDCard,
-          NumberPhone,
-          TypeCard,
-          Image,
-        }
-      );
+      const response = await axios.post(`${URL}/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       console.log("Response:", response);
 
       if (response.status === 200 || response.status === 201) {
         if (response.data.success) {
           setSuccess("Đăng ký thành công!");
-          // window.location.href = "/MainHome";
         } else {
           setError(response.data?.message || "Đăng ký thất bại.");
         }
@@ -117,8 +117,7 @@ const SignUp = () => {
             <input
               type="file"
               accept="image/*"
-              value={Image}
-              onChange={(e) => setImage(e.target.value)}
+              onChange={(e) => setImage(e.target.files[0])}
               className="file-input file-input-bordered text-black file-input-info w-full border-gray-300 bg-white outline-none"
             />
           </div>
@@ -130,7 +129,7 @@ const SignUp = () => {
             </label>
             <select
               id="documentType"
-              className="select select-bordered w-full bg-white"
+              className="select text-black select-bordered w-full bg-white"
               value={TypeCard}
               onChange={(e) => setTypeCard(e.target.value)}
             >
