@@ -18,6 +18,7 @@ import ListAccount from "../AdminPage/Account/ListAccount.jsx";
 import ListContract from "../AdminPage/Contract/ListContract.jsx";
 import DetailContract from "../AdminPage/Contract/DetailContract.jsx";
 import ListReservation from "../AdminPage/Reservation/ListReservation.jsx";
+import Home from "../CustomerPage/Home.jsx";
 
 const AuthLayout = () => {
   return (
@@ -107,10 +108,15 @@ const router = createBrowserRouter([
         path: "/",
         element: (
           <ProtectedRoute role="Customer">
-            <App />,
+            <App />
           </ProtectedRoute>
         ),
-        children: [{}],
+        children: [
+          {
+            path: "Home",
+            element: <Home />,
+          },
+        ],
       },
       {
         path: "*",

@@ -30,20 +30,13 @@ const AuthProvider = ({ children }) => {
             setIsLoading(false);
 
             if (userData.role === "Admin") {
-              console.log("Navigating to Admin Dashboard");
               navigate("/MainAdmin");
             } else if (userData.role === "Customer") {
-              console.log("Navigating to Customer Home");
               navigate("/");
             } else {
-              console.log("Unknown role, redirecting to login");
               navigate("/Login");
             }
           } else {
-            console.error(
-              "Failed to fetch user data, status:",
-              response.status
-            );
             setIsLoading(false);
             navigate("/Login");
           }
@@ -52,7 +45,6 @@ const AuthProvider = ({ children }) => {
           navigate("/Login");
         }
       } else {
-        console.log("No token found, redirecting to login.");
         setIsLoading(false);
         navigate("/Login");
       }
@@ -62,13 +54,11 @@ const AuthProvider = ({ children }) => {
   }, [navigate]);
 
   const login = (userData) => {
-    console.log("Login successful, token:", userData.token);
     setUser(userData);
     localStorage.setItem("accessToken", userData.token);
   };
 
   const logout = () => {
-    console.log("Logout function triggered");
     setUser(null);
     localStorage.removeItem("accessToken");
     navigate("/Login");

@@ -11,7 +11,6 @@ export default function ErrorPage() {
         Oops!
       </h1>
       <p className="text-center text-3xl pt-5">
-        {" "}
         Sorry, an unexpected error has occurred.
       </p>
       <p className="text-center text-3xl">
