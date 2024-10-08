@@ -7,7 +7,7 @@ const ListContract = () => {
   const [contract, setContract] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const URL = "http://localhost:8000/api";
+  const URL = "https://cnpm-ncserver.vercel.app/api";
   const [openDropdown, setOpenDropdown] = useState(false);
 
   const handleSort = async (selectedState) => {

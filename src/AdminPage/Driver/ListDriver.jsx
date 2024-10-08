@@ -7,7 +7,7 @@ const ListDriver = () => {
   const [driver, setDriver] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const URL = "http://localhost:8000/api";
+  const URL = "https://cnpm-ncserver.vercel.app/api";
 
   const fetchDriver = async () => {
     try {

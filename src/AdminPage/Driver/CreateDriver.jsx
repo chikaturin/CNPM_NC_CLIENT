@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CreateDriver = () => {
-  const URL = "http://localhost:8000/api";
+  const URL = "https://cnpm-ncserver.vercel.app/api";
 
   const [Driver, setDriver] = useState({
     NameDriver: "",

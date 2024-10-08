@@ -31,23 +31,6 @@ const DetailVehicle = () => {
   useEffect(() => {
     DetailFetch();
   }, [id]);
-
-  const handleDeleteVehicle = async (id) => {
-    try {
-      const res = await fetch(`${URL}/deleteVehicle/${id}`, {
-        method: "get",
-      });
-      const vehicle = await res.json();
-      if (res.status === 200) {
-        alert("Xóa vehicle thành công");
-        DetailFetch();
-      } else {
-        alert("Error: " + (vehicle.message || "Failed to delete vehicle"));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   if (loading) {
     return (
       <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
@@ -143,27 +126,6 @@ const DetailVehicle = () => {
               </span>
             </div>
           </div>
-        </div>
-        <div className="grid grid-cols-12 gap-10 w-full justify-center mt-10">
-          <div className="col-span-1"></div>
-          <div className="col-span-5">
-            <Link to={`/MainAdmin/EditVehicle/${id}`} className="ml-2">
-              <button className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-5 rounded-lg flex items-center justify-center w-full">
-                <FontAwesomeIcon icon={faEdit} />
-                Edit
-              </button>
-            </Link>
-          </div>
-          <div className="col-span-5">
-            <button
-              className="bg-[#2F4F4F] hover:bg-[#eaf9e7] mt-6  font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-5 rounded-lg flex items-center justify-center w-full"
-              onClick={() => handleDeleteVehicle(id)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-              <span className="ml-2">Delete</span>
-            </button>
-          </div>
-          <div className="col-span-1"></div>
         </div>
       </div>
     </div>

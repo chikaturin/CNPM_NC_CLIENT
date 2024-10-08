@@ -12,7 +12,7 @@ const ListVehicle = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const URL = "http://localhost:8000/api";
+  const URL = "https://cnpm-ncserver.vercel.app/api";   // URL of the server
   const [openDropdown, setOpenDropdown] = useState(false);
 
   const handleSort = async (selectedNumberSeat) => {
