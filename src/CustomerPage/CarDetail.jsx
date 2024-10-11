@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faEdit,
+  faXmark,
+  faStar,
+  faGears,
+  faCouch,
+  faGasPump,
+  faOilCan,
+  faShieldHalved,
+  faFlag,
+  faCircleInfo,
+} from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +43,23 @@ const DetailVehicle = () => {
   useEffect(() => {
     DetailFetch();
   }, [id]);
+
+  const handleDeleteVehicle = async (id) => {
+    try {
+      const res = await fetch(`${URL}/deleteVehicle/${id}`, {
+        method: "get",
+      });
+      const vehicle = await res.json();
+      if (res.status === 200) {
+        alert("Xóa vehicle thành công");
+        DetailFetch();
+      } else {
+        alert("Error: " + (vehicle.message || "Failed to delete vehicle"));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (loading) {
     return (
       <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
@@ -47,20 +76,19 @@ const DetailVehicle = () => {
   }
 
   return (
-    <div className="lg:bg-[#eaf9e7] bg-[#4ca771]">
-      <div className="w-full bg-[#eaf9e7] p-4 rounded-t-xl">
-        <div className="grid grid-cols-12 text-[#4ca771]">
-          <div className="col-span-11 flex items-center">
-            <span className="text-4xl flex mt-4 mb-10 w-full text-left font-bold px-10">
-              Chi tiết xe
-              <span className="text-3xl mt-1 lg:flex hidden font-bold mb-2">
-                : {vehicle._id}
-              </span>
+    <div className="grid grid-cols-12 bg-gradient-to-bl to-[#75bde0] from-30% from-[#f6e2bc]">
+      <div className="col-span-10 col-start-2 w-full py-6">
+        <div className="grid grid-cols-12 text-[#3b7097]">
+          <div className="col-span-12 flex items-center justify-between px-2 my-4">
+            <div>
+              <div className="bg-transparent w-10 h-10 border-4 border-transparent text-transparent font-bold rounded-full"></div>
+            </div>
+            <span className="text-5xl flex w-fit text-left">
+              <span className="font-bold mr-2 lg:flex hidden">Chi tiết xe</span>
+              {vehicle._id}
             </span>
-          </div>
-          <div className="col-span-1 flex items-center ">
-            <Link to={`/MainAdmin/ListVehicle`}>
-              <button className="bg-[#eaf9e7] hover:bg-[#4ca771] w-10 h-10 border-4 border-[#4ca771] hover:text-[#eaf9e7] font-bold rounded-full">
+            <Link to={`/Home`}>
+              <button className="bg-[#f6e2bc] hover:bg-[#3b7097] w-10 h-10 border-4 border-[#3b7097] hover:text-[#f6e2bc] font-bold rounded-full">
                 <FontAwesomeIcon icon={faXmark} />
               </button>
             </Link>
@@ -68,62 +96,206 @@ const DetailVehicle = () => {
         </div>
         <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
           <img
-            className="w-full mx-2 rounded-xl h-full object-cover"
+            className="w-full rounded-xl h-full object-cover"
             src={vehicle.Image}
             alt="Vehicle"
           />
-          <div className="ml-2 grid grid-cols-3 lg:block w-full">
+          <div className="grid grid-cols-3 grid-rows-1 lg:grid-cols-1 lg:grid-rows-3 gap-4 w-full">
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
               vehicle.imageVehicle.map((img, index) => (
-                <div key={index} className="w-full p-1">
-                  <img
-                    src={img}
-                    alt="Vehicle Image"
-                    className="w-full h-64 lg:mb-2 rounded-xl object-cover"
-                  />
-                </div>
+                <img
+                  key={index}
+                  src={img}
+                  alt="Vehicle Image"
+                  className="w-full h-64 rounded-xl object-cover"
+                />
               ))
             ) : (
               <p>Không có ảnh</p>
             )}
           </div>
         </div>
-        <div className=" border-t-2 border-t-slate-500 mx-2 w-full flex justify-center mt-4 ">
-          <div className="w-full ">
-            <div className="w-full my-4 p-2 grid lg:grid-cols-2 grid-col-1 ">
-              <span className="text-xl font-bold text-[#4ca771]">
-                Biển số xe: <span className="font-normal">{vehicle._id}</span>
-              </span>
-              <span className="float-right font-bold text-xl text-[#4ca771]">
-                Trạng thái:{" "}
-                <span
-                  className={`font-normal ${
-                    vehicle.State === "Available"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {vehicle.State}
-                </span>
-              </span>
+        <div className="grid grid-cols-12 gap-6 w-full mt-10 rounded-lg text-[#f6e2bc]">
+          <div className="w-full col-span-8">
+            <h1 className="font-bold text-5xl">{vehicle.Branch}</h1>
+            <p className="text-lg mt-2">
+              <FontAwesomeIcon className="mr-2 text-[#daa520]" icon={faStar} />
+              5.0 • Hồ Chí Minh
+            </p>
+            <div className="my-6 py-6 border-y-2 border-[#f6e2bc]">
+              <p className="text-3xl font-semibold mb-6">Đặc điểm</p>
+              <div className="grid grid-cols-4">
+                <div className="grid grid-cols-12 text-xl">
+                  <p className="col-span-3 flex items-center justify-center">
+                    <FontAwesomeIcon
+                      className="mr-2 text-[#2b7a78]"
+                      icon={faGears}
+                    />
+                  </p>
+                  <p className="col-span-9 grid grid-rows-2">
+                    <p className="flex items-center justify-start">
+                      Truyền động
+                    </p>
+                    <p className="flex items-center justify-start font-bold">
+                      Số tự động
+                    </p>
+                  </p>
+                </div>
+                <div className="grid grid-cols-12 text-xl">
+                  <p className="col-span-3 flex items-center justify-center">
+                    <FontAwesomeIcon
+                      className="mr-2 text-[#2b7a78]"
+                      icon={faCouch}
+                    />
+                  </p>
+                  <p className="col-span-9 grid grid-rows-2">
+                    <p className="flex items-center justify-start">
+                      Số chỗ ngồi
+                    </p>
+                    <p className="flex items-center justify-start font-bold">
+                      {vehicle.Number_Seats}
+                    </p>
+                  </p>
+                </div>
+                <div className="grid grid-cols-12 text-xl">
+                  <p className="col-span-3 flex items-center justify-center">
+                    <FontAwesomeIcon
+                      className="mr-2 text-[#2b7a78]"
+                      icon={faGasPump}
+                    />
+                  </p>
+                  <p className="col-span-9 grid grid-rows-2">
+                    <p className="flex items-center justify-start">
+                      Nhiên liệu
+                    </p>
+                    <p className="flex items-center justify-start font-bold">
+                      Xăng
+                    </p>
+                  </p>
+                </div>
+                <div className="grid grid-cols-12 text-xl">
+                  <p className="col-span-3 flex items-center justify-center">
+                    <FontAwesomeIcon
+                      className="mr-2 text-[#2b7a78]"
+                      icon={faOilCan}
+                    />
+                  </p>
+                  <p className="col-span-9 grid grid-rows-2">
+                    <p className="flex items-center justify-start">
+                      Mức tiêu hao
+                    </p>
+                    <p className="flex items-center justify-start font-bold">
+                      ?L/10KM
+                    </p>
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="w-full p-2 grid lg:grid-cols-2 grid-col-1  ">
-              <span className="text-xl font-bold text-[#4ca771]">
-                Hãng xe: <span className="font-normal">{vehicle.Branch}</span>
-              </span>
-              <span className="text-xl font-bold text-[#4ca771]">
-                Số chỗ ngồi:{" "}
-                <span className="font-normal">{vehicle.Number_Seats}</span>
-              </span>
+            <div className="">
+              <p className="text-3xl font-semibold mb-6">Điều khoản</p>
+              <p>{vehicle.Description}</p>
             </div>
-            <div className="w-full p-2 grid lg:grid-cols-2 grid-col-1 ">
-              <span className="text-xl font-bold text-[#4ca771]">
-                Giá: <span className="font-normal">{vehicle.Price} đ/ngày</span>
-              </span>
-              <span className="text-xl font-bold text-[#4ca771]">
-                Mô tả:{" "}
-                <span className="font-normal">{vehicle.Description}</span>
-              </span>
+          </div>
+          <div className="col-span-4 grid gap-6 text-[#3b7097]">
+            <div className="bg-[#f6e2bc] rounded-xl grid grid-cols-12 p-2">
+              <div className="col-span-2 flex items-center justify-center">
+                <FontAwesomeIcon
+                  className="text-5xl text-[#2b7a78]"
+                  icon={faShieldHalved}
+                />
+              </div>
+              <div className="col-span-10 w-full grid grid-rows-2">
+                <p className="flex items-center text-xl text-[#2b7a78] p-0">
+                  Bảo hiểm thuê xe
+                </p>
+                <p className="flex items-center text-sm p-0">
+                  Chuyến đi có mua bảo hiểm. Khách thuê bồi thường tối đa
+                  2.000.000 VNĐ trong trường hợp có sự cố ngoài ý muốn.
+                </p>
+              </div>
+            </div>
+            <div className="bg-[#f6e2bc] rounded-xl p-4">
+              <p className="font-semibold text-lg mb-4">
+                <span className="text-3xl">{vehicle.Price}đ</span>/ngày
+              </p>
+              <div className="grid grid-cols-2 text-[#f6e2bc] text-md">
+                <div className="rounded-l-lg border border-[#f6e2bc] bg-[#3b7097] p-4">
+                  <p>Nhận xe</p>
+                </div>
+                <div className="rounded-r-lg border border-[#f6e2bc] bg-[#3b7097] p-4">
+                  <p>Trả xe</p>
+                </div>
+              </div>
+              <div className="font-bold text-[#3b7097] text-center mt-10">
+                FORM THUÊ XE
+              </div>
+            </div>
+            <div className="bg-[#f6e2bc] rounded-xl p-4">
+              <p className="text-xl font-semibold text-[#2b7a78]">
+                Phụ phí có thể phát sinh
+              </p>
+              <div className="grid grid-cols-12 w-full my-4">
+                <div className="col-span-1">
+                  <FontAwesomeIcon
+                    className="text-[#2b7a78]"
+                    icon={faCircleInfo}
+                  />
+                </div>
+                <div className="col-span-6 font-bold">Phí vượt giới hạn</div>
+                <div className="col-span-5 font-bold text-right">5 000đ/km</div>
+                <div className="col-span-11 col-start-2">
+                  Phụ phí phát sinh nếu lộ trình di chuyển vượt quá 370km khi
+                  thuê xe 1 ngày
+                </div>
+              </div>
+              <div className="grid grid-cols-12 w-full my-4">
+                <div className="col-span-1">
+                  <FontAwesomeIcon
+                    className="text-[#2b7a78]"
+                    icon={faCircleInfo}
+                  />
+                </div>
+                <div className="col-span-6 font-bold">Phí quá giờ</div>
+                <div className="col-span-5 font-bold text-right">80 000đ/h</div>
+                <div className="col-span-11 col-start-2">
+                  Phụ phí phát sinh nếu hoàn trả xe trễ giờ. Trường hợp trễ quá
+                  5 giờ, phụ phí thêm 1 ngày thuê
+                </div>
+              </div>
+              <div className="grid grid-cols-12 w-full my-4">
+                <div className="col-span-1">
+                  <FontAwesomeIcon
+                    className="text-[#2b7a78]"
+                    icon={faCircleInfo}
+                  />
+                </div>
+                <div className="col-span-6 font-bold">Phí vệ sinh</div>
+                <div className="col-span-5 font-bold text-right">80 000đ</div>
+                <div className="col-span-11 col-start-2">
+                  Phụ phí phát sinh khi xe hoàn trả không đảm bảo vệ sinh (nhiều
+                  vết bẩn, bùn cát, sình lầy...)
+                </div>
+              </div>
+              <div className="grid grid-cols-12 w-full my-4">
+                <div className="col-span-1">
+                  <FontAwesomeIcon
+                    className="text-[#2b7a78]"
+                    icon={faCircleInfo}
+                  />
+                </div>
+                <div className="col-span-6 font-bold">Phí khử mùi</div>
+                <div className="col-span-5 font-bold text-right">300 000đ</div>
+                <div className="col-span-11 col-start-2">
+                  Phụ phí phát sinh khi xe hoàn trả bị ám mùi khó chịu (mùi
+                  thuốc lá, thực phẩm nặng mùi...)
+                </div>
+              </div>
+            </div>
+            <div className="text-[#2b7a78] font-semibold text-lg cursor-pointer rounded-xl flex items-center justify-center">
+              <p className=" hover:text-[#f6e2bc] hover:underline">
+                <FontAwesomeIcon className="mr-2" icon={faFlag} />
+                Báo cáo xe này
+              </p>
             </div>
           </div>
         </div>

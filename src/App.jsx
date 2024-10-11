@@ -7,7 +7,7 @@ const App = () => {
     <div>
       <Header />
       <div className="mt-20">
-        <Home />
+        <Outlet />
       </div>
     </div>
   );

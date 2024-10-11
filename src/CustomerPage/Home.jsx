@@ -5,58 +5,15 @@ import {
   faCircleInfo,
   faFilter,
   faStar,
-  faCartFlatbedSuitcase,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [vehicles, setVehicles] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const URL = "https://cnpm-ncserver.vercel.app/api"; // URL of the server
-  const [openDropdown, setOpenDropdown] = useState(false);
-
-  const handleSort = async (selectedNumberSeat) => {
-    try {
-      if (selectedNumberSeat == "All") {
-        fetchVehicles();
-        setOpenDropdown(false);
-        return;
-      }
-      const res = await fetch(`${URL}/Sort_Vehicle/${selectedNumberSeat}`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      setVehicles(data);
-      setOpenDropdown(false);
-    } catch (error) {
-      setError("Không thể lấy dữ liệu từ máy chủ");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchSeats = async () => {
-    try {
-      const res = await fetch(`${URL}/getSort_Vehicle`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      setSelectedSeats(data);
-    } catch (error) {
-      setError("Không thể lấy dữ liệu từ máy chủ của chỗ ngối");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchSeats();
-  }, []);
 
   const fetchVehicles = async () => {
     try {
@@ -177,9 +134,9 @@ const Home = () => {
       <div className="col-span-10 grid grid-cols-4 gap-6 w-full bg-[#f6e2bc] rounded-3xl p-6 text-[#2b7a78] h-fit">
         {vehicles.map((vehicle) => (
           <Link
-            to={`/MainAdmin/DetailVehicle/${vehicle._id}`}
+            to={`/CarDetail/${vehicle._id}`}
             key={vehicle._id}
-            className=" w-full rounded-2xl p-4 bg-[#c0e6b3] text-[#3b7097]"
+            className=" w-full rounded-2xl p-4 bg-[#f6e2bc] text-[#3b7097] shadow-xl shadow-[#75bde0]"
           >
             <img src={vehicle.Image} alt="" className="rounded-xl" />
             <h2 className="text-xl font-bold mb-3 line-clamp-1">

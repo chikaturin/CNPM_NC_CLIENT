@@ -114,7 +114,7 @@ const LogIn = () => {
         if (userRole === "Admin") {
           navigate("/MainAdmin");
         } else {
-          navigate("/");
+          navigate("/Home");
         }
       } else {
         throw new Error("Đăng nhập không thành công.");
