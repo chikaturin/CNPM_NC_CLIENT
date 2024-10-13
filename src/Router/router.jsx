@@ -19,6 +19,9 @@ import ListContract from "../AdminPage/Contract/ListContract.jsx";
 import DetailContract from "../AdminPage/Contract/DetailContract.jsx";
 import ListReservation from "../AdminPage/Reservation/ListReservation.jsx";
 import Home from "../CustomerPage/Home.jsx";
+import CarDetail from "../CustomerPage/CarDetail.jsx";
+import CarList from "../CustomerPage/CarList.jsx";
+import DemiseCar from "../CustomerPage/DemiseCar.jsx";
 
 const AuthLayout = () => {
   return (
@@ -113,8 +116,24 @@ const router = createBrowserRouter([
         ),
         children: [
           {
+            path: "",
+            element: <Home />,
+          },
+          {
             path: "Home",
             element: <Home />,
+          },
+          {
+            path: "CarDetail/:id",
+            element: <CarDetail />,
+          },
+          {
+            path: "CarList",
+            element: <CarList />,
+          },
+          {
+            path: "Demise",
+            element: <DemiseCar />,
           },
         ],
       },
