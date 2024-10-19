@@ -3,13 +3,17 @@ import { AuthContext } from "../Router/ProtectedRoute";
 import logo from "../assets/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const Hearder = () => {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     logout();
-    window.location.reload();
+    navigate("/login");
   };
+
   return (
     <div className="w-full bg-white">
       <header className="fixed h-20 items-center top-0 p-4 flex left-0 z-50 w-full bg-[#2F4F4F] text-[#eaf9e7] py-2">

@@ -7,7 +7,7 @@ const LogIn = () => {
   const [NumberPhone, setNumberPhone] = useState("");
   const [IDCard, setIDCard] = useState("");
   const [TypeCard, setTypeCard] = useState("");
-  const [Image, setImage] = useState(null); // Sử dụng null ban đầu cho hình ảnh
+  const [Image, setImage] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +19,6 @@ const LogIn = () => {
     setSuccess("");
     setIsLoading(true);
 
-    // Kiểm tra thông tin đầu vào
     if (!username || !NumberPhone || !IDCard) {
       setError("Vui lòng điền đầy đủ thông tin.");
       setIsLoading(false);
@@ -69,9 +68,6 @@ const LogIn = () => {
 
   const [Name, setName] = useState("");
   const [Password, setPassword] = useState("");
-  // const [error, setError] = useState("");
-  // const [success, setSuccess] = useState("");
-  // const URL = "https://cnpm-ncserver.vercel.app/api";
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
