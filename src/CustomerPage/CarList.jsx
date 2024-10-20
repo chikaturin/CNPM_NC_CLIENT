@@ -92,8 +92,8 @@ const Home = () => {
   }
 
   return (
-    <div className="col-span-10 grid grid-cols-4 gap-6 w-full bg-[#f6e2bc] p-10 text-[#2b7a78] h-fit">
-      <div className="col-span-4">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full bg-[#f6e2bc] p-10 text-[#2b7a78] min-h-screen">
+      <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
         <div className={`dropdown ${openDropdown ? "dropdown-open" : ""}`}>
           <div
             tabIndex={0}
@@ -141,9 +141,9 @@ const Home = () => {
         <Link
           to={`/CarDetail/${vehicle._id}`}
           key={vehicle._id}
-          className=" w-full rounded-2xl p-4 bg-[#f6e2bc] text-[#3b7097] shadow-xl shadow-[#75bde0]"
+          className="w-full rounded-2xl p-4 bg-[#f6e2bc] text-[#3b7097] shadow-xl shadow-[#75bde0]"
         >
-          <img src={vehicle.Image} alt="" className="rounded-xl" />
+          <img src={vehicle.Image} alt="" className="rounded-xl h-3/5 w-full" />
           <h2 className="text-xl font-bold mb-3 line-clamp-1">
             {vehicle.Branch}
           </h2>

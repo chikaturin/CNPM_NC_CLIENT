@@ -106,7 +106,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-
       {
         path: "/",
         element: (
@@ -132,7 +131,7 @@ const router = createBrowserRouter([
             element: <CarList />,
           },
           {
-            path: "Demise",
+            path: "DemiseCar",
             element: <DemiseCar />,
           },
         ],

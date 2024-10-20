@@ -58,7 +58,7 @@ const CreateDriver = () => {
     <div className="lg:bg-[#eaf9e7] bg-[#4ca771]">
       <div className="w-full bg-[#eaf9e7] p-4 px-10 rounded-t-xl">
         <h1 className="text-4xl text-[#2F4F4F] mb-10 mt-4 w-full text-center font-bold">
-          Tạo tài xế
+          Thêm tài xế
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
