@@ -7,11 +7,11 @@ const LogIn = () => {
   const [NumberPhone, setNumberPhone] = useState("");
   const [IDCard, setIDCard] = useState("");
   const [TypeCard, setTypeCard] = useState("");
-  const [Image, setImage] = useState(null); // Sử dụng null ban đầu cho hình ảnh
+  const [Image, setImage] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const URL = "https://cnpm-ncserver.vercel.app/api";
+  const URL = "http://localhost:8000/api";
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -19,7 +19,6 @@ const LogIn = () => {
     setSuccess("");
     setIsLoading(true);
 
-    // Kiểm tra thông tin đầu vào
     if (!username || !NumberPhone || !IDCard) {
       setError("Vui lòng điền đầy đủ thông tin.");
       setIsLoading(false);
@@ -69,9 +68,6 @@ const LogIn = () => {
 
   const [Name, setName] = useState("");
   const [Password, setPassword] = useState("");
-  // const [error, setError] = useState("");
-  // const [success, setSuccess] = useState("");
-  // const URL = "https://cnpm-ncserver.vercel.app/api";
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -93,7 +89,7 @@ const LogIn = () => {
       if (response.status === 200) {
         const token = response.data.token;
 
-        const res = await fetch("https://cnpm-ncserver.vercel.app/api/user", {
+        const res = await fetch("http://localhost:8000/api/user", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -103,9 +99,6 @@ const LogIn = () => {
         const userData = await res.json();
         const userRole = userData.role;
 
-        console.log("Token:", token);
-        console.log("Role received:", userRole);
-
         localStorage.setItem("accessToken", token);
         localStorage.setItem("role", userRole);
 
@@ -113,8 +106,10 @@ const LogIn = () => {
 
         if (userRole === "Admin") {
           navigate("/MainAdmin");
-        } else {
+        } else if (userRole === "Customer") {
           navigate("/Home");
+        } else {
+          navigate("/Login");
         }
       } else {
         throw new Error("Đăng nhập không thành công.");
@@ -167,9 +162,6 @@ const LogIn = () => {
                 Đăng Nhập
               </button>
             </div>
-            {/* <span className="text-red-500">
-              <Link to="/SignUp">Bạn chưa có tài khoản? Đăng ký</Link>
-            </span> */}
           </form>
           {error && <p className="mt-4 text-center text-red-500">{error}</p>}
           {success && (
