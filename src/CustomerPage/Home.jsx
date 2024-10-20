@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faCircleInfo,
-  faFilter,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faStar } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -132,35 +127,47 @@ const Home = () => {
       </div>
       <div className="col-span-1"></div>
       <div className="col-span-10 grid grid-cols-4 gap-6 w-full bg-[#f6e2bc] rounded-3xl p-6 text-[#2b7a78] h-fit">
-        {vehicles.map((vehicle) => (
+        {vehicles.map(
+          (vehicle, i) =>
+            i < 4 && (
+              <Link
+                to={`/CarDetail/${vehicle._id}`}
+                key={vehicle._id}
+                className=" w-full rounded-2xl p-4 bg-[#f6e2bc] text-[#3b7097] shadow-xl shadow-[#75bde0]"
+              >
+                <img src={vehicle.Image} className="rounded-xl h-1/2 w-full" />
+                <h2 className="text-xl font-bold mb-3 line-clamp-1">
+                  {vehicle.Branch}
+                </h2>
+                <div className="bottom-0">
+                  <p className="text-lg">Xe {vehicle.Number_Seats} chổ</p>
+                  <p className="my-2">
+                    <span className="font-bold mr-6">Biển số: </span>
+                    {vehicle._id}
+                  </p>
+                  <div className="w-full border-4 border-[#f6e2bc] rounded-full my-2"></div>
+                  <p className="flex justify-between">
+                    <span className="text-[#daa520]">
+                      <FontAwesomeIcon className="mr-2" icon={faStar} />
+                      5.0
+                    </span>
+                    <span>
+                      <span className="font-bold">{vehicle.Price}</span>/ngày
+                    </span>
+                  </p>
+                </div>
+              </Link>
+            )
+        )}
+        <div className="col-span-4 w-full flex items-center justify-end text-lg text-[#3b7097] font-semibold mt-4">
           <Link
-            to={`/CarDetail/${vehicle._id}`}
-            key={vehicle._id}
-            className=" w-full rounded-2xl p-4 bg-[#f6e2bc] text-[#3b7097] shadow-xl shadow-[#75bde0]"
+            to="/CarList"
+            className="py-2 px-4 cursor-pointer hover:bg-[#75bde0] hover:text-[#f6e2bc] rounded-full"
           >
-            <img src={vehicle.Image} alt="" className="rounded-xl" />
-            <h2 className="text-xl font-bold mb-3 line-clamp-1">
-              {vehicle.Branch}
-            </h2>
-            <div className="bottom-0">
-              <p className="text-lg">Xe {vehicle.Number_Seats} chổ</p>
-              <p className="my-2">
-                <span className="font-bold mr-6">Biển số: </span>
-                {vehicle._id}
-              </p>
-              <div className="w-full border-4 border-[#f6e2bc] rounded-full my-2"></div>
-              <p className="flex justify-between">
-                <span className="text-[#daa520]">
-                  <FontAwesomeIcon className="mr-2" icon={faStar} />
-                  5.0
-                </span>
-                <span>
-                  <span className="font-bold">{vehicle.Price}</span>/ngày
-                </span>
-              </p>
-            </div>
+            Xem tất cả
+            <FontAwesomeIcon className="ml-2" icon={faChevronRight} />
           </Link>
-        ))}
+        </div>
       </div>
       <div className="col-span-1"></div>
     </div>

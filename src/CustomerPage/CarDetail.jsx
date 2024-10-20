@@ -117,7 +117,9 @@ const DetailVehicle = () => {
         </div>
         <div className="grid grid-cols-12 gap-6 w-full mt-10 rounded-lg text-[#f6e2bc]">
           <div className="w-full col-span-8">
-            <h1 className="font-bold text-5xl">{vehicle.Branch}</h1>
+            <h1 className="font-bold text-5xl [text-shadow:_0_4px_8px_#2b7a78]">
+              {vehicle.Branch}
+            </h1>
             <p className="text-lg mt-2">
               <FontAwesomeIcon className="mr-2 text-[#daa520]" icon={faStar} />
               5.0 • Hồ Chí Minh
@@ -192,8 +194,8 @@ const DetailVehicle = () => {
               </div>
             </div>
             <div className="">
-              <p className="text-3xl font-semibold mb-6">Điều khoản</p>
-              <p>{vehicle.Description}</p>
+              <p className="text-3xl font-semibold mb-6">Mô tả</p>
+              <p className="text-[#2b7a78]">{vehicle.Description}</p>
             </div>
           </div>
           <div className="col-span-4 grid gap-6 text-[#3b7097]">

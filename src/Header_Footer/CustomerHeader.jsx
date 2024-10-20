@@ -21,7 +21,7 @@ const CustomerHeader = () => {
   };
   return (
     <div className="w-full">
-      <header className="fixed h-20 items-center top-0 px-4 grid grid-cols-2 shadow-md shadow-[#75bde0] left-0 z-50 w-full bg-[#f6e2bc] text-[#3b7097]">
+      <header className="lg:fixed lg:h-20 items-center top-0 px-4 grid lg:grid-cols-2 shadow-md shadow-[#75bde0] left-0 z-50 w-full bg-[#f6e2bc] text-[#3b7097]">
         <Link to="Home" className="w-full flex items-center">
           <img src={logo} alt="logo" className="w-14 h-14 rounded-full" />
           <span className="ml-2 text-3xl font-bold">CARental</span>
@@ -34,7 +34,10 @@ const CustomerHeader = () => {
             <FontAwesomeIcon className="mr-2" icon={faCarSide} />
             Cars
           </Link>
-          <Link className="bg-[#f6e2bc] hover:bg-[#75bde0] font-bold text-xl hover:text-[#f6e2bc] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer">
+          <Link
+            to="DemiseCar"
+            className="bg-[#f6e2bc] hover:bg-[#75bde0] font-bold text-xl hover:text-[#f6e2bc] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer"
+          >
             <FontAwesomeIcon className="mr-2" icon={faFileInvoice} />
             Cho thuê
           </Link>
