@@ -77,7 +77,7 @@ const DemiseCar = () => {
       const data = await response.json();
       if (response.ok) {
         alert("Vehicle created successfully");
-        navigate("/MainAdmin/ListVehicle");
+        navigate("/Home");
       } else {
         alert("Error: " + (data?.message || "Failed to create voucher"));
       }
@@ -254,21 +254,25 @@ const DemiseCar = () => {
             <div className="mt-10 grid grid-cols-12 gap-10 w-full justify-center">
               <div className="col-span-1"></div>
               <div className="col-span-5">
-                <div
-                  onClick={() => {
-                    document
-                      .getElementById("driverRegister")
-                      .classList.remove("translate-x-[200%]");
-                  }}
+                <button
+                  type="submit"
+                  // onClick={() => {
+                  //   document
+                  //     .getElementById("driverRegister")
+                  //     .classList.remove("translate-x-[200%]");
+                  // }}
                   className="bg-[#75bde0] hover:bg-[#f6e2bc] cursor-pointer font-bold text-lg text-[#f6e2bc] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full"
                 >
-                  Tiếp tục
-                </div>
+                  Cho thuê
+                </button>
               </div>
               <div className="col-span-5">
-                <div className="bg-[#3b7097] hover:bg-[#f6e2bc] font-bold text-lg text-[#f6e2bc] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
+                <Link
+                  to="/Home"
+                  className="bg-[#3b7097] hover:bg-[#f6e2bc] cursor-pointer font-bold text-lg text-[#f6e2bc] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full"
+                >
                   Quay về
-                </div>
+                </Link>
               </div>
               <div className="col-span-1"></div>
             </div>

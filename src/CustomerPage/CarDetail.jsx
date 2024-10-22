@@ -22,6 +22,8 @@ const DetailVehicle = () => {
   const [vehicle, setVehicle] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [insurance, setInsurance] = useState(82400);
+  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const URL = "https://cnpm-ncserver.vercel.app/api";
 
@@ -44,22 +46,6 @@ const DetailVehicle = () => {
     DetailFetch();
   }, [id]);
 
-  const handleDeleteVehicle = async (id) => {
-    try {
-      const res = await fetch(`${URL}/deleteVehicle/${id}`, {
-        method: "get",
-      });
-      const vehicle = await res.json();
-      if (res.status === 200) {
-        alert("Xóa vehicle thành công");
-        DetailFetch();
-      } else {
-        alert("Error: " + (vehicle.message || "Failed to delete vehicle"));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   if (loading) {
     return (
       <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
@@ -216,22 +202,79 @@ const DetailVehicle = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-[#f6e2bc] rounded-xl p-4">
+            <form onSubmit={() => {}} className="bg-[#f6e2bc] rounded-xl p-4">
               <p className="font-semibold text-lg mb-4">
                 <span className="text-3xl">{vehicle.Price}đ</span>/ngày
               </p>
               <div className="grid grid-cols-2 text-[#f6e2bc] text-md">
-                <div className="rounded-l-lg border border-[#f6e2bc] bg-[#3b7097] p-4">
-                  <p>Nhận xe</p>
+                <div className="rounded-l-lg shadow-xl shadow-[#75bde0] p-4">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                    <div className="col-span-5">
+                      <label className="font-bold">Nhận xe</label>
+                    </div>
+                    <div className="col-span-12">
+                      <input
+                        placeholder="Nhập số lượng"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        type="date"
+                        // value={Vehicle.Price}
+                        // onChange={(e) =>
+                        //   setVehicle({ ...Vehicle, Price: e.target.value })
+                        // }
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="rounded-r-lg border border-[#f6e2bc] bg-[#3b7097] p-4">
-                  <p>Trả xe</p>
+                <div className="rounded-r-lg shadow-xl shadow-[#75bde0] p-4">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                    <div className="col-span-5">
+                      <label className="font-bold">Trả xe</label>
+                    </div>
+                    <div className="col-span-12">
+                      <input
+                        placeholder="Nhập số lượng"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        type="date"
+                        // value={Vehicle.Price}
+                        // onChange={(e) =>
+                        //   setVehicle({ ...Vehicle, Price: e.target.value })
+                        // }
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="font-bold text-[#3b7097] text-center mt-10">
-                FORM THUÊ XE
+              <div className="mt-10 rounded-lg shadow-xl shadow-[#75bde0] p-4">
+                <p>Địa điểm giao xe</p>
+                <p className="text-xl font-bold mt-2">Thành phố Hồ Chí Minh</p>
               </div>
-            </div>
+              <div className="my-5 rounded-lg border border-[#75bde0]"></div>
+              <div className="w-full grid grid-cols-2 text-lg">
+                <div className="w-full">
+                  <p>Đơn giá:</p>
+                  <p className="mt-2">Bảo hiểm xe:</p>
+                  <p className="mt-4 text-xl">Tổng cộng:</p>
+                </div>
+                <div className="w-full text-right font-bold">
+                  <p>{vehicle.Price}đ/Ngày</p>
+                  <p className="mt-2">{insurance}đ/Ngày</p>
+                  <p className="mt-4 text-xl">
+                    {vehicle.Price + insurance}đ/Ngày
+                  </p>
+                </div>
+              </div>
+              <div className="my-5 rounded-lg border border-[#75bde0]"></div>
+              <div className="w-full grid grid-cols-2 text-xl font-bold">
+                <p>Thành tiền:</p>
+                <p className="text-right">{total}đ</p>
+              </div>
+              <button
+                type="submit"
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#f6e2bc] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#f6e2bc] rounded-xl"
+              >
+                Chọn thuê
+              </button>
+            </form>
             <div className="bg-[#f6e2bc] rounded-xl p-4">
               <p className="text-xl font-semibold text-[#2b7a78]">
                 Phụ phí có thể phát sinh
