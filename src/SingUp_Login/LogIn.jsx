@@ -103,8 +103,8 @@ const LogIn = () => {
         const userData = await res.json();
         const userRole = userData.role;
 
-        console.log("Token:", token);
-        console.log("Role received:", userRole);
+        console.log("Token: ", token);
+        console.log("Role received: ", userRole);
 
         localStorage.setItem("accessToken", token);
         localStorage.setItem("role", userRole);
