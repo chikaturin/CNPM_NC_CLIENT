@@ -4,7 +4,7 @@ import { faTrash, faEdit, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+//Hello
 const DetailContract = () => {
   const { id } = useParams();
   const [contract, setContract] = useState(null);
