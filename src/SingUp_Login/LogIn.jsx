@@ -11,7 +11,7 @@ const LogIn = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const URL = "http://localhost:8000/api";
+  const URL = "https://cnpm-ncserver.vercel.app/api";
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ const LogIn = () => {
     formData.append("IDCard", IDCard);
     formData.append("NumberPhone", NumberPhone);
     formData.append("TypeCard", TypeCard);
-    formData.append("Image", Image);
+    formData.append("file", Image);
     try {
       const response = await axios.post(`${URL}/register`, formData, {
         headers: {
@@ -89,7 +89,7 @@ const LogIn = () => {
       if (response.status === 200) {
         const token = response.data.token;
 
-        const res = await fetch("http://localhost:8000/api/user", {
+        const res = await fetch(`${URL}/user`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

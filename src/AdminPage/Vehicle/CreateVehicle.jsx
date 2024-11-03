@@ -6,10 +6,10 @@ const CreateVehicle = () => {
 
   const [Vehicle, setVehicle] = useState({
     _id: "",
-    Number_Seats: "",
+    Number_Seats: 0,
     Image: "",
     Branch: "",
-    Price: "",
+    Price: 0,
     Description: "",
     ImageVehicles: [],
   });
@@ -24,7 +24,7 @@ const CreateVehicle = () => {
   };
 
   const addImage = () => {
-    if (Vehicle.ImageVehicles.length >= 3) {
+    if (Vehicle.ImageVehicles.length >= 4) {
       alert("You cann't add more than 3 conditions");
       return;
     }
@@ -52,38 +52,31 @@ const CreateVehicle = () => {
       !Vehicle.Branch ||
       !Vehicle.Price ||
       !Vehicle.Description ||
-      !Vehicle.ImageVehicles.length
+      Vehicle.ImageVehicles.length < 4
     ) {
-      alert("Please fill all the fields and add at least one imageVehicle");
+      alert("Please fill all the fields and add at least three images.");
       return;
     }
 
-    if (Vehicle.ImageVehicles.length < 3) {
-      alert("Please add at least 3 images");
+    const numberSeats = Vehicle.Number_Seats;
+    const price = Vehicle.Price;
+
+    const formData = new FormData();
+
+    if (isNaN(numberSeats) || isNaN(price)) {
+      alert("Please enter valid numbers for Number of Seats and Price.");
+      return;
     }
 
-    try {
-      const response = await fetch(`${URL}/createVehicle`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...Vehicle,
-        }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        alert("Vehicle created successfully");
-        navigate("/MainAdmin/ListVehicle");
+    Object.keys(Vehicle).forEach((key) => {
+      if (key === "ImageVehicles") {
+        Vehicle.ImageVehicles.forEach((img) => {
+          formData.append("Image", img.imgVehicle);
+        });
       } else {
-        alert("Error: " + (data?.message || "Failed to create voucher"));
+        formData.append(key, Vehicle[key]);
       }
-    } catch (err) {
-      console.error("Error creating voucher:", err);
-      alert("An error occurred while creating the voucher");
-    }
+    });
   };
 
   return (
@@ -138,7 +131,10 @@ const CreateVehicle = () => {
                   type="number"
                   value={Vehicle.Number_Seats}
                   onChange={(e) =>
-                    setVehicle({ ...Vehicle, Number_Seats: e.target.value })
+                    setVehicle({
+                      ...Vehicle,
+                      Number_Seats: Number(e.target.value),
+                    })
                   }
                 />
               </div>
@@ -188,7 +184,7 @@ const CreateVehicle = () => {
                   type="number"
                   value={Vehicle.Price}
                   onChange={(e) =>
-                    setVehicle({ ...Vehicle, Price: e.target.value })
+                    setVehicle({ ...Vehicle, Price: Number(e.target.value) })
                   }
                 />
               </div>
@@ -200,12 +196,16 @@ const CreateVehicle = () => {
             </div>
             <div className="col-span-12">
               <input
-                placeholder="Nhập link ảnh phụ"
-                className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
-                type="text"
-                name="imgVehicle"
-                value={imageVehicle.imgVehicle}
-                onChange={handleImageChange}
+                placeholder="Chọn file ảnh phụ"
+                className="file-input outline-none file:border-0 file:rounded-full file:shadow-md file:shadow-[#f6e2bc] file:text-[#3b7097] file:bg-[#f6e2bc] w-full bg-[#a9d09e] shadow-md shadow-[#f6e2bc] text-[#f6e2bc] placeholder-[#f6e2bc] text-lg rounded-full"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    setImageVehicle({ imgVehicle: file });
+                  }
+                }}
               />
             </div>
           </div>

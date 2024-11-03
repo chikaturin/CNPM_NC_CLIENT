@@ -31,14 +31,18 @@ const CreateDriver = () => {
     }
 
     try {
+      const formData = new FormData();
+
+      formData.append("NameDriver", Driver.NameDriver);
+      formData.append("NumberPhone", Driver.NumberPhone);
+      formData.append("Driving_License", Driver.Driving_License);
+      formData.append("Image", Driver.Image);
+      formData.append("Price", Driver.Price);
+      formData.append("Vehicle_ID", Driver.Vehicle_ID);
+
       const response = await fetch(`${URL}/CreateDriver`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...Driver,
-        }),
+        body: formData,
       });
 
       const data = await response.json();
@@ -46,11 +50,11 @@ const CreateDriver = () => {
         alert("Driver created successfully");
         navigate("/MainAdmin/ListDriver");
       } else {
-        alert("Error: " + (data?.message || "Failed to create voucher"));
+        alert("Error: " + (data?.message || "Failed to create driver"));
       }
     } catch (err) {
-      console.error("Error creating voucher:", err);
-      alert("An error occurred while creating the voucher");
+      console.error("Error creating driver:", err);
+      alert("An error occurred while creating the driver");
     }
   };
 
@@ -136,13 +140,14 @@ const CreateDriver = () => {
               </div>
               <div className="col-span-12">
                 <input
-                  placeholder="Nhập link ảnh "
-                  className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
-                  type="text"
-                  value={Driver.Image}
-                  onChange={(e) =>
-                    setDriver({ ...Driver, Image: e.target.value })
-                  }
+                  placeholder="Nhập file ảnh "
+                  className="file-input outline-none file:border-0 file:rounded-full file:shadow-md file:shadow-[#f6e2bc] file:text-[#3b7097] file:bg-[#f6e2bc] w-full bg-[#a9d09e] shadow-md shadow-[#f6e2bc] text-[#f6e2bc] placeholder-[#f6e2bc] text-lg rounded-full"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setDriver({ ...Driver, Image: file });
+                  }}
                 />
               </div>
             </div>
