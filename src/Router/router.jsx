@@ -18,13 +18,11 @@ import ListAccount from "../AdminPage/Account/ListAccount.jsx";
 import ListContract from "../AdminPage/Contract/ListContract.jsx";
 import DetailContract from "../AdminPage/Contract/DetailContract.jsx";
 import ListReservation from "../AdminPage/Reservation/ListReservation.jsx";
+import Dashboard from "../AdminPage/Dashboard/Dashboard.jsx";
 import Home from "../CustomerPage/Home.jsx";
 import CarDetail from "../CustomerPage/CarDetail.jsx";
 import CarList from "../CustomerPage/CarList.jsx";
 import DemiseCar from "../CustomerPage/DemiseCar.jsx";
-import History from "../CustomerPage/History.jsx";
-import Reservation from "../CustomerPage/Reservation.jsx";
-import Payment from "../CustomerPage/Payment.jsx";
 
 const AuthLayout = () => {
   return (
@@ -107,6 +105,10 @@ const router = createBrowserRouter([
             path: "ListReservation",
             element: <ListReservation />,
           },
+          {
+            path: "Dashboard",
+            element: <Dashboard />,
+          },
         ],
       },
       {
@@ -136,18 +138,6 @@ const router = createBrowserRouter([
           {
             path: "DemiseCar",
             element: <DemiseCar />,
-          },
-          {
-            path: "History",
-            element: <History />,
-          },
-          {
-            path: "Reservation/:id",
-            element: <Reservation />,
-          },
-          {
-            path: "Payment/:id",
-            element: <Payment />,
           },
         ],
       },

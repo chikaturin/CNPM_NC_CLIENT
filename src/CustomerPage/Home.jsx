@@ -36,6 +36,8 @@ const Home = () => {
     fetchVehicles();
   }, []);
 
+  const moneyFormat = (money) =>
+    money.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
   if (loading) {
     return (
       <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
@@ -162,10 +164,7 @@ const Home = () => {
                       5.0
                     </span>
                     <span>
-                      <span className="font-bold">
-                        {formattedPrice(vehicle.Price)}
-                      </span>
-                      /ngày
+                      <span className="font-bold">{vehicle.Price}</span>/ngày
                     </span>
                   </p>
                 </div>
