@@ -92,13 +92,13 @@ const Home = () => {
   }
 
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full bg-[#f6e2bc] p-10 text-[#2b7a78] min-h-screen">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full bg-[#ffffff] p-10 text-[#2b7a78] min-h-screen">
       <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
         <div className={`dropdown ${openDropdown ? "dropdown-open" : ""}`}>
           <div
             tabIndex={0}
             role="button"
-            className="font-semibold bg-[#75bde0] hover:bg-[#f6e2bc] text-[#f6e2bc] hover:text-[#75bde0] border-2 border-[#75bde0] outline-none px-4 py-2 rounded-full"
+            className="font-semibold bg-[#75bde0] hover:bg-[#ffffff] text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] outline-none px-4 py-2 rounded-full"
             onClick={() => setOpenDropdown(!openDropdown)}
           >
             <FontAwesomeIcon className="mr-2" icon={faFilter} /> Số chỗ ngồi
@@ -106,7 +106,7 @@ const Home = () => {
           {openDropdown && (
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-[#f6e2bc] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#75bde0] mt-1"
+              className="dropdown-content menu bg-[#ffffff] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#75bde0] mt-1"
             >
               <li
                 key="all"
@@ -114,7 +114,7 @@ const Home = () => {
               >
                 <a
                   onClick={() => handleSort("All")}
-                  className="w-full hover:bg-[#75bde0] hover:text-[#f6e2bc] bg-[#f6e2bc] active:font-bold border-2 border-transparent active:border-[#4ca771]"
+                  className="w-full hover:bg-[#75bde0] hover:text-[#ffffff] bg-[#ffffff] active:font-bold border-2 border-transparent active:border-[#4ca771]"
                 >
                   Tất cả
                 </a>
@@ -127,7 +127,7 @@ const Home = () => {
                 >
                   <a
                     onClick={() => handleSort(seat)}
-                    className="w-full hover:bg-[#75bde0] hover:text-[#f6e2bc] bg-[#f6e2bc] active:font-bold border-2 border-transparent active:border-[#4ca771]"
+                    className="w-full hover:bg-[#75bde0] hover:text-[#ffffff] bg-[#ffffff] active:font-bold border-2 border-transparent active:border-[#4ca771]"
                   >
                     {seat}
                   </a>
@@ -141,7 +141,7 @@ const Home = () => {
         <Link
           to={`/CarDetail/${vehicle._id}`}
           key={vehicle._id}
-          className="w-full rounded-2xl p-4 bg-[#f6e2bc] text-[#3b7097] shadow-xl shadow-[#75bde0]"
+          className="w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]"
         >
           <img src={vehicle.Image} alt="" className="rounded-xl h-3/5 w-full" />
           <h2 className="text-xl font-bold mb-3 line-clamp-1">
@@ -153,7 +153,7 @@ const Home = () => {
               <span className="font-bold mr-6">Biển số: </span>
               {vehicle._id}
             </p>
-            <div className="w-full border-4 border-[#f6e2bc] rounded-full my-2"></div>
+            <div className="w-full border-4 border-[#ffffff] rounded-full my-2"></div>
             <p className="flex justify-between">
               <span className="text-[#daa520]">
                 <FontAwesomeIcon className="mr-2" icon={faStar} />

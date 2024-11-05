@@ -90,22 +90,22 @@ const DemiseCar = () => {
   return (
     <div
       id="overBg"
-      className="bg-gradient-to-r from-[#f6e2bc] to-[#75bde0] transition-colors ease-in-out p-10"
+      className="bg-gradient-to-r from-[#ffffff] to-[#75bde0] transition-colors ease-in-out p-10"
     >
-      <div className="w-full bg-[#f6e2bc] p-4 px-10 rounded-xl shadow-2xl">
+      <div className="w-full bg-[#ffffff] p-4 px-10 rounded-xl shadow-2xl">
         <h1 className="text-4xl text-[#3b7097] mb-10 mt-4 w-full text-center font-bold">
           Đăng ký cho thuê xe
         </h1>
         <form onSubmit={handleSubmit} className="relative overflow-hidden">
           <div id="carRegister">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                 <div className="col-span-12">
                   <label className="font-bold">Biển số xe</label>
                 </div>
                 <div className="col-span-12">
                   <input
-                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                     type="text"
                     placeholder="Nhập biển số xe"
                     value={Vehicle._id}
@@ -115,13 +115,13 @@ const DemiseCar = () => {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                 <div className="col-span-12">
                   <label className="font-bold">Tên xe</label>
                 </div>
                 <div className="col-span-12">
                   <input
-                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                     type="text"
                     placeholder="Nhập tên xe"
                     value={Vehicle.Branch}
@@ -132,13 +132,13 @@ const DemiseCar = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+            <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
               <div className="col-span-12">
                 <label className="font-bold">Mô tả</label>
               </div>
               <div className="col-span-12">
                 <input
-                  className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                  className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                   type="text"
                   placeholder="Nhập mô tả sơ lược xe"
                   value={Vehicle.Description}
@@ -150,14 +150,14 @@ const DemiseCar = () => {
             </div>
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
               <div className="w-full h-full">
-                <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                   <div className="col-span-5">
                     <label className="font-bold">Ảnh chính</label>
                   </div>
                   <div className="col-span-12">
                     <input
                       placeholder="Nhập link ảnh chính"
-                      className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                      className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                       type="text"
                       value={Vehicle.Image}
                       onChange={(e) => {
@@ -168,13 +168,13 @@ const DemiseCar = () => {
                   </div>
                 </div>
                 <div className="mt-10 grid grid-cols-2 gap-10">
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-12">
                       <label className="font-bold">Số chỗ ngồi</label>
                     </div>
                     <div className="col-span-12">
                       <input
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                         type="number"
                         value={Vehicle.Number_Seats}
                         placeholder="Nhập số chỗ ngồi"
@@ -187,14 +187,14 @@ const DemiseCar = () => {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-5">
                       <label className="font-bold">Giá tiền/Ngày</label>
                     </div>
                     <div className="col-span-12">
                       <input
                         placeholder="Nhập số tiền"
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                         type="number"
                         value={Vehicle.Price}
                         onChange={(e) =>
@@ -204,14 +204,14 @@ const DemiseCar = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                   <div className="col-span-12">
                     <label className="font-bold line-clamp-1">ảnh phụ</label>
                   </div>
                   <div className="col-span-12 grid grid-cols-12">
                     <input
                       placeholder="Nhập link ảnh phụ"
-                      className="col-span-9 border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-l-lg bg-[#f6e2bc]"
+                      className="col-span-9 border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-l-lg bg-[#ffffff]"
                       type="text"
                       name="imgVehicle"
                       value={imageVehicle.imgVehicle}
@@ -219,7 +219,7 @@ const DemiseCar = () => {
                     />
                     <button
                       type="button"
-                      className="col-span-3 border-2 border-[#75bde0] bg-[#75bde0] border-l-0 hover:bg-[#f6e2bc] font-semibold text-[#f6e2bc] hover:text-[#75bde0] px-4 py-2 rounded-r-lg"
+                      className="col-span-3 border-2 border-[#75bde0] bg-[#75bde0] border-l-0 hover:bg-[#ffffff] font-semibold text-[#ffffff] hover:text-[#75bde0] px-4 py-2 rounded-r-lg"
                       onClick={addImage}
                     >
                       Add Image
@@ -261,7 +261,7 @@ const DemiseCar = () => {
                   //     .getElementById("driverRegister")
                   //     .classList.remove("translate-x-[200%]");
                   // }}
-                  className="bg-[#75bde0] hover:bg-[#f6e2bc] cursor-pointer font-bold text-lg text-[#f6e2bc] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full"
+                  className="bg-[#75bde0] hover:bg-[#ffffff] cursor-pointer font-bold text-lg text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full"
                 >
                   Cho thuê
                 </button>
@@ -269,7 +269,7 @@ const DemiseCar = () => {
               <div className="col-span-5">
                 <Link
                   to="/Home"
-                  className="bg-[#3b7097] hover:bg-[#f6e2bc] cursor-pointer font-bold text-lg text-[#f6e2bc] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full"
+                  className="bg-[#3b7097] hover:bg-[#ffffff] cursor-pointer font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full"
                 >
                   Quay về
                 </Link>
@@ -279,16 +279,16 @@ const DemiseCar = () => {
           </div>
           <div
             id="driverRegister"
-            className="absolute top-0 w-full bg-[#f6e2bc] translate-x-[200%] transition-all ease-in-out duration-1000 rounded-xl"
+            className="absolute top-0 w-full bg-[#ffffff] translate-x-[200%] transition-all ease-in-out duration-1000 rounded-xl"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                 <div className="col-span-12">
                   <label className="font-bold">Biển số xe</label>
                 </div>
                 <div className="col-span-12">
                   <input
-                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                     type="text"
                     placeholder="Nhập biển số xe"
                     value={Vehicle._id}
@@ -298,13 +298,13 @@ const DemiseCar = () => {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+              <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                 <div className="col-span-12">
                   <label className="font-bold">Tên xe</label>
                 </div>
                 <div className="col-span-12">
                   <input
-                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                    className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                     type="text"
                     placeholder="Nhập tên xe"
                     value={Vehicle.Branch}
@@ -315,13 +315,13 @@ const DemiseCar = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+            <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
               <div className="col-span-12">
                 <label className="font-bold">Mô tả</label>
               </div>
               <div className="col-span-12">
                 <input
-                  className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                  className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                   type="text"
                   placeholder="Nhập mô tả sơ lược xe"
                   value={Vehicle.Description}
@@ -333,14 +333,14 @@ const DemiseCar = () => {
             </div>
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
               <div className="w-full h-full">
-                <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                   <div className="col-span-5">
                     <label className="font-bold">Ảnh chính</label>
                   </div>
                   <div className="col-span-12">
                     <input
                       placeholder="Nhập link ảnh chính"
-                      className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                      className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                       type="text"
                       value={Vehicle.Image}
                       onChange={(e) => {
@@ -351,13 +351,13 @@ const DemiseCar = () => {
                   </div>
                 </div>
                 <div className="mt-10 grid grid-cols-2 gap-10">
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-12">
                       <label className="font-bold">Số chỗ ngồi</label>
                     </div>
                     <div className="col-span-12">
                       <input
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                         type="number"
                         value={Vehicle.Number_Seats}
                         onChange={(e) =>
@@ -369,14 +369,14 @@ const DemiseCar = () => {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-5">
                       <label className="font-bold">Giá tiền/Ngày</label>
                     </div>
                     <div className="col-span-12">
                       <input
                         placeholder="Nhập số lượng"
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                         type="number"
                         value={Vehicle.Price}
                         onChange={(e) =>
@@ -386,14 +386,14 @@ const DemiseCar = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                <div className="mt-10 grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                   <div className="col-span-12">
                     <label className="font-bold line-clamp-1">ảnh phụ</label>
                   </div>
                   <div className="col-span-12 grid grid-cols-12">
                     <input
                       placeholder="Nhập link ảnh phụ"
-                      className="col-span-9 border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-l-lg bg-[#f6e2bc]"
+                      className="col-span-9 border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-l-lg bg-[#ffffff]"
                       type="text"
                       name="imgVehicle"
                       value={imageVehicle.imgVehicle}
@@ -401,7 +401,7 @@ const DemiseCar = () => {
                     />
                     <button
                       type="button"
-                      className="col-span-3 border-2 border-[#75bde0] bg-[#75bde0] border-l-0 hover:bg-[#f6e2bc] font-semibold text-[#f6e2bc] hover:text-[#75bde0] px-4 py-2 rounded-r-lg"
+                      className="col-span-3 border-2 border-[#75bde0] bg-[#75bde0] border-l-0 hover:bg-[#ffffff] font-semibold text-[#ffffff] hover:text-[#75bde0] px-4 py-2 rounded-r-lg"
                       onClick={addImage}
                     >
                       Add Image
@@ -436,12 +436,12 @@ const DemiseCar = () => {
             <div className="mt-10 grid grid-cols-12 gap-10 w-full justify-center">
               <div className="col-span-1"></div>
               <div className="col-span-5">
-                <button className="bg-[#75bde0] hover:bg-[#f6e2bc] font-bold text-lg text-[#f6e2bc] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full">
+                <button className="bg-[#75bde0] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full">
                   Xác nhận
                 </button>
               </div>
               <div className="col-span-5">
-                <div className="bg-[#3b7097] hover:bg-[#f6e2bc] font-bold text-lg text-[#f6e2bc] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
+                <div className="bg-[#3b7097] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
                   Quay về
                 </div>
               </div>

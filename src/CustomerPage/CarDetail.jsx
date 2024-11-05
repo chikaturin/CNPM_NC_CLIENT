@@ -62,7 +62,7 @@ const DetailVehicle = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 bg-gradient-to-bl to-[#75bde0] from-30% from-[#f6e2bc]">
+    <div className="grid grid-cols-12 bg-gradient-to-bl to-[#75bde0] from-30% from-[#ffffff]">
       <div className="col-span-10 col-start-2 w-full py-6">
         <div className="grid grid-cols-12 text-[#3b7097]">
           <div className="col-span-12 flex items-center justify-between px-2 my-4">
@@ -74,7 +74,7 @@ const DetailVehicle = () => {
               {vehicle._id}
             </span>
             <Link to={`/Home`}>
-              <button className="bg-[#f6e2bc] hover:bg-[#3b7097] w-10 h-10 border-4 border-[#3b7097] hover:text-[#f6e2bc] font-bold rounded-full">
+              <button className="bg-[#ffffff] hover:bg-[#3b7097] w-10 h-10 border-4 border-[#3b7097] hover:text-[#ffffff] font-bold rounded-full">
                 <FontAwesomeIcon icon={faXmark} />
               </button>
             </Link>
@@ -101,7 +101,7 @@ const DetailVehicle = () => {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-12 gap-6 w-full mt-10 rounded-lg text-[#f6e2bc]">
+        <div className="grid grid-cols-12 gap-6 w-full mt-10 rounded-lg text-[#ffffff]">
           <div className="w-full col-span-8">
             <h1 className="font-bold text-5xl [text-shadow:_0_4px_8px_#2b7a78]">
               {vehicle.Branch}
@@ -110,7 +110,7 @@ const DetailVehicle = () => {
               <FontAwesomeIcon className="mr-2 text-[#daa520]" icon={faStar} />
               5.0 • Hồ Chí Minh
             </p>
-            <div className="my-6 py-6 border-y-2 border-[#f6e2bc]">
+            <div className="my-6 py-6 border-y-2 border-[#ffffff]">
               <p className="text-3xl font-semibold mb-6">Đặc điểm</p>
               <div className="grid grid-cols-4">
                 <div className="grid grid-cols-12 text-xl">
@@ -185,7 +185,7 @@ const DetailVehicle = () => {
             </div>
           </div>
           <div className="col-span-4 grid gap-6 text-[#3b7097]">
-            <div className="bg-[#f6e2bc] rounded-xl grid grid-cols-12 p-2">
+            <div className="bg-[#ffffff] rounded-xl grid grid-cols-12 p-2">
               <div className="col-span-2 flex items-center justify-center">
                 <FontAwesomeIcon
                   className="text-5xl text-[#2b7a78]"
@@ -202,20 +202,20 @@ const DetailVehicle = () => {
                 </p>
               </div>
             </div>
-            <form onSubmit={() => {}} className="bg-[#f6e2bc] rounded-xl p-4">
+            <form onSubmit={() => {}} className="bg-[#ffffff] rounded-xl p-4">
               <p className="font-semibold text-lg mb-4">
                 <span className="text-3xl">{vehicle.Price}đ</span>/ngày
               </p>
-              <div className="grid grid-cols-2 text-[#f6e2bc] text-md">
+              <div className="grid grid-cols-2 text-[#ffffff] text-md">
                 <div className="rounded-l-lg shadow-xl shadow-[#75bde0] p-4">
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-5">
                       <label className="font-bold">Nhận xe</label>
                     </div>
                     <div className="col-span-12">
                       <input
                         placeholder="Nhập số lượng"
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                         type="date"
                         // value={Vehicle.Price}
                         // onChange={(e) =>
@@ -226,14 +226,14 @@ const DetailVehicle = () => {
                   </div>
                 </div>
                 <div className="rounded-r-lg shadow-xl shadow-[#75bde0] p-4">
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#f6e2bc] to-[#75bde0] text-[#f6e2bc] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-5">
                       <label className="font-bold">Trả xe</label>
                     </div>
                     <div className="col-span-12">
                       <input
                         placeholder="Nhập số lượng"
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#f6e2bc]"
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                         type="date"
                         // value={Vehicle.Price}
                         // onChange={(e) =>
@@ -270,12 +270,12 @@ const DetailVehicle = () => {
               </div>
               <button
                 type="submit"
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#f6e2bc] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#f6e2bc] rounded-xl"
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
               >
                 Chọn thuê
               </button>
             </form>
-            <div className="bg-[#f6e2bc] rounded-xl p-4">
+            <div className="bg-[#ffffff] rounded-xl p-4">
               <p className="text-xl font-semibold text-[#2b7a78]">
                 Phụ phí có thể phát sinh
               </p>
@@ -337,7 +337,7 @@ const DetailVehicle = () => {
               </div>
             </div>
             <div className="text-[#2b7a78] font-semibold text-lg cursor-pointer rounded-xl flex items-center justify-center">
-              <p className=" hover:text-[#f6e2bc] hover:underline">
+              <p className=" hover:text-[#ffffff] hover:underline">
                 <FontAwesomeIcon className="mr-2" icon={faFlag} />
                 Báo cáo xe này
               </p>
