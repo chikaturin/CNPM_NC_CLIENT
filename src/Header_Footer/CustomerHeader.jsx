@@ -43,7 +43,7 @@ const CustomerHeader = () => {
             <FontAwesomeIcon className="mr-2" icon={faClockRotateLeft} />
             History
           </Link>
-          <Link className="bg-[#f6e2bc] hover:bg-[#75bde0] font-bold text-xl hover:text-[#f6e2bc] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer">
+          <Link className="bg-[#eceaea] hover:bg-[#75bde0] font-bold text-xl hover:text-[#eceaea] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer">
             <FontAwesomeIcon className="mr-2" icon={faUser} />
             Tài khoản
           </Link>

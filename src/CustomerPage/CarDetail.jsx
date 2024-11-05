@@ -27,6 +27,36 @@ const DetailVehicle = () => {
   const navigate = useNavigate();
   const URL = "https://cnpm-ncserver.vercel.app/api";
 
+  const formattedPrice = (price) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
+  const formatDate = (a) => {
+    return new Date(a).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+  const OnclickPay = (e) => {
+    e.preventDefault();
+
+    if (!date) {
+      setNull("Vui lòng chọn ngày trả xe");
+    } else if (new Date(date) < new Date()) {
+      setNull("Ngày trả xe không hợp lệ");
+    } else {
+      navigate(`/Payment/${id}`, {
+        state: {
+          Pickup_Date: new Date().toLocaleDateString(),
+          Return_Date: formatDate(date),
+        },
+      });
+    }
+  };
+
 <<<<<<< HEAD
 =======
   const fetchCalculate = async () => {
@@ -355,16 +385,10 @@ const DetailVehicle = () => {
                     <div className="col-span-5">
                       <label className="font-bold">Nhận xe</label>
                     </div>
-                    <div className="col-span-12">
-                      <input
-                        placeholder="Nhập số lượng"
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
-                        type="date"
-                        // value={Vehicle.Price}
-                        // onChange={(e) =>
-                        //   setVehicle({ ...Vehicle, Price: e.target.value })
-                        // }
-                      />
+                    <div className="col-span-12 mt-3 w-full">
+                      <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
+                        {new Date().toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                 </div>
