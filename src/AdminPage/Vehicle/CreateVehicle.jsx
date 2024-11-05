@@ -138,7 +138,10 @@ const CreateVehicle = () => {
                   type="number"
                   value={Vehicle.Number_Seats}
                   onChange={(e) =>
-                    setVehicle({ ...Vehicle, Number_Seats: e.target.value })
+                    setVehicle({
+                      ...Vehicle,
+                      Number_Seats: Number(e.target.value),
+                    })
                   }
                 />
               </div>
@@ -188,7 +191,7 @@ const CreateVehicle = () => {
                   type="number"
                   value={Vehicle.Price}
                   onChange={(e) =>
-                    setVehicle({ ...Vehicle, Price: e.target.value })
+                    setVehicle({ ...Vehicle, Price: Number(e.target.value) })
                   }
                 />
               </div>

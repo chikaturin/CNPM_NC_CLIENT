@@ -17,8 +17,8 @@ const ListAccount = () => {
       }
       const data = await res.json();
       setAccount(data);
-      console.log(account.Image);
-      console.log(account);
+      console.log("image", account.Image);
+      console.log("data", data);
     } catch (error) {
       setError("Không thể lấy dữ liệu từ máy chủ");
     } finally {
@@ -57,11 +57,7 @@ const ListAccount = () => {
               key={account._id}
               className=" w-full grid grid-cols-2 rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]"
             >
-              <img
-                src={`http://localhost:8000/${account.Image}`}
-                className="rounded-lg"
-                alt="ảnh"
-              />
+              <img src={account.Image} className="rounded-lg" alt="ảnh" />
 
               <div className="ml-2">
                 <h2 className="text-2xl font-bold mb-3">{account.NameCus}</h2>

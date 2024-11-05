@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
 
       if (token) {
         try {
-          const response = await fetch("https://cnpm-ncserver.vercel.app/api/user", {
+          const response = await fetch("http://localhost:8000/api/user", {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -23,7 +23,6 @@ const AuthProvider = ({ children }) => {
           });
 
           const userData = await response.json();
-          console.log("User data from API:", userData);
 
           if (response.ok) {
             setUser(userData);
