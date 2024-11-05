@@ -157,7 +157,7 @@ const History = () => {
               key={history._id}
               className="bg-white rounded-lg w-full flex justify-center my-4"
             >
-              <div className="w-3/4  border-2 border-x-4 border-x-green-400 p-4 rounded-xl">
+              <div className="w-3/4  border-2 border-x-4 border-x-[#75BDDF] p-4 rounded-xl">
                 <h1 className="text-3xl text-center text-black font-bold">
                   {history._id}-
                   <span
@@ -172,13 +172,13 @@ const History = () => {
                   <div className="w-full text-[#2F4F4F]">
                     <div>
                       <p className="text-xl my-2 flex justify-between pr-10">
-                        <span className="font-bold text-[#4ca771]">
+                        <span className="font-bold text-[#75BDDF]">
                           Ngày đăng ký hợp đồng:{" "}
                         </span>
                         {date(history.ContractDate) || "N/A"}
                       </p>
                       <p className="text-xl my-2 flex justify-between pr-10">
-                        <span className="font-bold text-[#4ca771]">
+                        <span className="font-bold text-[#75BDDF]">
                           Ngày đặt:{" "}
                         </span>
                         {date(history.Pickup_Date) || "N/A"}
@@ -190,13 +190,13 @@ const History = () => {
                   <div className="w-full text-[#2F4F4F]">
                     <div>
                       <p className="text-xl my-2 flex justify-between pr-10">
-                        <span className="font-bold text-[#4ca771]">
+                        <span className="font-bold text-[#75BDDF]">
                           Ngày trả:{" "}
                         </span>
                         {date(history.Return_Date) || "N/A"}
                       </p>
                       <p className="text-xl my-2 flex justify-between pr-10">
-                        <span className="font-bold text-[#4ca771]">
+                        <span className="font-bold text-[#75BDDF]">
                           Tổng tiền:{" "}
                         </span>
                         {history.Total_Pay || "N/A"}
@@ -211,7 +211,7 @@ const History = () => {
                     }`}
                   >
                     <p className="text-xl my-2 flex justify-between pr-10">
-                      <span className="font-bold text-[#4ca771]">
+                      <span className="font-bold text-[#75BDDF]">
                         Mã tài xế:{" "}
                       </span>
                       {history.MaDriver || "N/A"}
@@ -221,11 +221,11 @@ const History = () => {
                 <div className="w-full text-[#2F4F4F]">
                   <div>
                     <p className="text-xl my-2 flex justify-between pr-10">
-                      <span className="font-bold text-[#4ca771]">Mã xe: </span>
+                      <span className="font-bold text-[#75BDDF]">Mã xe: </span>
                       {history.MaVehicle || "N/A"}
                     </p>
                     <p className="text-xl my-2 flex justify-between pr-10">
-                      <span className="font-bold text-[#4ca771]">
+                      <span className="font-bold text-[#75BDDF]">
                         Mã Khách hàng:{" "}
                       </span>
                       {history.MaKH || "N/A"}
@@ -234,16 +234,16 @@ const History = () => {
                 </div>
                 {StatePay == "Paid" ? (
                   <div className="px-4 grid grid-cols-2 gap-4">
-                    <button className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-2 rounded-lg flex items-center justify-center w-full">
+                    <button className="bg-[#75bde0] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full">
                       Thuê lại xe
                     </button>
-                    <button className="bg-[#ffed28] hover:bg-[#eaf9e7] font-bold text-lg text-[#525252] hover:text-[#4ca771] border-2 border-[#a69f1b] p-2 rounded-lg flex items-center justify-center w-full">
+                    <button className="bg-[#3b7097] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
                       Report
                     </button>
                   </div>
                 ) : (
                   <div className="px-4">
-                    <button className="bg-[#ffed28] hover:bg-[#eaf9e7] font-bold text-lg text-[#525252] hover:text-[#4ca771] border-2 border-[#a69f1b] p-2 rounded-lg flex items-center justify-center w-full">
+                    <button className="bg-[#3b7097] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
                       Report
                     </button>
                   </div>

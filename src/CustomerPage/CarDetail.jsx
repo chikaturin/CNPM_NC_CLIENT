@@ -83,19 +83,21 @@ const DetailVehicle = () => {
         <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
           <img
             className="w-full rounded-xl h-full object-cover"
-            src={vehicle.Image}
+            src={vehicle.imageVehicle[0]}
             alt="Vehicle"
           />
           <div className="grid grid-cols-3 grid-rows-1 lg:grid-cols-1 lg:grid-rows-3 gap-4 w-full">
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
-              vehicle.imageVehicle.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt="Vehicle Image"
-                  className="w-full h-64 rounded-xl object-cover"
-                />
-              ))
+              vehicle.imageVehicle.map((img, index) =>
+                index === 1 ? (
+                  <img
+                    key={index}
+                    src={img}
+                    alt="Vehicle Image"
+                    className="w-full h-64 rounded-xl object-cover"
+                  />
+                ) : null // Return null for indices that are not 1
+              )
             ) : (
               <p>Không có ảnh</p>
             )}
