@@ -128,7 +128,7 @@ const LogIn = () => {
 
   return (
     <div className="w-full min-h-screen grid grid-cols-2">
-      <div className="p-6 flex items-center bg-gradient-to-b from-[#f6e2bc] from-60% to-[#75bde0]">
+      <div className="p-6 flex items-center bg-gradient-to-b from-[#ffffff] from-60% to-[#75bde0]">
         <div className="w-full px-20">
           <h2 className="mb-40 text-[#3b7097] text-5xl font-bold text-center">
             Login to your account
@@ -139,7 +139,7 @@ const LogIn = () => {
                 type="text"
                 value={Name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-6 py-3 bg-[#f6e2bc] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
+                className="w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
                 placeholder="Tên của bạn"
                 required
               />
@@ -149,7 +149,7 @@ const LogIn = () => {
                 type="password"
                 value={Password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-4 w-full px-6 py-3 bg-[#f6e2bc] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
+                className="mt-4 w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
                 placeholder="Mã định danh"
                 required
               />
@@ -157,7 +157,7 @@ const LogIn = () => {
             <div className="w-full px-20">
               <button
                 type="submit"
-                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#f6e2bc] text-lg bg-[#75bde0] hover:bg-[#f6e2bc] hover:text-[#75bde0] rounded-2xl"
+                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#ffffff] text-lg bg-[#75bde0] hover:bg-[#ffffff] hover:text-[#75bde0] rounded-2xl"
               >
                 Đăng Nhập
               </button>
@@ -169,7 +169,7 @@ const LogIn = () => {
           )}
         </div>
       </div>
-      <div className="p-6 flex items-center bg-gradient-to-b to-[#f6e2bc] from-[#a9d09e]">
+      <div className="p-6 flex items-center bg-gradient-to-b to-[#ffffff] from-[#a9d09e]">
         <img
           src="https://png.pngtree.com/png-vector/20220913/ourmid/pngtree-palm-tree-leaf-drawing-vector-forground-png-image_6173238.png"
           alt=""
@@ -186,7 +186,7 @@ const LogIn = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUserName(e.target.value)}
-                className="w-full px-6 py-3 bg-[#a9d09e] shadow-lg shadow-[#f6e2bc] text-[#3b7097] placeholder-[#f6e2bc] outline-none text-lg rounded-full"
+                className="w-full px-6 py-3 bg-[#a9d09e] shadow-lg shadow-[#ffffff] text-[#3b7097] placeholder-[#ffffff] outline-none text-lg rounded-full"
                 required
               />
             </div>
@@ -196,7 +196,7 @@ const LogIn = () => {
                 value={NumberPhone}
                 placeholder="Số điện thoại"
                 onChange={(e) => setNumberPhone(e.target.value)}
-                className="w-full px-6 py-3 bg-[#a9d09e] shadow-lg shadow-[#f6e2bc] text-[#3b7097] placeholder-[#f6e2bc] outline-none text-lg rounded-full"
+                className="w-full px-6 py-3 bg-[#a9d09e] shadow-lg shadow-[#ffffff] text-[#3b7097] placeholder-[#ffffff] outline-none text-lg rounded-full"
               />
             </div>
             <div className="mb-4">
@@ -204,13 +204,13 @@ const LogIn = () => {
                 type="file"
                 accept="image/*"
                 onChange={(e) => setImage(e.target.files[0])}
-                className="file-input outline-none file:border-0 file:rounded-full file:shadow-md file:shadow-[#f6e2bc] file:text-[#3b7097] file:bg-[#f6e2bc] w-full bg-[#a9d09e] shadow-md shadow-[#f6e2bc] text-[#f6e2bc] placeholder-[#f6e2bc] text-lg rounded-full"
+                className="file-input outline-none file:border-0 file:rounded-full file:shadow-md file:shadow-[#ffffff] file:text-[#3b7097] file:bg-[#ffffff] w-full bg-[#a9d09e] shadow-md shadow-[#ffffff] text-[#ffffff] placeholder-[#ffffff] text-lg rounded-full"
               />
             </div>
             <div className="mb-4">
               <select
                 id="documentType"
-                className="select w-full px-6 bg-[#f6e2bc] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
+                className="select w-full px-6 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
                 value={TypeCard}
                 onChange={(e) => setTypeCard(e.target.value)}
               >
@@ -225,14 +225,14 @@ const LogIn = () => {
                 type="IDCard"
                 value={IDCard}
                 onChange={(e) => setIDCard(e.target.value)}
-                className="w-full px-6 py-3 bg-[#f6e2bc] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
+                className="w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
                 placeholder="Mã định danh của bạn"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full py-4 font-bold border-4 border-[#a9d09e] text-[#f6e2bc] text-lg bg-[#a9d09e] hover:bg-[#f6e2bc] hover:text-[#a9d09e] rounded-2xl"
+              className="w-full py-4 font-bold border-4 border-[#a9d09e] text-[#ffffff] text-lg bg-[#a9d09e] hover:bg-[#ffffff] hover:text-[#a9d09e] rounded-2xl"
               disabled={isLoading}
             >
               {isLoading ? "Đang đăng ký..." : "Đăng Ký"}
@@ -252,7 +252,7 @@ const LogIn = () => {
       </div>
       <div
         id="coverPanel"
-        className="text-[#3b7097] bg-gradient-to-bl from-[#f6e2bc] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out"
+        className="text-[#3b7097] bg-gradient-to-bl from-[#ffffff] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out"
       >
         <div className="w-full px-48" id="toSignUp">
           <img
@@ -271,7 +271,7 @@ const LogIn = () => {
                   .getElementById("coverPanel")
                   .classList.remove("translate-x-full");
               }}
-              className="font-bold hover:text-[#f6e2bc] cursor-pointer"
+              className="font-bold hover:text-[#ffffff] cursor-pointer"
             >
               Sign up
             </a>
@@ -294,7 +294,7 @@ const LogIn = () => {
                   .getElementById("coverPanel")
                   .classList.add("translate-x-full");
               }}
-              className="font-bold hover:text-[#f6e2bc] cursor-pointer"
+              className="font-bold hover:text-[#ffffff] cursor-pointer"
             >
               Login
             </a>
