@@ -2,13 +2,20 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faStar } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const URL = "https://cnpm-ncserver.vercel.app/api"; // URL of the server
+
+  const formattedPrice = (price) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
 
   const fetchVehicles = async () => {
     try {
@@ -155,7 +162,10 @@ const Home = () => {
                       5.0
                     </span>
                     <span>
-                      <span className="font-bold">{vehicle.Price}</span>/ngày
+                      <span className="font-bold">
+                        {formattedPrice(vehicle.Price)}
+                      </span>
+                      /ngày
                     </span>
                   </p>
                 </div>

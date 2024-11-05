@@ -20,10 +20,37 @@ const History = () => {
   const URL = "https://cnpm-ncserver.vercel.app/api";
 
   const { user, logout } = useContext(AuthContext);
+
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  const Reservation = (id) => {
+    const DetailFetch = async () => {
+      try {
+        const res = await fetch(`${URL}/DetailVehicle/${id}`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        const data = await res.json();
+
+        if (data.State === "Available") {
+          navigate(`/CarDetail/${id}`);
+        } else {
+          navigate(`/Reservation/${id}`);
+        }
+      } catch (e) {
+        setError("Không thể lấy dữ liệu từ máy chủ");
+        console.error("Error fetching data: ", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    DetailFetch();
+  };
+
   const date = (a) => {
     return new Date(a).toLocaleDateString("en-GB", {
       day: "2-digit",
@@ -100,7 +127,7 @@ const History = () => {
   }
 
   return (
-    <div className="bg-white grid grid-cols-3  gap-4 p-6">
+    <div className="bg-white grid grid-cols-3 gap-4 p-6">
       <div className="w-full  border-y-4 border-x-2 border-gray-500 h-fit rounded-lg p-4">
         <div className="flex">
           <img
@@ -151,107 +178,114 @@ const History = () => {
         <p className="text-4xl font-bold text-black text-center">
           {StatePay == "Staked" ? "HỢP ĐỒNG ĐANG THUÊ" : "LỊCH SỬ THUÊ"}
         </p>
-        {history.map((history) => {
-          return (
-            <div
-              key={history._id}
-              className="bg-white rounded-lg w-full flex justify-center my-4"
-            >
-              <div className="w-3/4  border-2 border-x-4 border-x-[#75BDDF] p-4 rounded-xl">
-                <h1 className="text-3xl text-center text-black font-bold">
-                  {history._id}-
-                  <span
-                    className={`${
-                      StatePay == "Staked" ? "text-red-500" : "text-green-500"
-                    }`}
-                  >
-                    {history.StatePay}
-                  </span>
-                </h1>
-                <div className="w-full">
+        <div className="w-full h-[75vh] overflow-y-auto mt-6">
+          {history.map((history) => {
+            return (
+              <div
+                key={history._id}
+                className="bg-white rounded-lg w-full flex justify-center my-4"
+              >
+                <div className="w-3/4  border-2 border-x-4 border-x-[#75BDDF] p-4 rounded-xl">
+                  <h1 className="text-3xl text-center text-black font-bold">
+                    {history._id}-
+                    <span
+                      className={`${
+                        StatePay == "Staked" ? "text-red-500" : "text-green-500"
+                      }`}
+                    >
+                      {history.StatePay}
+                    </span>
+                  </h1>
+                  <div className="w-full">
+                    <div className="w-full text-[#2F4F4F]">
+                      <div>
+                        <p className="text-xl my-2 flex justify-between pr-10">
+                          <span className="font-bold text-[#75BDDF]">
+                            Ngày đăng ký hợp đồng:{" "}
+                          </span>
+                          {date(history.ContractDate) || "N/A"}
+                        </p>
+                        <p className="text-xl my-2 flex justify-between pr-10">
+                          <span className="font-bold text-[#75BDDF]">
+                            Ngày đặt:{" "}
+                          </span>
+                          {date(history.Pickup_Date) || "N/A"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <div className="w-full text-[#2F4F4F]">
+                      <div>
+                        <p className="text-xl my-2 flex justify-between pr-10">
+                          <span className="font-bold text-[#75BDDF]">
+                            Ngày trả:{" "}
+                          </span>
+                          {date(history.Return_Date) || "N/A"}
+                        </p>
+                        <p className="text-xl my-2 flex justify-between pr-10">
+                          <span className="font-bold text-[#75BDDF]">
+                            Tổng tiền:{" "}
+                          </span>
+                          {history.Total_Pay || "N/A"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <div
+                      className={`w-full text-[#2F4F4F] ${
+                        history.MaDriver ? "block" : "hidden"
+                      }`}
+                    >
+                      <p className="text-xl my-2 flex justify-between pr-10">
+                        <span className="font-bold text-[#75BDDF]">
+                          Mã tài xế:{" "}
+                        </span>
+                        {history.MaDriver || "N/A"}
+                      </p>
+                    </div>
+                  </div>
                   <div className="w-full text-[#2F4F4F]">
                     <div>
                       <p className="text-xl my-2 flex justify-between pr-10">
                         <span className="font-bold text-[#75BDDF]">
-                          Ngày đăng ký hợp đồng:{" "}
+                          Mã xe:{" "}
                         </span>
-                        {date(history.ContractDate) || "N/A"}
+                        {history.MaVehicle || "N/A"}
                       </p>
                       <p className="text-xl my-2 flex justify-between pr-10">
                         <span className="font-bold text-[#75BDDF]">
-                          Ngày đặt:{" "}
+                          Mã Khách hàng:{" "}
                         </span>
-                        {date(history.Pickup_Date) || "N/A"}
+                        {history.MaKH || "N/A"}
                       </p>
                     </div>
                   </div>
-                </div>
-                <div className="w-full">
-                  <div className="w-full text-[#2F4F4F]">
-                    <div>
-                      <p className="text-xl my-2 flex justify-between pr-10">
-                        <span className="font-bold text-[#75BDDF]">
-                          Ngày trả:{" "}
-                        </span>
-                        {date(history.Return_Date) || "N/A"}
-                      </p>
-                      <p className="text-xl my-2 flex justify-between pr-10">
-                        <span className="font-bold text-[#75BDDF]">
-                          Tổng tiền:{" "}
-                        </span>
-                        {history.Total_Pay || "N/A"}
-                      </p>
+                  {StatePay == "Paid" ? (
+                    <div className="px-4 grid grid-cols-2 gap-4">
+                      <button
+                        onClick={() => Reservation(history.MaVehicle)}
+                        className="bg-[#75bde0] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full"
+                      >
+                        Thuê xe lại
+                      </button>
+                      <button className="bg-[#3b7097] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
+                        Report
+                      </button>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="px-4">
+                      <button className="bg-[#3b7097] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
+                        Report
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div className="w-full">
-                  <div
-                    className={`w-full text-[#2F4F4F] ${
-                      history.MaDriver ? "block" : "hidden"
-                    }`}
-                  >
-                    <p className="text-xl my-2 flex justify-between pr-10">
-                      <span className="font-bold text-[#75BDDF]">
-                        Mã tài xế:{" "}
-                      </span>
-                      {history.MaDriver || "N/A"}
-                    </p>
-                  </div>
-                </div>
-                <div className="w-full text-[#2F4F4F]">
-                  <div>
-                    <p className="text-xl my-2 flex justify-between pr-10">
-                      <span className="font-bold text-[#75BDDF]">Mã xe: </span>
-                      {history.MaVehicle || "N/A"}
-                    </p>
-                    <p className="text-xl my-2 flex justify-between pr-10">
-                      <span className="font-bold text-[#75BDDF]">
-                        Mã Khách hàng:{" "}
-                      </span>
-                      {history.MaKH || "N/A"}
-                    </p>
-                  </div>
-                </div>
-                {StatePay == "Paid" ? (
-                  <div className="px-4 grid grid-cols-2 gap-4">
-                    <button className="bg-[#75bde0] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full">
-                      Thuê lại xe
-                    </button>
-                    <button className="bg-[#3b7097] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
-                      Report
-                    </button>
-                  </div>
-                ) : (
-                  <div className="px-4">
-                    <button className="bg-[#3b7097] hover:bg-[#ffffff] font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
-                      Report
-                    </button>
-                  </div>
-                )}
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

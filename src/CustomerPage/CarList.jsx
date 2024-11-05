@@ -38,6 +38,13 @@ const Home = () => {
     }
   };
 
+  const formattedPrice = (price) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
+
   const fetchSeats = async () => {
     try {
       const res = await fetch(`${URL}/getSort_Vehicle`);
@@ -164,7 +171,10 @@ const Home = () => {
                 5.0
               </span>
               <span>
-                <span className="font-bold">{vehicle.Price}</span>/ngày
+                <span className="font-bold">
+                  {formattedPrice(vehicle.Price)}
+                </span>
+                /ngày
               </span>
             </p>
           </div>

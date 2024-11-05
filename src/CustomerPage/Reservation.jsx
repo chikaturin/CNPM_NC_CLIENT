@@ -15,24 +15,20 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const DetailVehicle = () => {
+const Reservation = () => {
   const { id } = useParams();
   const [vehicle, setVehicle] = useState(null);
   const [error, setError] = useState(null);
-  const [Null, setNull] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [date, setDate] = useState(null);
+  const [Null, setNull] = useState(null);
+  const [PickupDate, setPickUpDate] = useState(null);
+  const [ReturnDate, setReturnDate] = useState(null);
   const [insurance] = useState(82400);
   const [total, setTotal] = useState(0);
+  const today = new Date();
+  const selectedReturnDate = new Date(ReturnDate);
+  const selectedPickUpDate = new Date(PickupDate);
   const navigate = useNavigate();
-  const URL = "https://cnpm-ncserver.vercel.app/api";
-
-  const formattedPrice = (price) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
   const formatDate = (a) => {
     return new Date(a).toLocaleDateString("en-GB", {
       day: "2-digit",
@@ -40,18 +36,26 @@ const DetailVehicle = () => {
       year: "numeric",
     });
   };
+  const URL = "https://cnpm-ncserver.vercel.app/api";
+
   const OnclickPay = (e) => {
     e.preventDefault();
-
-    if (!date) {
+    if (!PickupDate) {
       setNull("Vui lòng chọn ngày trả xe");
-    } else if (new Date(date) < new Date()) {
+    } else if (!ReturnDate) {
+      setNull("Vui lòng chọn ngày trả xe");
+    }
+    if (!PickupDate && !ReturnDate) {
+      setNull("Vui lòng chọn ngày nhận và trả xe");
+    } else if (selectedPickUpDate < today) {
+      setNull("Ngày nhận xe không hợp lệ");
+    } else if (selectedReturnDate < today) {
       setNull("Ngày trả xe không hợp lệ");
     } else {
       navigate(`/Payment/${id}`, {
         state: {
-          Pickup_Date: new Date().toLocaleDateString(),
-          Return_Date: formatDate(date),
+          Pickup_Date: formatDate(PickupDate),
+          Return_Date: formatDate(ReturnDate),
         },
       });
     }
@@ -73,6 +77,13 @@ const DetailVehicle = () => {
     }
   };
 
+  const formattedPrice = (price) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
+
   const fetchCalculate = async () => {
     try {
       const response = await fetch(`${URL}/CalculateContractPrice`, {
@@ -81,8 +92,8 @@ const DetailVehicle = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          Pickup_Date: new Date().toLocaleDateString(),
-          Return_Date: date,
+          Pickup_Date: PickupDate,
+          Return_Date: ReturnDate,
           MaVehicle: id,
         }),
       });
@@ -97,18 +108,19 @@ const DetailVehicle = () => {
   };
 
   useEffect(() => {
-    const today = new Date();
-    const selectedDate = new Date(date);
-
-    if (date && selectedDate < today) {
+    if (ReturnDate && selectedReturnDate < today) {
       setNull("Ngày trả xe không hợp lệ");
-      setDate(null);
+      setReturnDate(null);
       setTotal(0);
-    } else if (date) {
+    } else if (PickupDate && selectedPickUpDate < today) {
+      setNull("Ngày nhận xe không hợp lệ");
+      setPickUpDate(null);
+      setTotal(0);
+    } else if (ReturnDate && PickupDate) {
       setNull(null);
       fetchCalculate();
     }
-  }, [date]);
+  }, [PickupDate, ReturnDate]);
 
   useEffect(() => {
     DetailFetch();
@@ -156,15 +168,16 @@ const DetailVehicle = () => {
           />
           <div className="grid grid-cols-3 grid-rows-1 lg:grid-cols-1 lg:grid-rows-3 gap-4 w-full">
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
-              vehicle.imageVehicle.map((img, index) =>
-                index === 1 ? (
-                  <img
-                    key={index}
-                    src={img}
-                    alt="Vehicle Image"
-                    className="w-full h-64 rounded-xl object-cover"
-                  />
-                ) : null
+              vehicle.imageVehicle.map(
+                (img, index) =>
+                  index === 1 ? (
+                    <img
+                      key={index}
+                      src={img}
+                      alt="Vehicle Image"
+                      className="w-full h-64 rounded-xl object-cover"
+                    />
+                  ) : null // Return null for indices that are not 1
               )
             ) : (
               <p>Không có ảnh</p>
@@ -274,10 +287,7 @@ const DetailVehicle = () => {
             </div>
             <form onSubmit={() => {}} className="bg-[#ffffff] rounded-xl p-4">
               <p className="font-semibold text-lg mb-4">
-                <span className="text-3xl">
-                  {formattedPrice(vehicle.Price)}
-                </span>
-                /ngày
+                <span className="text-3xl">{vehicle.Price}</span>/ngày
               </p>
               <div className="grid grid-cols-2 text-[#ffffff] text-md">
                 <div className="rounded-l-lg shadow-xl shadow-[#75bde0] p-4">
@@ -285,10 +295,16 @@ const DetailVehicle = () => {
                     <div className="col-span-5">
                       <label className="font-bold">Nhận xe</label>
                     </div>
-                    <div className="col-span-12 mt-3 w-full">
-                      <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
-                        {new Date().toLocaleDateString()}
-                      </span>
+                    <div className="col-span-12 w-full">
+                      <input
+                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
+                        type="date"
+                        value={PickupDate}
+                        onChange={(e) => setPickUpDate(e.target.value)}
+                      />
+                      {Null && Null == "Ngày nhận xe không hợp lệ" && (
+                        <p className="text-red-500">{Null}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -302,14 +318,19 @@ const DetailVehicle = () => {
                         placeholder="Nhập số lượng"
                         className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
                         type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
+                        value={ReturnDate}
+                        onChange={(e) => setReturnDate(e.target.value)}
                       />
-                      {Null && <p className="text-red-500">{Null}</p>}
+                      {Null && Null == "Ngày trả xe không hợp lệ" && (
+                        <p className="text-red-500">{Null}</p>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
+              {Null && Null == "Vui lòng chọn ngày nhận và trả xe" && (
+                <p className="text-red-500 mt-6 w-full text-center">{Null}</p>
+              )}
               <div className="mt-10 rounded-lg shadow-xl shadow-[#75bde0] p-4">
                 <p>Địa điểm giao xe</p>
                 <p className="text-xl font-bold mt-2">Thành phố Hồ Chí Minh</p>
@@ -335,8 +356,8 @@ const DetailVehicle = () => {
                 <p className="text-right">{formattedPrice(total)}</p>
               </div>
               <button
-                onClick={OnclickPay}
                 type="submit"
+                onClick={OnclickPay}
                 className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
               >
                 Chọn thuê
@@ -416,4 +437,4 @@ const DetailVehicle = () => {
   );
 };
 
-export default DetailVehicle;
+export default Reservation;
