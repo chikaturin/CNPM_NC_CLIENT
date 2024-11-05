@@ -89,7 +89,7 @@ const LogIn = () => {
       if (response.status === 200) {
         const token = response.data.token;
 
-        const res = await fetch("http://localhost:8000/api/user", {
+        const res = await fetch(`${URL}/user`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

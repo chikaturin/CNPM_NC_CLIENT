@@ -7,6 +7,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const URL = "https://cnpm-ncserver.vercel.app/api";
 
   useEffect(() => {
     const checkUserAuth = async () => {
@@ -14,7 +15,7 @@ const AuthProvider = ({ children }) => {
 
       if (token) {
         try {
-          const response = await fetch("http://localhost:8000/api/user", {
+          const response = await fetch(`${URL}/user`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
