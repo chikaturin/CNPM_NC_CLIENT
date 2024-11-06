@@ -7,7 +7,7 @@ const CreateVehicle = () => {
   const [Vehicle, setVehicle] = useState({
     _id: "",
     Number_Seats: "",
-    Image: "",
+    VehicleName: "",
     Branch: "",
     Price: "",
     Description: "",
@@ -18,16 +18,50 @@ const CreateVehicle = () => {
 
   const navigate = useNavigate();
 
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const checkUserAuth = async () => {
+    const token = localStorage.getItem("accessToken");
+    console.log("Token from localStorage:", token);
+
+    if (token) {
+      try {
+        const response = await fetch(
+          "https://cnpm-ncserver.vercel.app/api/user",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const userData = await response.json();
+        console.log("User data from API:", userData);
+
+        if (response.ok) {
+          setUser(userData);
+          setIsLoading(false);
+
+          Vehicle.CreateBy = user._id;
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+  };
+
   const handleImageChange = (e) => {
     const { name, value } = e.target;
     setImageVehicle((prev) => ({ ...prev, [name]: value }));
   };
 
   const addImage = () => {
-    if (Vehicle.ImageVehicles.length >= 3) {
-      alert("You cann't add more than 3 conditions");
-      return;
-    }
+    // if (Vehicle.ImageVehicles.length >= 3) {
+    //   alert("You cann't add more than 3 conditions");
+    //   return;
+    // }
 
     if (!imageVehicle.imgVehicle) {
       alert("Please fill all the imageVehicle fields");
@@ -40,6 +74,7 @@ const CreateVehicle = () => {
     }));
 
     setImageVehicle({ imgVehicle: "" });
+    document.getElementById("imgVehicle").value = "";
   };
 
   const handleSubmit = async (e) => {
@@ -48,19 +83,19 @@ const CreateVehicle = () => {
     if (
       !Vehicle._id ||
       !Vehicle.Number_Seats ||
-      !Vehicle.Image ||
+      !Vehicle.VehicleName ||
       !Vehicle.Branch ||
       !Vehicle.Price ||
       !Vehicle.Description ||
-      !Vehicle.ImageVehicles.length
+      Vehicle.ImageVehicles.length < 1
     ) {
       alert("Please fill all the fields and add at least one imageVehicle");
       return;
     }
 
-    if (Vehicle.ImageVehicles.length < 3) {
-      alert("Please add at least 3 images");
-    }
+    // if (Vehicle.ImageVehicles.length < 3) {
+    //   alert("Please add at least 3 images");
+    // }
 
     try {
       const response = await fetch(`${URL}/createVehicle`, {
@@ -129,35 +164,33 @@ const CreateVehicle = () => {
           </div>
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
             <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] py-1 pl-4 rounded-lg h-12">
-              <div className="col-span-12">
-                <label className="font-bold">Số chỗ ngồi</label>
+              <div className="col-span-5">
+                <label className="font-bold">Hãng xe</label>
               </div>
               <div className="col-span-12">
                 <input
+                  placeholder="Nhập tên hãng"
                   className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
-                  type="number"
-                  value={Vehicle.Number_Seats}
+                  type="text"
+                  value={Vehicle.Branch}
                   onChange={(e) =>
-                    setVehicle({
-                      ...Vehicle,
-                      Number_Seats: Number(e.target.value),
-                    })
+                    setVehicle({ ...Vehicle, Branch: e.target.value })
                   }
                 />
               </div>
             </div>
             <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] py-1 pl-4 rounded-lg h-12">
               <div className="col-span-12">
-                <label className="font-bold">Hãng xe</label>
+                <label className="font-bold">Tên xe</label>
               </div>
               <div className="col-span-12">
                 <input
                   className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
                   type="text"
-                  placeholder="Nhập hãng xe"
-                  value={Vehicle.Branch}
+                  placeholder="Nhập tên xe"
+                  value={Vehicle.VehicleName}
                   onChange={(e) =>
-                    setVehicle({ ...Vehicle, Number_Seats: e.target.value })
+                    setVehicle({ ...Vehicle, VehicleName: e.target.value })
                   }
                 />
               </div>
@@ -165,19 +198,33 @@ const CreateVehicle = () => {
           </div>
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
             <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] py-1 pl-4 rounded-lg h-12">
-              <div className="col-span-5">
-                <label className="font-bold">Ảnh chính</label>
+              <div className="col-span-12">
+                <label className="font-bold">Số chỗ ngồi</label>
               </div>
               <div className="col-span-12">
-                <input
-                  placeholder="Nhập link ảnh chính"
+                <select
                   className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
-                  type="text"
-                  value={Vehicle.Image}
-                  onChange={(e) =>
-                    setVehicle({ ...Vehicle, Image: e.target.value })
-                  }
-                />
+                  type="number"
+                  // value={Vehicle.Number_Seats}
+                  onChange={(e) => {
+                    setVehicle({ ...Vehicle, Number_Seats: e.target.value });
+                    console.log(e.target.value);
+                  }}
+                >
+                  <option
+                    value="4"
+                    disabled
+                    selected
+                    className="text-[#2F4F4F]"
+                  >
+                    Chọn số chỗ ngồi
+                  </option>
+                  <option value="4">4</option>
+                  <option value="8">8</option>
+                  <option value="16">16</option>
+                  <option value="30">30</option>
+                  <option value="45">45</option>
+                </select>
               </div>
             </div>
             <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] pl-4 rounded-lg h-12">
@@ -191,7 +238,7 @@ const CreateVehicle = () => {
                   type="number"
                   value={Vehicle.Price}
                   onChange={(e) =>
-                    setVehicle({ ...Vehicle, Price: Number(e.target.value) })
+                    setVehicle({ ...Vehicle, Price: e.target.value })
                   }
                 />
               </div>
@@ -199,15 +246,15 @@ const CreateVehicle = () => {
           </div>
           <div className="mt-10 grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] py-1 pl-4 rounded-lg h-12">
             <div className="col-span-5">
-              <label className="font-bold line-clamp-1">ảnh phụ</label>
+              <label className="font-bold line-clamp-1">Ảnh mô tả xe</label>
             </div>
             <div className="col-span-12">
               <input
-                placeholder="Nhập link ảnh phụ"
+                placeholder="Nhập link ảnh"
                 className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
                 type="text"
                 name="imgVehicle"
-                value={imageVehicle.imgVehicle}
+                id="imgVehicle"
                 onChange={handleImageChange}
               />
             </div>
@@ -218,7 +265,7 @@ const CreateVehicle = () => {
               <div className="grid grid-cols-2 items-center">
                 <div>
                   <h2 className="text-xl font-bold text-[#2F4F4F] ml-4">
-                    Image:
+                    Images:
                   </h2>
                 </div>
                 <div className="flex justify-end">
@@ -252,7 +299,10 @@ const CreateVehicle = () => {
           <div className="mt-10 grid grid-cols-12 gap-10 w-full justify-center">
             <div className="col-span-1"></div>
             <div className="col-span-5">
-              <button className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-2 rounded-lg flex items-center justify-center w-full">
+              <button
+                className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-2 rounded-lg flex items-center justify-center w-full"
+                onClick={checkUserAuth()}
+              >
                 Create
               </button>
             </div>
