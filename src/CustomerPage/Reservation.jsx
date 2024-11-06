@@ -151,8 +151,9 @@ const Reservation = () => {
     } else if (ReturnDate && PickupDate && PickupDate < ReturnDate) {
       navigate(`/Payment/${id}`, {
         state: {
-          Pickup_Date: formatDate(PickupDate),
-          Return_Date: formatDate(ReturnDate),
+          PickupDate: formatDate(PickupDate),
+          ReturnDate: formatDate(ReturnDate),
+          Insurance: insurance,
         },
       });
     }
@@ -187,7 +188,7 @@ const Reservation = () => {
 
   if (loading) {
     return (
-      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+      <div className="text-center w-full text-4xl translate-y-1/2 h-screen font-extrabold">
         Loading...
       </div>
     );

@@ -149,7 +149,7 @@ const DetailVehicle = () => {
 
   if (loading) {
     return (
-      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+      <div className="text-center w-full text-4xl translate-y-1/2 h-screen font-extrabold">
         Loading...
       </div>
     );

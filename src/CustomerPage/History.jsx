@@ -117,13 +117,17 @@ const History = () => {
 
   if (loading) {
     return (
-      <div className=" translate-y-1/2 w-full">
-        <p>Đang tải...</p>
+      <div className="text-center w-full text-4xl translate-y-1/2 h-screen font-extrabold">
+        Loading...
       </div>
     );
   }
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+        {error}
+      </div>
+    );
   }
 
   return (

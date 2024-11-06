@@ -20,7 +20,6 @@ const DetailDriver = () => {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
       const data = await res.json();
-      console.log("data:", data);
       setDriver(data);
     } catch (error) {
       setError("Không thể lấy dữ liệu từ máy chủ");
