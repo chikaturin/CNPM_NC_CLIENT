@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CreateVehicle = () => {
-  const URL = "https://cnpm-ncserver.vercel.app/api";
+  const URL = "http://localhost:8000/api";
 
   const [Vehicle, setVehicle] = useState({
     _id: "",
-    Number_Seats: "",
+    Number_Seats: 4,
     VehicleName: "",
     Branch: "",
     Price: "",
@@ -15,42 +15,9 @@ const CreateVehicle = () => {
   });
 
   const [imageVehicle, setImageVehicle] = useState({ imgVehicle: "" });
-
   const navigate = useNavigate();
-
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  const checkUserAuth = async () => {
-    const token = localStorage.getItem("accessToken");
-    console.log("Token from localStorage:", token);
-
-    if (token) {
-      try {
-        const response = await fetch(
-          "https://cnpm-ncserver.vercel.app/api/user",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const userData = await response.json();
-        console.log("User data from API:", userData);
-
-        if (response.ok) {
-          setUser(userData);
-          setIsLoading(false);
-
-          Vehicle.CreateBy = user._id;
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    }
-  };
 
   const handleImageChange = (e) => {
     const { name, value } = e.target;
@@ -58,11 +25,6 @@ const CreateVehicle = () => {
   };
 
   const addImage = () => {
-    // if (Vehicle.ImageVehicles.length >= 3) {
-    //   alert("You cann't add more than 3 conditions");
-    //   return;
-    // }
-
     if (!imageVehicle.imgVehicle) {
       alert("Please fill all the imageVehicle fields");
       return;
@@ -93,18 +55,20 @@ const CreateVehicle = () => {
       return;
     }
 
-    // if (Vehicle.ImageVehicles.length < 3) {
-    //   alert("Please add at least 3 images");
-    // }
-
     try {
       const response = await fetch(`${URL}/createVehicle`, {
         method: "POST",
         headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         body: JSON.stringify({
           ...Vehicle,
+          Number_Seats: Number(Vehicle.Number_Seats),
+          Price: Number(Vehicle.Price),
+          ImageVehicles: Object(
+            Vehicle.ImageVehicles.map((img) => img.imgVehicle)
+          ),
         }),
       });
 
@@ -113,7 +77,7 @@ const CreateVehicle = () => {
         alert("Vehicle created successfully");
         navigate("/MainAdmin/ListVehicle");
       } else {
-        alert("Error: " + (data?.message || "Failed to create voucher"));
+        console.log("Error: " + (data?.message || "Failed to create voucher"));
       }
     } catch (err) {
       console.error("Error creating voucher:", err);
@@ -207,7 +171,10 @@ const CreateVehicle = () => {
                   type="number"
                   // value={Vehicle.Number_Seats}
                   onChange={(e) => {
-                    setVehicle({ ...Vehicle, Number_Seats: e.target.value });
+                    setVehicle({
+                      ...Vehicle,
+                      Number_Seats: Number(e.target.value),
+                    });
                     console.log(e.target.value);
                   }}
                 >
@@ -301,7 +268,7 @@ const CreateVehicle = () => {
             <div className="col-span-5">
               <button
                 className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-2 rounded-lg flex items-center justify-center w-full"
-                onClick={checkUserAuth()}
+                onClick={handleSubmit}
               >
                 Create
               </button>
