@@ -75,9 +75,12 @@ const DetailVehicle = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      const [day, month, year] = data.split("/");
-      const formattedDate = new Date(`${year}-${month}-${day}`);
-      setEndDate(formattedDate);
+      const datefetch = data.date;
+      if (datefetch != null) {
+        const [day, month, year] = datefetch.split("/");
+        const formattedDate = new Date(`${year}-${month}-${day}`);
+        setEndDate(formattedDate);
+      }
     } catch (error) {
       setError(error.message);
     }
