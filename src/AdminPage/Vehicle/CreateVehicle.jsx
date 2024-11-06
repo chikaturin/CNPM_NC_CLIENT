@@ -103,7 +103,8 @@ const CreateVehicle = () => {
       const response = await fetch(`${URL}/createVehicle`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+
         },
         body: JSON.stringify({
           ...Vehicle,
