@@ -11,7 +11,7 @@ export default function ErrorPage() {
         Oops!
       </h1>
       <p className="text-center text-3xl pt-5">
-        Sorry, an unexpected error has occurred.
+        Sorry, an unexpected error has occurred. Page not found.
       </p>
       <p className="text-center text-3xl">
         <i>{error.statusText || error.message}</i>

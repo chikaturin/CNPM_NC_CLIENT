@@ -24,6 +24,7 @@ import CarDetail from "../CustomerPage/CarDetail.jsx";
 import CarList from "../CustomerPage/CarList.jsx";
 import DemiseCar from "../CustomerPage/DemiseCar.jsx";
 import History from "../CustomerPage/History.jsx";
+import Reservation from "../CustomerPage/Reservation.jsx";
 
 const AuthLayout = () => {
   return (
@@ -143,6 +144,10 @@ const router = createBrowserRouter([
           {
             path: "History",
             element: <History />,
+          },
+          {
+            path: "Reservation/:id",
+            element: <Reservation />,
           },
         ],
       },

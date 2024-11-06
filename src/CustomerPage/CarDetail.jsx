@@ -75,105 +75,8 @@ const DetailVehicle = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      const [day, month, year] = data.split("/");
-      const formattedDate = new Date(`${year}-${month}-${day}`);
-      setEndDate(formattedDate);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchCalendar();
-  }, []);
-
-  const toggleCalendar = (e) => {
-    e.preventDefault();
-    setShow(!show);
-  };
-
-  const handleDateChange = (date) => {
-    setDate(date);
-    setShow(!show);
-  };
-
-  const formattedPrice = (price) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-  const formatDate = (a) => {
-    return new Date(a).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
-  const OnclickPay = (e) => {
-    e.preventDefault();
-
-    if (!date) {
-      setNull("Vui lòng chọn ngày trả xe");
-    } else if (new Date(date) < new Date()) {
-      setNull("Ngày trả xe không hợp lệ");
-    } else {
-      navigate(`/Payment/${id}`, {
-        state: {
-          Pickup_Date: new Date().toLocaleDateString(),
-          Return_Date: formatDate(date),
-        },
-      });
-    }
-  };
-
-<<<<<<< HEAD
-=======
-  const fetchCalculate = async () => {
-    try {
-      const response = await fetch(`${URL}/CalculateContractPrice`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Pickup_Date: new Date(),
-          Return_Date: new Date(date),
-          Insurance: insurance,
-          MaVehicle: id,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setTotal(data);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  useEffect(() => {
-    if (date) {
-      fetchCalculate();
-    }
-  }, [date]);
-
-  const fetchCalendar = async () => {
-    try {
-      const response = await fetch(`${URL}/dateContract/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      const datefetch = data.date;
-      if (datefetch != null) {
-        const [day, month, year] = datefetch.split("/");
+      if (data.date !== null) {
+        const [day, month, year] = data.date.split("/");
         const formattedDate = new Date(`${year}-${month}-${day}`);
         setEndDate(formattedDate);
       }
@@ -196,7 +99,6 @@ const DetailVehicle = () => {
     setShow(!show);
   };
 
->>>>>>> 7d5b5fd ("Updated date parsing logic in DetailVehicle function to handle null date values")
   const formattedPrice = (price) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
