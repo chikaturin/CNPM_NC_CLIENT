@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faXmark,
@@ -22,10 +24,78 @@ const DetailVehicle = () => {
   const [Null, setNull] = useState(null);
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [show, setShow] = useState(false);
   const [insurance] = useState(82400);
   const [total, setTotal] = useState(0);
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() + 1);
   const navigate = useNavigate();
   const URL = "https://cnpm-ncserver.vercel.app/api";
+
+  const fetchCalculate = async () => {
+    try {
+      const response = await fetch(`${URL}/CalculateContractPrice`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Pickup_Date: new Date(),
+          Return_Date: new Date(date),
+          Insurance: insurance,
+          MaVehicle: id,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setTotal(data);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (date) {
+      fetchCalculate();
+    }
+  }, [date]);
+
+  const fetchCalendar = async () => {
+    try {
+      const response = await fetch(`${URL}/dateContract/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      const [day, month, year] = data.split("/");
+      const formattedDate = new Date(`${year}-${month}-${day}`);
+      setEndDate(formattedDate);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchCalendar();
+  }, []);
+
+  const toggleCalendar = (e) => {
+    e.preventDefault();
+    setShow(!show);
+  };
+
+  const handleDateChange = (date) => {
+    setDate(date);
+    setShow(!show);
+  };
 
   const formattedPrice = (price) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -172,43 +242,6 @@ const DetailVehicle = () => {
       setLoading(false);
     }
   };
-
-  const fetchCalculate = async () => {
-    try {
-      const response = await fetch(`${URL}/CalculateContractPrice`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Pickup_Date: new Date().toLocaleDateString(),
-          Return_Date: date,
-          MaVehicle: id,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setTotal(data);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  useEffect(() => {
-    const today = new Date();
-    const selectedDate = new Date(date);
-
-    if (date && selectedDate < today) {
-      setNull("Ngày trả xe không hợp lệ");
-      setDate(null);
-      setTotal(0);
-    } else if (date) {
-      setNull(null);
-      fetchCalculate();
-    }
-  }, [date]);
 
   useEffect(() => {
     DetailFetch();
@@ -397,14 +430,27 @@ const DetailVehicle = () => {
                     <div className="col-span-5">
                       <label className="font-bold">Trả xe</label>
                     </div>
-                    <div className="col-span-12">
-                      <input
-                        placeholder="Nhập số lượng"
-                        className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                      />
+                    <div
+                      className="col-span-12  mt-3 w-full"
+                      onClick={toggleCalendar}
+                    >
+                      <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
+                        {date ? (
+                          <span>{formatDate(date)}</span>
+                        ) : (
+                          <span>Chọn ngày</span>
+                        )}
+                        {show && (
+                          <div className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4">
+                            <Calendar
+                              onChange={handleDateChange}
+                              value={date}
+                              minDate={startDate}
+                              maxDate={endDate}
+                            />
+                          </div>
+                        )}
+                      </span>
                       {Null && <p className="text-red-500">{Null}</p>}
                     </div>
                   </div>
