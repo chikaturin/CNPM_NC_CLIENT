@@ -222,7 +222,7 @@ const Reservation = () => {
               {vehicle._id}
             </span>
             <Link to={`/Home`}>
-              <button className="bg-[#ffffff] hover:bg-[#3b7097] w-10 h-10 border-4 border-[#3b7097] hover:text-[#ffffff] font-bold rounded-full">
+              <button className="bg-[#ffffff] hover:bg-[#3b7097] w-10 h-10 border-4 border-[#3b7097] hover:text-[#3B7097] font-bold rounded-full">
                 <FontAwesomeIcon icon={faXmark} />
               </button>
             </Link>
@@ -251,7 +251,7 @@ const Reservation = () => {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-12 gap-6 w-full mt-10 rounded-lg text-[#ffffff]">
+        <div className="grid grid-cols-12 gap-6 w-full mt-10 rounded-lg text-[#3B7097]">
           <div className="w-full col-span-8">
             <h1 className="font-bold text-5xl [text-shadow:_0_4px_8px_#2b7a78]">
               {vehicle.Branch}
@@ -356,9 +356,9 @@ const Reservation = () => {
               <p className="font-semibold text-lg mb-4">
                 <span className="text-3xl">{vehicle.Price}</span>/ngày
               </p>
-              <div className="grid grid-cols-2 text-[#ffffff] text-md">
+              <div className="grid grid-cols-2 text-[#3B7097] text-md">
                 <div className="rounded-l-lg shadow-xl shadow-[#75bde0] p-4">
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#3B7097] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-5">
                       <label className="font-bold">Nhận xe</label>
                     </div>
@@ -392,7 +392,7 @@ const Reservation = () => {
                   </div>
                 </div>
                 <div className="rounded-r-lg shadow-xl shadow-[#75bde0] p-4">
-                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
+                  <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#3B7097] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-5">
                       <label className="font-bold">Trả xe</label>
                     </div>
@@ -458,7 +458,7 @@ const Reservation = () => {
               <button
                 type="submit"
                 onClick={OnclickPay}
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#3B7097] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
               >
                 Chọn thuê
               </button>
@@ -525,7 +525,7 @@ const Reservation = () => {
               </div>
             </div>
             <div className="text-[#2b7a78] font-semibold text-lg cursor-pointer rounded-xl flex items-center justify-center">
-              <p className=" hover:text-[#ffffff] hover:underline">
+              <p className=" hover:text-[#3B7097] hover:underline">
                 <FontAwesomeIcon className="mr-2" icon={faFlag} />
                 Báo cáo xe này
               </p>
