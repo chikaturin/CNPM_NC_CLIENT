@@ -19,7 +19,7 @@ const Home = () => {
 
   const fetchVehicles = async () => {
     try {
-      const res = await fetch(`${URL}/getVehicleByCus`);
+      const res = await fetch(`${URL}/getVehicleByAdmin`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -71,8 +71,7 @@ const Home = () => {
         <div className="col-span-7 relative">
           <h1
             className="text-7xl font-extrabold text-center text-[#3aafa9]"
-            id="carTitle"
-          >
+            id="carTitle">
             Variety of Cars for you to choose
           </h1>
           <img
@@ -134,7 +133,7 @@ const Home = () => {
           Danh sách xe cho thuê
         </h1>
       </div>
-      <div className="col-span-1"></div>
+      <div className="col-span-1">{console.log(vehicles)}</div>
       <div className="col-span-10 grid grid-cols-4 gap-6 w-full bg-[#ffffff] rounded-3xl p-6 text-[#2b7a78] h-fit">
         {vehicles.map(
           (vehicle, i) =>
@@ -142,10 +141,9 @@ const Home = () => {
               <Link
                 to={`/CarDetail/${vehicle._id}`}
                 key={vehicle._id}
-                className=" w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]"
-              >
+                className=" w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]">
                 <img
-                  src={vehicle.imageVehicle}
+                  src={vehicle.images[0].ImageVehicle}
                   className="rounded-xl h-1/2 w-full"
                 />
                 <h2 className="text-xl font-bold mb-3 line-clamp-1">
@@ -174,8 +172,7 @@ const Home = () => {
         <div className="col-span-4 w-full flex items-center justify-end text-lg text-[#3b7097] font-semibold mt-4">
           <Link
             to="/CarList"
-            className="py-2 px-4 cursor-pointer hover:bg-[#75bde0] hover:text-[#ffffff] rounded-full"
-          >
+            className="py-2 px-4 cursor-pointer hover:bg-[#75bde0] hover:text-[#ffffff] rounded-full">
             Xem tất cả
             <FontAwesomeIcon className="ml-2" icon={faChevronRight} />
           </Link>

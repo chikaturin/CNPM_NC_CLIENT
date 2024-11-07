@@ -93,7 +93,7 @@ const Reservation = () => {
       let desiredDate = new Date(DesiredDate);
       desiredDate.setDate(desiredDate.getDate() + 1);
       const date = formatDate(desiredDate);
-      setNull2("Vui lòng chọn ngày trả xe sau ngày " + date);
+      setNull2("Vui lòng chọn ngày trả xe trước ngày " + date);
     } else if (ReturnDate && PickupDate && ReturnDate <= PickupDate) {
       setNull2("Vui lòng chọn ngày trả xe sau ngày nhận xe");
     } else if (ReturnDate && PickupDate && PickupDate < ReturnDate) {
@@ -363,8 +363,7 @@ const Reservation = () => {
                     </div>
                     <div
                       className="col-span-12 mt-3 w-full"
-                      onClick={togglePickupCalendar}
-                    >
+                      onClick={togglePickupCalendar}>
                       <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                         {PickupDate ? (
                           <span>{formatDate(PickupDate)}</span>
@@ -398,8 +397,7 @@ const Reservation = () => {
                     <div className="col-span-12">
                       <div
                         className="col-span-12 mt-3 w-full"
-                        onClick={toggleReturnCalendar}
-                      >
+                        onClick={toggleReturnCalendar}>
                         <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                           {ReturnDate ? (
                             <span>{formatDate(ReturnDate)}</span>
@@ -457,8 +455,7 @@ const Reservation = () => {
               <button
                 type="submit"
                 onClick={OnclickPay}
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
-              >
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl">
                 Chọn thuê
               </button>
             </form>
