@@ -138,6 +138,8 @@ const LogIn = () => {
               <input
                 type="text"
                 value={Name}
+                minLength={8}
+                maxLength={20}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
                 placeholder="Tên của bạn"
@@ -148,6 +150,8 @@ const LogIn = () => {
               <input
                 type="password"
                 value={Password}
+                minLength={8}
+                maxLength={20}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-4 w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
                 placeholder="Mã định danh"
@@ -157,8 +161,7 @@ const LogIn = () => {
             <div className="w-full px-20">
               <button
                 type="submit"
-                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#ffffff] text-lg bg-[#75bde0] hover:bg-[#ffffff] hover:text-[#75bde0] rounded-2xl"
-              >
+                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#ffffff] text-lg bg-[#75bde0] hover:bg-[#ffffff] hover:text-[#75bde0] rounded-2xl">
                 Đăng Nhập
               </button>
             </div>
@@ -185,6 +188,8 @@ const LogIn = () => {
                 placeholder="Tên của bạn"
                 type="text"
                 value={username}
+                minLength={8}
+                maxLength={20}
                 onChange={(e) => setUserName(e.target.value)}
                 className="w-full px-6 py-3 bg-[#a9d09e] shadow-lg shadow-[#ffffff] text-[#3b7097] placeholder-[#ffffff] outline-none text-lg rounded-full"
                 required
@@ -194,6 +199,8 @@ const LogIn = () => {
               <input
                 type="tel"
                 value={NumberPhone}
+                minLength={10}
+                maxLength={11}
                 placeholder="Số điện thoại"
                 onChange={(e) => setNumberPhone(e.target.value)}
                 className="w-full px-6 py-3 bg-[#a9d09e] shadow-lg shadow-[#ffffff] text-[#3b7097] placeholder-[#ffffff] outline-none text-lg rounded-full"
@@ -202,8 +209,19 @@ const LogIn = () => {
             <div className="mb-4">
               <input
                 type="file"
+                id="imgFile"
                 accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={(e) => {
+                  if (
+                    document.getElementById("imgFile").files[0].size >
+                    1024 * 1024
+                  ) {
+                    alert("File quá lớn, vui lòng chọn file dưới 5MB");
+                    document.getElementById("imgFile").value = null;
+                  } else {
+                    setImage(e.target.files[0]);
+                  }
+                }}
                 className="file-input outline-none file:border-0 file:rounded-full file:shadow-md file:shadow-[#ffffff] file:text-[#3b7097] file:bg-[#ffffff] w-full bg-[#a9d09e] shadow-md shadow-[#ffffff] text-[#ffffff] placeholder-[#ffffff] text-lg rounded-full"
               />
             </div>
@@ -212,18 +230,20 @@ const LogIn = () => {
                 id="documentType"
                 className="select w-full px-6 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
                 value={TypeCard}
-                onChange={(e) => setTypeCard(e.target.value)}
-              >
+                onChange={(e) => setTypeCard(e.target.value)}>
                 <option value="">--Chọn loại giấy tờ--</option>
                 <option value="CĂN CƯỚC CÔNG DÂN">CĂN CƯỚC CÔNG DÂN</option>
                 <option value="HỘ CHIẾU">HỘ CHIẾU</option>
                 <option value="CHỨNG MINH NHÂN DÂN">CHỨNG MINH NHÂN DÂN</option>
+                <option value="GIẤY PHÉP LÁI XE">GIẤY PHÉP LÁI XE</option>
               </select>
             </div>
             <div className="mb-4">
               <input
                 type="IDCard"
                 value={IDCard}
+                minLength={12}
+                maxLength={12}
                 onChange={(e) => setIDCard(e.target.value)}
                 className="w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
                 placeholder="Mã định danh của bạn"
@@ -233,8 +253,7 @@ const LogIn = () => {
             <button
               type="submit"
               className="w-full py-4 font-bold border-4 border-[#a9d09e] text-[#ffffff] text-lg bg-[#a9d09e] hover:bg-[#ffffff] hover:text-[#a9d09e] rounded-2xl"
-              disabled={isLoading}
-            >
+              disabled={isLoading}>
               {isLoading ? "Đang đăng ký..." : "Đăng Ký"}
             </button>
             {/* <p className="mt-4 text-sm text-center text-gray-600">
@@ -252,8 +271,7 @@ const LogIn = () => {
       </div>
       <div
         id="coverPanel"
-        className="text-[#3b7097] bg-gradient-to-bl from-[#ffffff] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out"
-      >
+        className="text-[#3b7097] bg-gradient-to-bl from-[#ffffff] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out">
         <div className="w-full px-48" id="toSignUp">
           <img
             src="https://static.vecteezy.com/system/resources/previews/013/923/543/original/blue-car-logo-png.png"
@@ -271,8 +289,7 @@ const LogIn = () => {
                   .getElementById("coverPanel")
                   .classList.remove("translate-x-full");
               }}
-              className="font-bold hover:text-[#ffffff] cursor-pointer"
-            >
+              className="font-bold hover:text-[#ffffff] cursor-pointer">
               Sign up
             </a>
           </p>
@@ -294,8 +311,7 @@ const LogIn = () => {
                   .getElementById("coverPanel")
                   .classList.add("translate-x-full");
               }}
-              className="font-bold hover:text-[#ffffff] cursor-pointer"
-            >
+              className="font-bold hover:text-[#ffffff] cursor-pointer">
               Login
             </a>
           </p>
