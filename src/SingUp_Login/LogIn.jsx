@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const LogIn = () => {
   const [username, setUserName] = useState("");
@@ -8,10 +10,22 @@ const LogIn = () => {
   const [IDCard, setIDCard] = useState("");
   const [TypeCard, setTypeCard] = useState("");
   const [Image, setImage] = useState(null);
+  const [PasswordRegis, setPasswordRegis] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const URL = "https://cnpm-ncserver.vercel.app/api";
+
+  const changePanel = () => {
+    {
+      document.getElementById("toSignUp").classList.remove("hidden");
+      document.getElementById("toLogin").classList.add("hidden");
+      document.getElementById("coverPanel").classList.add("translate-x-full");
+    }
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -37,6 +51,7 @@ const LogIn = () => {
     formData.append("NumberPhone", NumberPhone);
     formData.append("TypeCard", TypeCard);
     formData.append("file", Image);
+    formData.append("Password", PasswordRegis);
     try {
       const response = await axios.post(`${URL}/register`, formData, {
         headers: {
@@ -49,6 +64,7 @@ const LogIn = () => {
       if (response.status === 200 || response.status === 201) {
         if (response.data.success) {
           setSuccess("Đăng ký thành công!");
+          changePanel();
         } else {
           setError(response.data?.message || "Đăng ký thất bại.");
         }
@@ -161,15 +177,18 @@ const LogIn = () => {
             <div className="w-full px-20">
               <button
                 type="submit"
-                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#ffffff] text-lg bg-[#75bde0] hover:bg-[#ffffff] hover:text-[#75bde0] rounded-2xl">
-                Đăng Nhập
+                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#ffffff] text-lg bg-[#75bde0] hover:bg-[#ffffff] hover:text-[#75bde0] rounded-2xl"
+              >
+                {isLoading ? "Đang đăng nhập..." : "Đăng Nhập"}
               </button>
             </div>
           </form>
           {error && <p className="mt-4 text-center text-red-500">{error}</p>}
-          {success && (
-            <p className="mt-4 text-center text-green-500">{success}</p>
-          )}
+          {success &&
+            document.getElementById("toSignUp") &&
+            document.getElementById("toSignUp").style.display === "hidden" && (
+              <p className="mt-4 text-center text-green-500">{success}</p>
+            )}
         </div>
       </div>
       <div className="p-6 flex items-center bg-gradient-to-b to-[#ffffff] from-[#a9d09e]">
@@ -230,7 +249,8 @@ const LogIn = () => {
                 id="documentType"
                 className="select w-full px-6 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
                 value={TypeCard}
-                onChange={(e) => setTypeCard(e.target.value)}>
+                onChange={(e) => setTypeCard(e.target.value)}
+              >
                 <option value="">--Chọn loại giấy tờ--</option>
                 <option value="CĂN CƯỚC CÔNG DÂN">CĂN CƯỚC CÔNG DÂN</option>
                 <option value="HỘ CHIẾU">HỘ CHIẾU</option>
@@ -250,10 +270,46 @@ const LogIn = () => {
                 required
               />
             </div>
+            <div className="mb-4 relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={PasswordRegis}
+                minLength={8}
+                maxLength={20}
+                onChange={(e) => setPasswordRegis(e.target.value)}
+                className="w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
+                placeholder="Password"
+                required
+              />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-6 top-1/2 transform -translate-y-1/2 cursor-pointer text-[#3b7097]"
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </span>
+            </div>
+            <div className="mb-4">
+              <input
+                type="password"
+                value={ConfirmPassword}
+                minLength={8}
+                maxLength={20}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
+                placeholder="Confirm Password"
+                required
+              />
+              {PasswordRegis !== ConfirmPassword && ConfirmPassword && (
+                <p className="text-red-500 m-2 mx-4 font-bold">
+                  Mật khẩu không khớp
+                </p>
+              )}
+            </div>
             <button
               type="submit"
               className="w-full py-4 font-bold border-4 border-[#a9d09e] text-[#ffffff] text-lg bg-[#a9d09e] hover:bg-[#ffffff] hover:text-[#a9d09e] rounded-2xl"
-              disabled={isLoading}>
+              disabled={isLoading}
+            >
               {isLoading ? "Đang đăng ký..." : "Đăng Ký"}
             </button>
             {/* <p className="mt-4 text-sm text-center text-gray-600">
@@ -271,7 +327,8 @@ const LogIn = () => {
       </div>
       <div
         id="coverPanel"
-        className="text-[#3b7097] bg-gradient-to-bl from-[#ffffff] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out">
+        className="text-[#3b7097] bg-gradient-to-bl from-[#ffffff] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out"
+      >
         <div className="w-full px-48" id="toSignUp">
           <img
             src="https://static.vecteezy.com/system/resources/previews/013/923/543/original/blue-car-logo-png.png"
@@ -289,7 +346,8 @@ const LogIn = () => {
                   .getElementById("coverPanel")
                   .classList.remove("translate-x-full");
               }}
-              className="font-bold hover:text-[#ffffff] cursor-pointer">
+              className="font-bold hover:text-[#ffffff] cursor-pointer"
+            >
               Sign up
             </a>
           </p>
@@ -304,14 +362,9 @@ const LogIn = () => {
           <p className="text-xl">
             Already have an account?{" "}
             <a
-              onClick={() => {
-                document.getElementById("toSignUp").classList.remove("hidden");
-                document.getElementById("toLogin").classList.add("hidden");
-                document
-                  .getElementById("coverPanel")
-                  .classList.add("translate-x-full");
-              }}
-              className="font-bold hover:text-[#ffffff] cursor-pointer">
+              onClick={() => changePanel()}
+              className="font-bold hover:text-[#ffffff] cursor-pointer"
+            >
               Login
             </a>
           </p>
