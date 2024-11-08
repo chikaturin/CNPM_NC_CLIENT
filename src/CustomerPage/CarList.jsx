@@ -138,9 +138,14 @@ const Home = () => {
           )}
         </div>
       </div>
+      {console.log(vehicles)}
       {vehicles.map((vehicle) => (
         <Link
-          to={`/CarDetail/${vehicle._id}`}
+          to={
+            vehicle.State === "Available"
+              ? `/CarDetail/${vehicle._id}`
+              : `/Reservation/${vehicle._id}`
+          }
           key={vehicle._id}
           className="w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]">
           <img

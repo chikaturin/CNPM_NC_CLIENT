@@ -138,7 +138,7 @@ const LogIn = () => {
               <input
                 type="text"
                 value={Name}
-                minLength={8}
+                // minLength={8}
                 maxLength={20}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
@@ -150,11 +150,11 @@ const LogIn = () => {
               <input
                 type="password"
                 value={Password}
-                minLength={8}
+                // minLength={8}
                 maxLength={20}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-4 w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
-                placeholder="Mã định danh"
+                placeholder="Mật khẩu"
                 required
               />
             </div>

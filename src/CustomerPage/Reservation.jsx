@@ -363,8 +363,7 @@ const Reservation = () => {
                     </div>
                     <div
                       className="col-span-12 mt-3 w-full"
-                      onClick={togglePickupCalendar}
-                    >
+                      onClick={togglePickupCalendar}>
                       <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                         {PickupDate ? (
                           <span>{formatDate(PickupDate)}</span>
@@ -398,8 +397,7 @@ const Reservation = () => {
                     <div className="col-span-12">
                       <div
                         className="col-span-12 mt-3 w-full"
-                        onClick={toggleReturnCalendar}
-                      >
+                        onClick={toggleReturnCalendar}>
                         <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                           {ReturnDate ? (
                             <span>{formatDate(ReturnDate)}</span>
@@ -439,14 +437,10 @@ const Reservation = () => {
                 <div className="w-full">
                   <p>Đơn giá:</p>
                   <p className="mt-2">Bảo hiểm xe:</p>
-                  <p className="mt-4 text-xl">Tổng cộng:</p>
                 </div>
                 <div className="w-full text-right font-bold">
                   <p>{formattedPrice(vehicle.Price)}/Ngày</p>
-                  <p className="mt-2">{formattedPrice(insurance)}/Ngày</p>
-                  <p className="mt-4 text-xl">
-                    {formattedPrice(vehicle.Price + insurance)}/Ngày
-                  </p>
+                  <p className="mt-2">{formattedPrice(insurance)}</p>
                 </div>
               </div>
               <div className="my-5 rounded-lg border border-[#75bde0]"></div>
@@ -457,8 +451,7 @@ const Reservation = () => {
               <button
                 type="submit"
                 onClick={OnclickPay}
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
-              >
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl">
                 Chọn thuê
               </button>
             </form>
