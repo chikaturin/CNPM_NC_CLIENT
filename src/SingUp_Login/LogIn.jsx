@@ -154,7 +154,7 @@ const LogIn = () => {
                 maxLength={20}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-4 w-full px-6 py-3 bg-[#ffffff] shadow-md shadow-[#75bde0] text-[#3b7097] placeholder-[#75bde0] outline-none text-lg rounded-full"
-                placeholder="Mã định danh"
+                placeholder="Mật khẩu"
                 required
               />
             </div>
