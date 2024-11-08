@@ -1,5 +1,7 @@
 import Reac, { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Payment = () => {
   const { id } = useParams();
@@ -9,6 +11,7 @@ const Payment = () => {
   const [Total, setTotal] = useState(0);
   const { PickupDate, ReturnDate, Insurance } = location.state || {};
   const [Driver, setDriver] = useState([]);
+  const [SelectedDriver, setSelectedDriver] = useState(null);
   const [DetailDriver, setDetailDriver] = useState(null);
   const [PickupDriver, setPickupDriver] = useState(null); //hàm chọn driver để thanh toán
   const URL = "https://cnpm-ncserver.vercel.app/api";
@@ -55,6 +58,7 @@ const Payment = () => {
       }
       const data = await response.json();
       setDriver(data);
+      console.log(data);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -84,6 +88,13 @@ const Payment = () => {
   useEffect(() => {
     DetailDriverFetch();
   }, [id]);
+
+  const formattedPrice = (price) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -132,10 +143,59 @@ const Payment = () => {
   //   const fetchPayment = async () => {
 
   return (
-    <div>
-      <p>
+    <div className="pt-10 px-10 min-h-screen text-[#3b7097]">
+      <Link
+        to={`/CarDetail/${id}`}
+        className="text-left py-2 px-4 cursor-pointer w-fit hover:underline flex items-center">
+        <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
+        Quay lại
+      </Link>
+      {/* <p>
         {id} - {PickupDate}-{ReturnDate}-{Insurance}
-      </p>
+      </p> */}
+      <h1 className="w-full text-[2.5rem] font-bold text-center my-10">
+        THANH TOÁN
+      </h1>
+      <form onSubmit={handleSubmit} className="grid grid-cols-12">
+        <div className="col-span-8"></div>
+        <div className="col-span-4 p-6 border-8 border-l-8 border-r-0 border-[#75bde0] rounded-l-3xl">
+          {console.log(Driver)}
+          <h1 className="text-2xl font-bold mb-4">Chọn tài xế</h1>
+          {Driver.map((driver) => (
+            <div
+              className="w-full grid grid-cols-12 my-2 rounded-lg hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer"
+              onClick={() => setSelectedDriver(driver.Driving_License)}
+              key={driver.Driving_License}
+              value={driver.Driving_License}>
+              <div className="col-span-4 rounded-lg overflow-hidden">
+                <img src={driver.Image} alt="" />
+              </div>
+              <div className="col-span-8 flex items-center px-6">
+                <div className="w-full">
+                  <p className="font-bold w-full text-center mb-4">
+                    {driver.NameDriver}
+                  </p>
+                  <div className="grid grid-cols-2">
+                    <p className="font-bold">Giá:</p>
+                    <p className="text-right">{formattedPrice(driver.Price)}</p>
+                    <div></div>
+                  </div>
+                  <div className="grid grid-cols-2">
+                    <p className="font-bold">Số điện thoại:</p>
+                    <p className="text-right">{driver.NumberPhone}</p>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          type="submit"
+          className="col-span-12 bg-[#75bde0] text-white font-bold p-2 rounded-lg mt-2">
+          Thanh toán
+        </button>
+      </form>
     </div>
   );
 };

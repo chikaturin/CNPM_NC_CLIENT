@@ -192,7 +192,7 @@ const DetailVehicle = () => {
           <div className="grid grid-cols-3 grid-rows-1 lg:grid-cols-1 lg:grid-rows-3 gap-4 w-full">
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
               vehicle.imageVehicle.map((img, index) =>
-                index === 1 ? (
+                index >= 1 ? (
                   <img
                     key={index}
                     src={img}
@@ -209,6 +209,9 @@ const DetailVehicle = () => {
         <div className="grid grid-cols-12 gap-6 w-full mt-10 rounded-lg text-[#ffffff]">
           <div className="w-full col-span-8">
             <h1 className="font-bold text-5xl [text-shadow:_0_4px_8px_#2b7a78]">
+              {vehicle.VehicleName}
+            </h1>
+            <h1 className="font-bold text-3xl text-[#2b7a78] my-6">
               {vehicle.Branch}
             </h1>
             <p className="text-lg mt-2">
@@ -334,8 +337,7 @@ const DetailVehicle = () => {
                     </div>
                     <div
                       className="col-span-12  mt-3 w-full"
-                      onClick={toggleCalendar}
-                    >
+                      onClick={toggleCalendar}>
                       <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                         {date ? (
                           <span>{formatDate(date)}</span>
@@ -367,14 +369,10 @@ const DetailVehicle = () => {
                 <div className="w-full">
                   <p>Đơn giá:</p>
                   <p className="mt-2">Bảo hiểm xe:</p>
-                  <p className="mt-4 text-xl">Tổng cộng:</p>
                 </div>
                 <div className="w-full text-right font-bold">
                   <p>{formattedPrice(vehicle.Price)}/Ngày</p>
-                  <p className="mt-2">{formattedPrice(insurance)}/Ngày</p>
-                  <p className="mt-4 text-xl">
-                    {formattedPrice(vehicle.Price + insurance)}/Ngày
-                  </p>
+                  <p className="mt-2">{formattedPrice(insurance)}</p>
                 </div>
               </div>
               <div className="my-5 rounded-lg border border-[#75bde0]"></div>
@@ -385,8 +383,7 @@ const DetailVehicle = () => {
               <button
                 onClick={OnclickPay}
                 type="submit"
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
-              >
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl">
                 Chọn thuê
               </button>
             </form>
