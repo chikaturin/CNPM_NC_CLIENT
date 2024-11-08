@@ -1,4 +1,4 @@
-import Reac, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +13,7 @@ const Payment = () => {
     location.state || {};
   console.log(location.state);
   const [Driver, setDriver] = useState([]);
-  const [DetailDriver, setDetailDriver] = useState(null);
+  // const [DetailDriver, setDetailDriver] = useState(null);
   const [PickupDriver, setPickupDriver] = useState(null); //hàm chọn driver để thanh toán
   const URL = "https://cnpm-ncserver.vercel.app/api";
   const navigate = useNavigate();
@@ -73,24 +73,24 @@ const Payment = () => {
     fetchDriver();
   }, []);
 
-  const DetailDriverFetch = async () => {
-    try {
-      const res = await fetch(`${URL}/GetDriverById/${id}`);
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      const data = await res.json();
-      setDetailDriver(data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const DetailDriverFetch = async () => {
+  //   try {
+  //     const res = await fetch(`${URL}/GetDriverById/${id}`);
+  //     if (!res.ok) {
+  //       throw new Error(`HTTP error! Status: ${res.status}`);
+  //     }
+  //     const data = await res.json();
+  //     setDetailDriver(data);
+  //   } catch (error) {
+  //     setError(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    DetailDriverFetch();
-  }, [id]);
+  // useEffect(() => {
+  //   DetailDriverFetch();
+  // }, [id]);
 
   const formattedPrice = (price) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -100,32 +100,36 @@ const Payment = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`${URL}/PaymentContract`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          baerer: localStorage.getItem("accessToken"),
-        },
-        body: JSON.stringify({
-          PickupDate: PickupDate,
-          ReturnDate: ReturnDate,
-          MaVehicle: id,
-          MaDriver: PickupDriver,
-          Total_Pay: Total,
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        alert("Vehicle created successfully");
-        navigate("/Home");
-      } else {
-        alert("Error: " + (data?.message || "Failed to create voucher"));
+    const confirm = window.confirm("Are you sure you want to pay?");
+    if (!confirm) return;
+    else {
+      e.preventDefault();
+      try {
+        const response = await fetch(`${URL}/PaymentContract`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify({
+            Pickup_Date: PickupDate,
+            Return_Date: ReturnDate,
+            MaVehicle: id,
+            MaDriver: PickupDriver,
+            Total_Pay: Total,
+          }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          alert("Vehicle created successfully");
+          navigate("/Home");
+        } else {
+          alert("Error: " + (data?.message || "Failed to create voucher"));
+        }
+      } catch (err) {
+        console.error("Error creating voucher:", err);
+        alert("An error occurred while creating the voucher");
       }
-    } catch (err) {
-      console.error("Error creating voucher:", err);
-      alert("An error occurred while creating the voucher");
     }
   };
 
@@ -146,10 +150,11 @@ const Payment = () => {
   //   const fetchPayment = async () => {
 
   return (
-    <div className="p-10 min-h-screen text-[#3b7097] text-lg">
+    <div className="p-10 min-h-screen bg-[#ffffff] text-[#3b7097] text-lg">
       <Link
         to={`/CarDetail/${id}`}
-        className="text-left py-2 px-4 cursor-pointer w-fit hover:underline flex items-center">
+        className="text-left py-2 px-4 cursor-pointer w-fit hover:underline flex items-center"
+      >
         <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
         Quay lại
       </Link>
@@ -215,7 +220,8 @@ const Payment = () => {
                 } hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer`}
                 onClick={() => setPickupDriver(driver)}
                 key={driver._id}
-                value={driver.Driving_License}>
+                value={driver.Driving_License}
+              >
                 <div className="col-span-4 rounded-lg overflow-hidden flex justify-center bg-[#75bde0]">
                   <img src={driver.Image} alt="" className="h-32 rounded-lg" />
                 </div>
@@ -243,13 +249,15 @@ const Payment = () => {
           </div>
           <div
             onClick={() => setPickupDriver(null)}
-            className="w-full flex items-center justify-center h-16 border-4 border-[#75bde0] rounded-xl mt-6 font-bold text-xl text-[#75bde0] hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer">
+            className="w-full flex items-center justify-center h-16 border-4 border-[#75bde0] rounded-xl mt-6 font-bold text-xl text-[#75bde0] hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer"
+          >
             Unselect driver
           </div>
         </div>
         <button
           type="submit"
-          className="col-span-8 col-start-3 bg-[#75bde0] text-white font-bold p-4 text-2xl border-8 border-[#75bde0] hover:text-[#75bde0] hover:bg-[#fff] rounded-2xl mt-2">
+          className="col-span-8 col-start-3 bg-[#75bde0] text-white font-bold p-4 text-2xl border-8 border-[#75bde0] hover:text-[#75bde0] hover:bg-[#fff] rounded-2xl mt-2"
+        >
           Xác nhận thanh toán
         </button>
       </form>

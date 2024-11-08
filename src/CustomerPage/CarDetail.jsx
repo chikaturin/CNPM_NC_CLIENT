@@ -11,6 +11,7 @@ import {
   faOilCan,
   faShieldHalved,
   faFlag,
+  faImage,
   faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
@@ -28,6 +29,7 @@ const DetailVehicle = () => {
   const [show, setShow] = useState(false);
   const [insurance] = useState(82400);
   const [total, setTotal] = useState(0);
+  const [SeeMore, setSeeMore] = useState(false);
   const startDate = new Date();
   startDate.setDate(startDate.getDate() + 1);
   const navigate = useNavigate();
@@ -51,6 +53,8 @@ const DetailVehicle = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      console.log("date" + new Date() + "-" + new Date(date));
+
       setTotal(data);
     } catch (error) {
       setError(error.message);
@@ -89,6 +93,10 @@ const DetailVehicle = () => {
     fetchCalendar();
   }, []);
 
+  const handleSeemore = () => {
+    setSeeMore(!SeeMore);
+  };
+
   const toggleCalendar = (e) => {
     e.preventDefault();
     setShow(!show);
@@ -123,8 +131,8 @@ const DetailVehicle = () => {
       navigate(`/Payment/${id}`, {
         state: {
           Name: vehicle.VehicleName,
-          PickupDate: new Date().toLocaleDateString(),
-          ReturnDate: formatDate(date),
+          PickupDate: new Date().toISOString(),
+          ReturnDate: new Date(date).toISOString(),
           Price: formattedPrice(vehicle.Price),
           TotalPrice: formattedPrice(total),
           Insurance: formattedPrice(insurance),
@@ -192,21 +200,59 @@ const DetailVehicle = () => {
             className="w-full rounded-xl h-full object-cover"
             src={vehicle.imageVehicle[0]}
             alt="Vehicle"
+            onClick={handleSeemore}
           />
-          <div className="grid grid-cols-3 grid-rows-1 lg:grid-cols-1 lg:grid-rows-3 gap-4 w-full">
+          <div
+            className={`grid gap-4 w-full ${
+              SeeMore
+                ? "fixed inset-0 bg-black bg-opacity-80 z-50 p-10 overflow-y-scroll"
+                : "grid-cols-3 lg:grid-cols-1 lg:grid-rows-3"
+            }`}
+          >
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
               vehicle.imageVehicle.map((img, index) =>
-                index >= 1 ? (
+                index >= 1 && index <= 3 && !SeeMore ? (
                   <img
                     key={index}
                     src={img}
                     alt="Vehicle Image"
+                    onClick={handleSeemore}
                     className="w-full h-64 rounded-xl object-cover"
+                  />
+                ) : SeeMore ? (
+                  <img
+                    key={index}
+                    src={img}
+                    alt="Vehicle Image"
+                    className="w-full h-full rounded-xl object-cover"
                   />
                 ) : null
               )
             ) : (
               <p>Không có ảnh</p>
+            )}
+
+            {SeeMore && (
+              <div className="fixed top-4 right-14 z-50">
+                <span
+                  className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2 cursor-pointer"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  Close
+                </span>
+              </div>
+            )}
+            {!SeeMore && vehicle.imageVehicle.length > 3 && (
+              <div className="w-full absolute top-[100%] mt-12 right-40 float-right text-right rounded-xl">
+                <span
+                  className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  See More
+                </span>
+              </div>
             )}
           </div>
         </div>
@@ -341,7 +387,8 @@ const DetailVehicle = () => {
                     </div>
                     <div
                       className="col-span-12  mt-3 w-full"
-                      onClick={toggleCalendar}>
+                      onClick={toggleCalendar}
+                    >
                       <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                         {date ? (
                           <span>{formatDate(date)}</span>
@@ -349,7 +396,10 @@ const DetailVehicle = () => {
                           <span>Chọn ngày</span>
                         )}
                         {show && (
-                          <div className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4">
+                          <div
+                            className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <Calendar
                               onChange={handleDateChange}
                               value={date}
@@ -387,7 +437,8 @@ const DetailVehicle = () => {
               <button
                 onClick={OnclickPay}
                 type="submit"
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl">
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
+              >
                 Chọn thuê
               </button>
             </form>

@@ -12,6 +12,7 @@ import {
   faShieldHalved,
   faFlag,
   faCircleInfo,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -31,6 +32,7 @@ const Reservation = () => {
   const [EndDate, setEndDate] = useState(null);
   const [showPickupCalendar, setShowPickupCalendar] = useState(false);
   const [showReturnCalendar, setShowReturnCalendar] = useState(false);
+  const [SeeMore, setSeeMore] = useState(false);
   const [insurance] = useState(82400);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
@@ -42,6 +44,10 @@ const Reservation = () => {
       month: "2-digit",
       year: "numeric",
     });
+  };
+
+  const handleSeemore = () => {
+    setSeeMore(!SeeMore);
   };
 
   const togglePickupCalendar = (e) => {
@@ -82,6 +88,7 @@ const Reservation = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      console.log("date" + new Date(PickupDate) + "-" + new Date(ReturnDate));
       setTotal(data);
     } catch (error) {
       setError(error.message);
@@ -152,8 +159,12 @@ const Reservation = () => {
     } else if (ReturnDate && PickupDate && PickupDate < ReturnDate) {
       navigate(`/Payment/${id}`, {
         state: {
-          Pickup_Date: formatDate(PickupDate),
-          Return_Date: formatDate(ReturnDate),
+          Name: vehicle.VehicleName,
+          PickupDate: formatDate(PickupDate),
+          ReturnDate: formatDate(ReturnDate),
+          Price: formattedPrice(vehicle.Price),
+          TotalPrice: formattedPrice(total),
+          Insurance: formattedPrice(insurance),
         },
       });
     }
@@ -233,21 +244,59 @@ const Reservation = () => {
             className="w-full rounded-xl h-full object-cover"
             src={vehicle.imageVehicle[0]}
             alt="Vehicle"
+            onClick={handleSeemore}
           />
-          <div className="grid grid-cols-3 grid-rows-1 lg:grid-cols-1 lg:grid-rows-3 gap-4 w-full">
+          <div
+            className={`grid gap-4 w-full ${
+              SeeMore
+                ? "fixed inset-0 bg-black bg-opacity-80 z-50 p-10 overflow-y-scroll"
+                : "grid-cols-3 lg:grid-cols-1 lg:grid-rows-3"
+            }`}
+          >
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
               vehicle.imageVehicle.map((img, index) =>
-                index === 1 ? (
+                index >= 1 && index <= 3 && !SeeMore ? (
                   <img
                     key={index}
                     src={img}
                     alt="Vehicle Image"
+                    onClick={handleSeemore}
                     className="w-full h-64 rounded-xl object-cover"
+                  />
+                ) : SeeMore ? (
+                  <img
+                    key={index}
+                    src={img}
+                    alt="Vehicle Image"
+                    className="w-full h-full rounded-xl object-cover"
                   />
                 ) : null
               )
             ) : (
-              <span>Không có ảnh</span>
+              <p>Không có ảnh</p>
+            )}
+
+            {SeeMore && (
+              <div className="fixed top-4 right-14 z-50">
+                <span
+                  className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2 cursor-pointer"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  Close
+                </span>
+              </div>
+            )}
+            {!SeeMore && vehicle.imageVehicle.length > 3 && (
+              <div className="w-full absolute top-[100%] mt-12 right-40 float-right text-right rounded-xl">
+                <span
+                  className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  See More
+                </span>
+              </div>
             )}
           </div>
         </div>
@@ -364,7 +413,8 @@ const Reservation = () => {
                     </div>
                     <div
                       className="col-span-12 mt-3 w-full"
-                      onClick={togglePickupCalendar}>
+                      onClick={togglePickupCalendar}
+                    >
                       <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                         {PickupDate ? (
                           <span>{formatDate(PickupDate)}</span>
@@ -372,7 +422,10 @@ const Reservation = () => {
                           <span>Chọn ngày</span>
                         )}
                         {showPickupCalendar && (
-                          <div className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4">
+                          <div
+                            className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <Calendar
                               onChange={handlPickupDateChange}
                               value={PickupDate}
@@ -398,7 +451,8 @@ const Reservation = () => {
                     <div className="col-span-12">
                       <div
                         className="col-span-12 mt-3 w-full"
-                        onClick={toggleReturnCalendar}>
+                        onClick={toggleReturnCalendar}
+                      >
                         <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                           {ReturnDate ? (
                             <span>{formatDate(ReturnDate)}</span>
@@ -406,7 +460,10 @@ const Reservation = () => {
                             <span>Chọn ngày</span>
                           )}
                           {showReturnCalendar && (
-                            <div className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4">
+                            <div
+                              className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4"
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               <Calendar
                                 onChange={handleReturnDateChange}
                                 value={ReturnDate}
@@ -452,7 +509,8 @@ const Reservation = () => {
               <button
                 type="submit"
                 onClick={OnclickPay}
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl">
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
+              >
                 Chọn thuê
               </button>
             </form>

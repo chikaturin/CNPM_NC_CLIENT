@@ -74,6 +74,7 @@ const History = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      console.log("data", data);
       setHistory(data);
     } catch (error) {
       setError(error.message);
