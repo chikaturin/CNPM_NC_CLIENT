@@ -5,11 +5,11 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Payment = () => {
   const { id } = useParams();
-  const location = useLocation();
+  const state = useLocation();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [Total, setTotal] = useState(0);
-  const { PickupDate, ReturnDate, Insurance } = location.state || {};
+  const { PickupDate, ReturnDate, Insurance } = state;
   const [Driver, setDriver] = useState([]);
   const [SelectedDriver, setSelectedDriver] = useState(null);
   const [DetailDriver, setDetailDriver] = useState(null);
@@ -143,17 +143,17 @@ const Payment = () => {
   //   const fetchPayment = async () => {
 
   return (
-    <div className="pt-10 px-10 min-h-screen text-[#3b7097]">
+    <div className="pt-10 px-10 min-h-screen text-[#3b7097] text-lg">
       <Link
         to={`/CarDetail/${id}`}
         className="text-left py-2 px-4 cursor-pointer w-fit hover:underline flex items-center">
         <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
         Quay lại
       </Link>
-      {/* <p>
+      <p>
         {id} - {PickupDate}-{ReturnDate}-{Insurance}
-      </p> */}
-      <h1 className="w-full text-[2.5rem] font-bold text-center my-10">
+      </p>
+      <h1 className="w-full text-[2.5rem] font-bold text-center mb-10">
         THANH TOÁN
       </h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-12">
@@ -161,34 +161,38 @@ const Payment = () => {
         <div className="col-span-4 p-6 border-8 border-l-8 border-r-0 border-[#75bde0] rounded-l-3xl">
           {console.log(Driver)}
           <h1 className="text-2xl font-bold mb-4">Chọn tài xế</h1>
-          {Driver.map((driver) => (
-            <div
-              className="w-full grid grid-cols-12 my-2 rounded-lg hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer"
-              onClick={() => setSelectedDriver(driver.Driving_License)}
-              key={driver.Driving_License}
-              value={driver.Driving_License}>
-              <div className="col-span-4 rounded-lg overflow-hidden">
-                <img src={driver.Image} alt="" />
-              </div>
-              <div className="col-span-8 flex items-center px-6">
-                <div className="w-full">
-                  <p className="font-bold w-full text-center mb-4">
-                    {driver.NameDriver}
-                  </p>
-                  <div className="grid grid-cols-2">
-                    <p className="font-bold">Giá:</p>
-                    <p className="text-right">{formattedPrice(driver.Price)}</p>
-                    <div></div>
-                  </div>
-                  <div className="grid grid-cols-2">
-                    <p className="font-bold">Số điện thoại:</p>
-                    <p className="text-right">{driver.NumberPhone}</p>
-                    <div></div>
+          <div className="h-72 overflow-scroll overflow-x-hidden">
+            {Driver.map((driver) => (
+              <div
+                className="w-full grid grid-cols-12 my-2 rounded-lg hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer"
+                onClick={() => setSelectedDriver(driver.Driving_License)}
+                key={driver._id}
+                value={driver.Driving_License}>
+                <div className="col-span-4 rounded-lg overflow-hidden flex justify-center bg-[#75bde0]">
+                  <img src={driver.Image} alt="" className="h-32 rounded-lg" />
+                </div>
+                <div className="col-span-8 flex items-center px-6">
+                  <div className="w-full">
+                    <p className="font-bold w-full text-center mb-4">
+                      {driver.NameDriver}
+                    </p>
+                    <div className="grid grid-cols-2">
+                      <p className="font-bold">Giá:</p>
+                      <p className="text-right">
+                        {formattedPrice(driver.Price)}
+                      </p>
+                      <div></div>
+                    </div>
+                    <div className="grid grid-cols-2">
+                      <p className="font-bold">Số điện thoại:</p>
+                      <p className="text-right">{driver.NumberPhone}</p>
+                      <div></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <button
           type="submit"

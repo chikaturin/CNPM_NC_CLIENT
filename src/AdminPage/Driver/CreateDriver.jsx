@@ -23,8 +23,7 @@ const CreateDriver = () => {
       !Driver.NumberPhone ||
       !Driver.Driving_License ||
       !Driver.Image ||
-      !Driver.Price ||
-      !Driver.Vehicle_ID
+      !Driver.Price
     ) {
       alert("Please fill all the fields ");
       return;
@@ -38,7 +37,6 @@ const CreateDriver = () => {
       formData.append("Driving_License", Driver.Driving_License);
       formData.append("Image", Driver.Image);
       formData.append("Price", Driver.Price);
-      formData.append("Vehicle_ID", Driver.Vehicle_ID);
 
       const response = await fetch(`${URL}/CreateDriver`, {
         method: "POST",
@@ -133,7 +131,7 @@ const CreateDriver = () => {
               </div>
             </div>
           </div>
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="mt-10 grid grid-cols-1 gap-10">
             <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] py-1 pl-4 rounded-lg h-12">
               <div className="col-span-5">
                 <label className="font-bold">Ảnh </label>
@@ -151,22 +149,6 @@ const CreateDriver = () => {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] pl-4 rounded-lg h-12">
-              <div className="col-span-5">
-                <label className="font-bold">Sở hữu xe</label>
-              </div>
-              <div className="col-span-12">
-                <input
-                  placeholder="Nhập biển số xe"
-                  className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
-                  type="text"
-                  value={Driver.Vehicle_ID}
-                  onChange={(e) =>
-                    setDriver({ ...Driver, Vehicle_ID: e.target.value })
-                  }
-                />
-              </div>
-            </div>
           </div>
           <div className="mt-10 grid grid-cols-12 gap-10 w-full justify-center">
             <div className="col-span-1"></div>
@@ -178,8 +160,7 @@ const CreateDriver = () => {
             <div className="col-span-5">
               <Link
                 to="/MainAdmin/ListDriver"
-                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-2 rounded-lg flex items-center justify-center w-full"
-              >
+                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-2 rounded-lg flex items-center justify-center w-full">
                 Back
               </Link>
             </div>

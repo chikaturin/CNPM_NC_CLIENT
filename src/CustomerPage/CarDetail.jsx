@@ -124,6 +124,7 @@ const DetailVehicle = () => {
         state: {
           Pickup_Date: new Date().toLocaleDateString(),
           Return_Date: formatDate(date),
+          Insurance: formattedPrice(insurance),
         },
       });
     }
