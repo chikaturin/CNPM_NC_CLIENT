@@ -122,8 +122,11 @@ const DetailVehicle = () => {
     } else {
       navigate(`/Payment/${id}`, {
         state: {
-          Pickup_Date: new Date().toLocaleDateString(),
-          Return_Date: formatDate(date),
+          Name: vehicle.VehicleName,
+          PickupDate: new Date().toLocaleDateString(),
+          ReturnDate: formatDate(date),
+          Price: formattedPrice(vehicle.Price),
+          TotalPrice: formattedPrice(total),
           Insurance: formattedPrice(insurance),
         },
       });
