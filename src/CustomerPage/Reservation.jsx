@@ -130,6 +130,7 @@ const Reservation = () => {
         const formattedDate = new Date(`${year}-${month}-${day}`);
         setEndDate(formattedDate);
       }
+      console.log(data);
     } catch (error) {
       setError(error.message);
     }
@@ -187,7 +188,7 @@ const Reservation = () => {
 
   if (loading) {
     return (
-      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+      <div className="text-center w-full text-4xl h-full font-extrabold">
         Loading...
       </div>
     );
