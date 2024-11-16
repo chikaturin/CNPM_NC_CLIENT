@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CreateVehicle = () => {
-  const URL = "http://localhost:8000/api";
+  const URL = "https://cnpm-ncserver.vercel.app/api";
 
   const [Vehicle, setVehicle] = useState({
     _id: "",
@@ -77,11 +77,11 @@ const CreateVehicle = () => {
         alert("Vehicle created successfully");
         navigate("/MainAdmin/ListVehicle");
       } else {
-        console.log("Error: " + (data?.message || "Failed to create voucher"));
+        console.log("Error: " + (data?.message || "Failed to create vehicle"));
       }
     } catch (err) {
-      console.error("Error creating voucher:", err);
-      alert("An error occurred while creating the voucher");
+      console.error("Error creating vehicle:", err);
+      alert("An error occurred while creating the vehicle");
     }
   };
 
