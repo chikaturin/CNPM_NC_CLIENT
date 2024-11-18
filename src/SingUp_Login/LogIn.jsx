@@ -17,7 +17,7 @@ const LogIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const URL = "https://cnpm-ncserver.vercel.app/api/GetAccountByAdmin";
+  const URL = "https://cnpm-ncserver.vercel.app/api";
 
   const changePanel = () => {
     {
