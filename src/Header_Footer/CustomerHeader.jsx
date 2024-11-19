@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { AuthContext } from "../Router/ProtectedRoute";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,7 @@ import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons/faClockRota
 import { faFileImport } from "@fortawesome/free-solid-svg-icons/faFileImport";
 
 const CustomerHeader = () => {
+  const location = useLocation();
   return (
     <div className="w-full">
       <header className="lg:fixed lg:h-20 items-center top-0 px-4 grid lg:grid-cols-2 shadow-md shadow-[#75bde0] left-0 z-50 w-full bg-[#fff] text-[#3b7097]">
@@ -25,19 +26,31 @@ const CustomerHeader = () => {
           <div className="w-full"></div>
           <Link
             to="CarList"
-            className="bg-[#fff] hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer">
+            className={`${
+              location.pathname == "/CarList"
+                ? "bg-[#75bde0] text-[#fff]"
+                : "bg-[#fff]"
+            } hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer`}>
             <FontAwesomeIcon className="mr-2" icon={faCarSide} />
             Cars
           </Link>
           <Link
             to="DemiseCar"
-            className="bg-[#fff] hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer">
+            className={`${
+              location.pathname == "/DemiseCar"
+                ? "bg-[#75bde0] text-[#fff]"
+                : "bg-[#fff]"
+            } hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer`}>
             <FontAwesomeIcon className="mr-2" icon={faFileInvoice} />
             Cho thuê
           </Link>
           <Link
             to="History"
-            className="bg-[#fff] hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer">
+            className={`${
+              location.pathname == "/History"
+                ? "bg-[#75bde0] text-[#fff]"
+                : "bg-[#fff]"
+            } hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer`}>
             <FontAwesomeIcon className="mr-2" icon={faClockRotateLeft} />
             History
           </Link>
