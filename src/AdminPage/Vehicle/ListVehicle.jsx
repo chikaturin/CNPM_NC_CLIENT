@@ -171,7 +171,7 @@ const ListVehicle = () => {
               <div className="grid grid-cols-12">
                 <div className="col-span-8">
                   <p>
-                    <span className="font-bold text-[#4ca771]">Số ghế:</span>{" "}
+                    <span className="font-bold text-[#4ca771]">Số ghế: </span>{" "}
                     {vehicle.Number_Seats}
                   </p>
                   <p>

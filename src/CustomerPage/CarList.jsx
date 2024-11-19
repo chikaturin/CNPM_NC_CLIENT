@@ -150,7 +150,7 @@ const Home = () => {
           key={vehicle._id}
           className="w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]">
           <img
-            src={vehicle.imageVehicle}
+            src={vehicle.imageVehicle[0]}
             alt=""
             className="rounded-xl h-3/5 w-full"
           />
