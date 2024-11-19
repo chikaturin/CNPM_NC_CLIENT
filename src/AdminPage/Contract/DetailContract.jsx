@@ -66,13 +66,11 @@ const DetailContract = () => {
       <div className="w-full bg-[#eaf9e7] p-20 rounded-t-xl">
         <div className="grid grid-cols-12 text-[#4ca771] mb-10">
           <div className="col-span-1 flex items-center ">
-            <button
-              onClick={() => {
-                history.back();
-              }}
-              className="bg-[#eaf9e7] hover:bg-[#4ca771] w-10 h-10 border-4 border-[#4ca771] hover:text-[#eaf9e7] font-bold rounded-full">
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
+            <Link to={`/MainAdmin/ListContract`}>
+              <button className="bg-[#eaf9e7] hover:bg-[#4ca771] w-10 h-10 border-4 border-[#4ca771] hover:text-[#eaf9e7] font-bold rounded-full">
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+            </Link>
           </div>
           <div className="col-span-10 flex items-center">
             <span className="text-4xl mt-4 mb-10 w-full text-center font-bold px-10">
@@ -82,9 +80,9 @@ const DetailContract = () => {
         </div>
         <div className="w-full text-[#2F4F4F]">
           <div className="w-full mb-10 flex">
-            <p className="w-full text-left border-b border-[#4ca771] font-bold text-xl text-[#4ca771]">
-              {/* Trạng thái:{" "} */}
-              {/* <span
+            <p className="w-full text-right border-b border-[#4ca771] font-bold text-xl text-[#4ca771]">
+              {/* Trạng thái:{" "}
+              <span
                 className={`font-normal ${
                   contract.StatePay === "Paid"
                     ? "text-green-500"
