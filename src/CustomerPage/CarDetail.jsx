@@ -207,8 +207,7 @@ const DetailVehicle = () => {
               SeeMore
                 ? "fixed inset-0 bg-black bg-opacity-80 z-50 p-10 overflow-y-scroll"
                 : "grid-cols-3 lg:grid-cols-1 lg:grid-rows-3"
-            }`}
-          >
+            }`}>
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
               vehicle.imageVehicle.map((img, index) =>
                 index >= 1 && index <= 3 && !SeeMore ? (
@@ -236,8 +235,7 @@ const DetailVehicle = () => {
               <div className="fixed top-4 right-14 z-50">
                 <span
                   className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2 cursor-pointer"
-                  onClick={handleSeemore}
-                >
+                  onClick={handleSeemore}>
                   <FontAwesomeIcon className="mr-3" icon={faImage} />
                   Close
                 </span>
@@ -247,8 +245,7 @@ const DetailVehicle = () => {
               <div className="w-full absolute top-[100%] mt-12 right-40 float-right text-right rounded-xl">
                 <span
                   className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2"
-                  onClick={handleSeemore}
-                >
+                  onClick={handleSeemore}>
                   <FontAwesomeIcon className="mr-3" icon={faImage} />
                   See More
                 </span>
@@ -270,7 +267,7 @@ const DetailVehicle = () => {
             </p>
             <div className="my-6 py-6 border-y-2 border-[#ffffff]">
               <p className="text-3xl font-semibold mb-6">Đặc điểm</p>
-              <div className="grid grid-cols-4">
+              <div className="grid grid-cols-4 [text-shadow:_3px_3px_0_#fff]">
                 <div className="grid grid-cols-12 text-xl">
                   <p className="col-span-3 flex items-center justify-center">
                     <FontAwesomeIcon
@@ -279,10 +276,10 @@ const DetailVehicle = () => {
                     />
                   </p>
                   <p className="col-span-9 grid grid-rows-2">
-                    <p className="flex items-center justify-start">
+                    <p className="flex items-center justify-start text-[#2b7a78]">
                       Truyền động
                     </p>
-                    <p className="flex items-center justify-start font-bold">
+                    <p className="flex items-center justify-start font-bold text-[#3b7097]">
                       Số tự động
                     </p>
                   </p>
@@ -295,10 +292,10 @@ const DetailVehicle = () => {
                     />
                   </p>
                   <p className="col-span-9 grid grid-rows-2">
-                    <p className="flex items-center justify-start">
+                    <p className="flex items-center justify-start text-[#2b7a78]">
                       Số chỗ ngồi
                     </p>
-                    <p className="flex items-center justify-start font-bold">
+                    <p className="flex items-center justify-start font-bold text-[#3b7097]">
                       {vehicle.Number_Seats}
                     </p>
                   </p>
@@ -311,10 +308,10 @@ const DetailVehicle = () => {
                     />
                   </p>
                   <p className="col-span-9 grid grid-rows-2">
-                    <p className="flex items-center justify-start">
+                    <p className="flex items-center justify-start text-[#2b7a78]">
                       Nhiên liệu
                     </p>
-                    <p className="flex items-center justify-start font-bold">
+                    <p className="flex items-center justify-start font-bold text-[#3b7097]">
                       Xăng
                     </p>
                   </p>
@@ -327,10 +324,10 @@ const DetailVehicle = () => {
                     />
                   </p>
                   <p className="col-span-9 grid grid-rows-2">
-                    <p className="flex items-center justify-start">
+                    <p className="flex items-center justify-start text-[#2b7a78]">
                       Mức tiêu hao
                     </p>
-                    <p className="flex items-center justify-start font-bold">
+                    <p className="flex items-center justify-start font-bold text-[#3b7097]">
                       100L/10KM
                     </p>
                   </p>
@@ -387,8 +384,7 @@ const DetailVehicle = () => {
                     </div>
                     <div
                       className="col-span-12  mt-3 w-full"
-                      onClick={toggleCalendar}
-                    >
+                      onClick={toggleCalendar}>
                       <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                         {date ? (
                           <span>{formatDate(date)}</span>
@@ -398,8 +394,7 @@ const DetailVehicle = () => {
                         {show && (
                           <div
                             className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4"
-                            onClick={(e) => e.stopPropagation()}
-                          >
+                            onClick={(e) => e.stopPropagation()}>
                             <Calendar
                               onChange={handleDateChange}
                               value={date}
@@ -437,8 +432,7 @@ const DetailVehicle = () => {
               <button
                 onClick={OnclickPay}
                 type="submit"
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
-              >
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl">
                 Chọn thuê
               </button>
             </form>
