@@ -266,7 +266,7 @@ function Dashboard() {
               </table>
             ) : (
               <p>
-                Không có đơn hàng nào trong tháng {selectedMonth + 1} năm{" "}
+                Không có hợp đồng nào trong tháng {selectedMonth + 1} năm{" "}
                 {selectedYear}.
               </p>
             )}
