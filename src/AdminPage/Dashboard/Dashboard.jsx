@@ -1,280 +1,414 @@
-import { useState, useEffect } from "react";
-// import './App.css';
+import { React, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faStar,
   faCar,
   faArrowUp,
   faArrowDown,
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { Line, Pie } from "react-chartjs-2";
-// import { Chart } from "chart.js/auto";
+import { Pie, Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+} from "chart.js";
 
-function Dashboard() {
-  const [car, setCar] = useState([]);
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title
+);
+
+const Dashboard = () => {
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectType, setType] = useState("nonSelection");
-  const [fakeOrder, setOrder] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(0);
-  const [selectedYear, setSelectedYear] = useState(2024);
-  const [filteredOrders, setFilteredOrders] = useState([]); // Trạng thái lưu đơn hàng đã lọc
-  //Hàm xử lý khi thay đổi selection
-  const handleSelectChange = (e) => {
-    setType(e.target.value);
+  const [driver, setDriver] = useState([]); // Khởi tạo mảng dữ liệu tài xế
+  const [contact, setContact] = useState([]); // Khởi tạo mảng dữ liệu hợp đồng
+  const [car, setCar] = useState([]); // Khởi tạo mảng dữ liệu xe
+  const [selected, setSelected] = useState("nonSelection"); // Khởi tạo giá trị ban đầu của dropdown
+
+  const [selectedMonth, setSelectedMonth] = useState(
+    (new Date().getMonth() + 1).toString()
+  ); // Khởi tạo giá trị ban đầu của dropdown tháng
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  ); // Khởi tạo giá trị ban đầu của dropdown năm
+  const [year, setYear] = useState([]); // Khởi tạo mảng dữ liệu năm
+
+  const [filteredDataCar, setFilteredDataCar] = useState([]); // Khởi tạo mảng dữ liệu xe sau khi lọc
+  const [filteredDataContact, setFilteredDataContact] = useState([]); // Khởi tạo mảng dữ liệu hợp đồng sau khi lọc
+  const [filteredDataDriver, setFilteredDataDriver] = useState([]); // Khởi tạo mảng dữ liệu tài xế sau khi lọc
+
+  const URL = "https://cnpm-ncserver.vercel.app/api"; // URL of the server
+  
+  const TotalCar = car.length;
+
+  //Viết hàm tính tổng hãng xe không trùng lắp trong dữ liệu lấy về
+  const totalCar = () => {
+    const uniqueCar = [...new Set(filteredDataCar.map((item) => item.Branch))];
+    return uniqueCar.length;
   };
 
-  const fetchListCar = async () => {
+  //Viết hàm tính tổng số xe có sẵn
+  const totalAvailableCar = () => {
+    return car.filter((item) => item.State === "Available").length;
+  };
+
+  //Viết hàm tính tổng số xe không có sẵn
+  const totalUnavailableCar = () => {
+    return car.filter((item) => item.State === "Unavailable").length;
+  };
+
+
+  const fetchVehicles = async () => {
     try {
-      const res = await fetch(
-        "https://cnpm-ncserver.vercel.app/api/getVehicleByAdmin"
-      );
+      const res = await fetch(`${URL}/getVehicleByAdmin`);
       if (!res.ok) {
-        throw new Error("Error");
+        throw new Error("Network response was not ok");
       }
       const data = await res.json();
       setCar(data);
-      console.log(data);
+      const uniqueYears = [
+        ...new Set(data.map((item) => new Date(item.CreateDate).getFullYear())),
+      ];
+      setYear(uniqueYears);
     } catch (error) {
-      setError(error.message);
+      setError("Không thể lấy dữ liệu từ máy chủ");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const TotalCar = car.length;
+  console.log(year);
 
-  const generateFakeOrderData = (count) => {
-    const fakeOrderData = [];
-    for (let i = 0; i < count; i++) {
-      fakeOrderData.push({
-        order: i + 1,
-        cusName: `Khách hàng ${i + 1}`, // Sử dụng backticks để định dạng chuỗi
-        email: `user${i + 1}@example.com`, // Email giả
-        total: Math.floor(Math.random() * 1000), // Tổng tiền giả
-        date: generateRandomDate("2023-01-01", "2024-12-31"), // Ngày giả trong khoảng thời gian chỉ định
-      });
-    }
-    return fakeOrderData;
-  };
 
-  // Hàm tạo ngày giả ngẫu nhiên trong khoảng thời gian
-  const generateRandomDate = (start, end) => {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
+  useEffect(() => {
+    fetchVehicles();
+  }, []);
 
-    // Tạo một timestamp ngẫu nhiên giữa start và end
-    const randomTimestamp =
-      startDate.getTime() +
-      Math.random() * (endDate.getTime() - startDate.getTime());
-
-    const randomDate = new Date(randomTimestamp).toISOString().split("T")[0]; // Trả về ngày theo định dạng YYYY-MM-DD
-    // console.log("Ngày giả:", randomDate); // In ra ngày giả để kiểm tra
-    return randomDate;
-  };
-
-  const filterOrders = (orders, month, year) => {
-    return orders.filter((order) => {
-      const orderDate = new Date(order.date);
-      return orderDate.getMonth() === month && orderDate.getFullYear() === year;
+  console.log(car);
+   //Lọc dữ liệu được truyền vào theo tháng và năm
+   const filterCar = () => {
+    const filteredCar = car.filter((item) => {
+      const date = new Date(item.CreateDate || item.Date);
+      const matchesMonthYear =
+        ( date.getMonth() + 1 === parseInt(selectedMonth)) &&
+        ( date.getFullYear() === parseInt(selectedYear));
+      return matchesMonthYear;
     });
+    setFilteredDataCar(filteredCar);
   };
+    console.log(filteredDataCar);
 
-  const handleFilter = () => {
-    const filteredOrders = filterOrders(fakeOrder, selectedMonth, selectedYear);
-    setFilteredOrders(filteredOrders);
-  };
+    useEffect(() => {
+      filterCar();
+    }, [car, selectedMonth, selectedYear]);
 
-  const seatTypes = [...new Set(car.map((item) => item.Number_Seats))].map(
-    (seat) => `${seat} ghế`
-  );
-  const seatType = [...new Set(car.map((item) => item.Number_Seats))]; // Lấy ra mảng chứa các loại ghế không trùng lặp.
-  const carCountPerSeat = seatType.map(
-    (seat) => car.filter((item) => item.Number_Seats === seat).length
-  ); // Đếm số lượng xe cho từng loại ghế
+    const countVehicleByBranch = () => {
+      return filteredDataCar.reduce((acc, item) => {
+        acc[item.Branch] = (acc[item.Branch] || 0) + 1;
+        return acc;
+      }, {});
+    };
 
-  const lineChartData = {
-    labels: seatTypes, // Đây sẽ là các nhãn trên trục X (ví dụ: 4, 5, 7 chỗ)
+  const lineChartCar = {
+    labels: Object.keys(countVehicleByBranch()),
     datasets: [
       {
-        label: "Biểu đồ số lượng xe",
-        data: carCountPerSeat,
-        borderColor: "rgba(75, 192, 192, 1)", // Màu của đường line
-        fill: false, // Không tô màu dưới đường line
-        tension: 0.1, // Độ cong của đường line
+        label: "Số lượng xe của từng hãng",
+        data: Object.values(countVehicleByBranch()),
+        borderColor: "rgb(75, 192, 192)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        fill: true,
+        tension: 0.1,
       },
     ],
   };
 
-  const chartOptions = {
+  const options = {
     scales: {
       x: {
-        beginAtZero: true, // Đảm bảo trục X bắt đầu từ 0
-        min: 0, // Đặt giá trị tối thiểu cho trục X là 0
+        ticks: {
+          color: "#000000",
+        },
       },
       y: {
-        beginAtZero: true,
-        min: 0,
+        ticks: {
+          color: "#000000",
+        },
       },
     },
-    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: "#000000",
+        },
+      },
+    },
+  };
+
+  const fetchDrivers = async () => {
+    try {
+      const res = await fetch(`${URL}/GetDriverByAdmin`);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      setDriver(data);
+      const uniqueYears = [
+        ...new Set(data.map((item) => new Date(item.Date).getFullYear())),
+      ];
+      setYear(uniqueYears);
+    } catch (error) {
+      setError("Không thể lấy dữ liệu tài xế từ máy chủ");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    // Ví dụ sử dụng các hàm
-    const fakeData = generateFakeOrderData(100);
-    console.log("Orders:", fakeData);
-
-    setOrder(fakeData);
-    fetchListCar();
+    fetchDrivers();
   }, []);
 
-  if (isLoading) {
+  const fetchContact = async () => {
+    try {
+      const res = await fetch(`${URL}/ContractByAdmin`);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      setDriver(data);
+      const uniqueYears = [
+        ...new Set(data.map((item) => new Date(item.Date).getFullYear())),
+      ];
+      setYear(uniqueYears);
+    } catch (error) {
+      setError("Không thể lấy dữ liệu hợp đồng từ máy chủ");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchContact();
+  }, []);
+
+  const months = Array.from({ length: 12 }, (_, index) => index + 1);
+
+  if (loading) {
     return (
-      <div className="text-center text-4xl translate-y-1/2 h-full font-extrabold">
+      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
         Loading...
       </div>
     );
   }
-
   if (error) {
     return (
-      <div className="text-center text-4xl translate-y-1/2 h-full font-extrabold">
-        Error: {error}
+      <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+        {error}
       </div>
     );
   }
 
+  const handleSelect = (e) => {
+    setSelected(e.target.value);
+  };
+
+  const generateRandomColor = () => {
+    const r = Math.floor(Math.random() * 128 + 127);
+    const g = Math.floor(Math.random() * 128 + 127);
+    const b = Math.floor(Math.random() * 128 + 127);
+    return `rgb(${r}, ${g}, ${b})`;
+  };
+
+ 
+
+  const filterDriver = () => {
+    if (driver.length === 0) return;
+
+    const filtered = driver.filter((item) => {
+      const Date = new Date(item.Date);
+      const matchesMonthYear =
+        (!selectedMonth || Date.getMonth() + 1 === parseInt(selectedMonth)) &&
+        (!selectedYear || Date.getFullYear() === parseInt(selectedYear));
+      return matchesMonthYear;
+    });
+    setFilteredDataDriver(filtered);
+  };
+
+  console.log(filteredDataDriver);
+  const filterContact = () => {
+    if (contact.length === 0) return;
+
+    const filtered = contact.filter((item) => {
+      const Date = new Date(item.Date);
+      const matchesMonthYear =
+        (!selectedMonth || Date.getMonth() + 1 === parseInt(selectedMonth)) &&
+        (!selectedYear || Date.getFullYear() === parseInt(selectedYear));
+      return matchesMonthYear;
+    });
+    setFilteredDataContact(filtered);
+  };
+
+  console.log(filteredDataContact);
+
   return (
-    <>
-      <div className="min-h-screen">
-        <select value={selectType} onChange={handleSelectChange}>
-          <option value="nonSelection">Hãy chọn loại thống kê bạn muốn</option>
-          <option value="car">Thống kê xe theo từng loại</option>
-          <option value="order">Thống kê đơn hàng</option>
-        </select>
-        <div className="grid grid-cols-4 h-[150px] gap-4">
-          <div className="totalCar bg-[#5437FD] rounded-[10px] flex items-center justify-center text-white">
-            <FontAwesomeIcon className="mr-2" icon={faCar} /> {TotalCar}
-          </div>
-          <div className="increase bg-[#00FF71] rounded-[10px] flex items-center justify-center text-white">
-            <FontAwesomeIcon className="mr-2" icon={faArrowUp} /> 200
-          </div>
-          <div className="degree bg-[#FF0000] rounded-[10px] flex items-center justify-center text-white">
-            <FontAwesomeIcon className="mr-2" icon={faArrowDown} /> 50
-          </div>
-          <div className="online bg-[#effe1d] rounded-[10px] flex items-center justify-center text-white">
-            <FontAwesomeIcon
-              className="mr-2"
-              icon={faCircle}
-              style={{ color: "#63E6BE" }}
-            />{" "}
-            200
+    <div className="min-h-screen">
+      <select
+        value={selected}
+        onChange={handleSelect}
+        className=" text-md h-full w-full text-center font-bold text-lg "
+      >
+        <option value="nonSelection">Hãy chọn loại thống kê bạn muốn</option>
+        <option value="car">Thống kê xe theo từng loại</option>
+        <option value="driver">Thống kê tài xế</option>
+        <option value="order">Thống kê doanh thu và đơn hàng</option>
+      </select>
+
+      {selected === "nonSelection" && (
+        <div className="flex items-center justify-center min-h-screen ">
+          <div className="border-4 rounded-lg p-4 items-center flex justify-center flex-col">
+            <p className="py-2 m-4 text-2xl font-bold">
+              Vui lòng chọn loại thống kê bạn muốn
+            </p>
+            <img
+              className="h-20 w-20"
+              src="https://icons.iconarchive.com/icons/iconsmind/outline/512/Cursor-Select-icon.png"
+              alt="Cursor Select Icon"
+            />
           </div>
         </div>
-        <br />
-        {/* Render html dựa trên selection */}
-        {selectType === "nonSelection" && (
-          <div className=" border  border-black rounded  items-center p-10">
-            <h1 className=" font- text-cyan-400 text-4xl font-bold  ">
-              {" "}
-              Vui lòng chọn loại thống kê
-            </h1>
-            <img src="" />
-          </div>
-        )}
-        {selectType === "car" && (
-          <div className="h-[350px] grid grid-cols-4 gap-2">
-            <div className=" grid">
-              <table className="min-w-full border-collapse border border-gray-300">
-                <thead>
-                  <tr>
-                    <th className="border border-gray-300 px-4 py-2">ID</th>
+      )}
 
-                    <th className="border border-gray-300 px-4 py-2">Số Ghế</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {car.map((vehicle, index) => (
-                    <tr key={index}>
-                      <td className="border border-gray-300 px-4 py-2">
-                        {vehicle._id}
-                      </td>
-
-                      <td className="border border-gray-300 px-4 py-2">
-                        {vehicle.Number_Seats}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className=" col-span-3 ">
-              <Line data={lineChartData} options={chartOptions} />
-            </div>
-          </div>
-        )}
-        {selectType === "order" && (
+      {selected === "car" && (
+        <>
           <div>
             <select
-              id="monthSelect"
               value={selectedMonth}
-              onChange={(e) => setSelectedMonth(Number(e.target.value))}
+              onChange={(e) => {
+                setSelectedMonth(e.target.value);
+                filterCar();
+              }}
             >
-              {Array.from({ length: 12 }, (_, index) => (
-                <option key={index} value={index}>
-                  Tháng {index + 1}
+              {months.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedYear}
+              onChange={(e) => {
+                setSelectedYear(e.target.value);
+                filterCar();
+              }}
+            >
+              {year.map((year, index) => (
+                <option key={index} value={year}>
+                  {year}
                 </option>
               ))}
             </select>
 
-            <label htmlFor="yearSelect">Chọn năm:</label>
-            <select
-              id="yearSelect"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(Number(e.target.value))}
+            <div></div>
+            <div className="grid grid-rows-4 h-[150px] gap-2 w-[30%]">
+              <div className="totalCar bg-gradient-to-tr from-[#389FC8] to-[#DFE2EB] rounded-[10px] flex items-center justify-center text-white">
+                <FontAwesomeIcon className="mr-2" icon={faCar} /> {TotalCar}
+              </div>
+              <div className="increase bg-gradient-to-tr from-[#00FB9A] to-[#E4CECF] rounded-[10px] flex items-center justify-center text-white">
+                <FontAwesomeIcon className="mr-2" icon={faArrowUp} /> Available
+              </div>
+              <div className="degree bg-gradient-to-tr from-[#FA0307] to-[#E4CECF] rounded-[10px] flex items-center justify-center text-white">
+                <FontAwesomeIcon className="mr-2" icon={faArrowDown} />{" "}
+                UnAvailable
+              </div>
+            </div>
+            {filteredDataCar.length > 0 ? (
+              <div className="flex justify-center">
+                <Line data={lineChartCar} options={options} />
+              </div>
+            ) : (
+              <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+                Không có dữ liệu
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
+      {selected === "driver" && <div>
+        <select
+              value={selectedMonth}
+              onChange={(e) => {
+                setSelectedMonth(e.target.value);
+                filterCar();
+              }}
             >
-              {Array.from({ length: 5 }, (_, index) => (
-                <option key={index} value={2024 - index}>
-                  {2024 - index}
+              {months.map((month) => (
+                <option key={month} value={month}>
+                  {month}
                 </option>
               ))}
             </select>
-            <button onClick={handleFilter}>Thống kê</button>
-            {filteredOrders.length > 0 ? (
-              <table className="border w-full">
-                <thead className="table-auto border">
-                  <tr className=" bg-cyan-400">
-                    <th>Order</th>
-                    <th>Tên khách hàng</th>
-                    <th>Email</th>
-                    <th>Tổng tiền</th>
-                    <th>Ngày</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredOrders.map((order) => (
-                    <tr key={order.order} className="border">
-                      <td>{order.order}</td>
-                      <td>{order.cusName}</td>
-                      <td>{order.email}</td>
-                      <td>{order.total} VNĐ</td>
-                      <td>{order.date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p>
-                Không có đơn hàng nào trong tháng {selectedMonth + 1} năm{" "}
-                {selectedYear}.
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-    </>
+            <select
+              value={selectedYear}
+              onChange={(e) => {
+                setSelectedYear(e.target.value);
+                filterCar();
+              }}
+            >
+              {year.map((year, index) => (
+                <option key={index} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+        
+        </div>}
+
+      {selected === "order" && <div>
+        <select
+              value={selectedMonth}
+              onChange={(e) => {
+                setSelectedMonth(e.target.value);
+                filterCar();
+              }}
+            >
+              {months.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedYear}
+              onChange={(e) => {
+                setSelectedYear(e.target.value);
+                filterCar();
+              }}
+            >
+              {year.map((year, index) => (
+                <option key={index} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select></div>}
+
+      <br />
+    </div>
   );
-}
+};
 
 export default Dashboard;
