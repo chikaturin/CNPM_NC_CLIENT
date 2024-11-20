@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
             setIsLoading(false);
 
             if (userData.role === "Admin") {
-              navigate("/MainAdmin");
+              navigate(window.location.pathname);
             } else if (userData.role === "Customer") {
               navigate(window.location.pathname);
             } else {

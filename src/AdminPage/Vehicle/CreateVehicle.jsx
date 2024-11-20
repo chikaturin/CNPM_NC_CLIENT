@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CreateVehicle = () => {
-  const URL = "https://cnpm-ncserver.vercel.app/api";
+  const URL = "http://localhost:8000/api";
 
   const [Vehicle, setVehicle] = useState({
     _id: "",
@@ -20,19 +20,22 @@ const CreateVehicle = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleImageChange = (e) => {
-    const { name, value } = e.target;
-    setImageVehicle((prev) => ({ ...prev, [name]: value }));
+    const file = e.target.files[0];
+    setImageVehicle((prev) => ({ ...prev, imgVehicle: file }));
   };
 
   const addImage = () => {
-    if (!imageVehicle.imgVehicle) {
-      alert("Please fill all the imageVehicle fields");
+    if (
+      !imageVehicle.imgVehicle ||
+      !(imageVehicle.imgVehicle instanceof File)
+    ) {
+      alert("Please select a valid image file");
       return;
     }
 
     setVehicle((prev) => ({
       ...prev,
-      ImageVehicles: [...prev.ImageVehicles, imageVehicle],
+      ImageVehicles: [...prev.ImageVehicles, imageVehicle.imgVehicle],
     }));
 
     setImageVehicle({ imgVehicle: "" });
@@ -55,24 +58,31 @@ const CreateVehicle = () => {
       return;
     }
 
+    const formdata = new FormData();
+    formdata.append("_id", Vehicle._id);
+    formdata.append("Number_Seats", Vehicle.Number_Seats);
+    formdata.append("VehicleName", Vehicle.VehicleName);
+    formdata.append("Branch", Vehicle.Branch);
+    formdata.append("Price", Vehicle.Price);
+    formdata.append("Description", Vehicle.Description);
+    Vehicle.ImageVehicles.forEach((image) => {
+      formdata.append("images", image);
+    });
+
     try {
       const response = await fetch(`${URL}/createVehicle`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: JSON.stringify({
-          ...Vehicle,
-          Number_Seats: Number(Vehicle.Number_Seats),
-          Price: Number(Vehicle.Price),
-          ImageVehicles: Object(
-            Vehicle.ImageVehicles.map((img) => img.imgVehicle)
-          ),
-        }),
+        body: formdata,
       });
 
-      const data = await response.json();
+      console.log("Response status:", response.status);
+
+      const data = await response.json(); // Chỉ đọc một lần dưới dạng JSON
+      console.log("Response body:", data);
+
       if (response.ok) {
         alert("Vehicle created successfully");
         navigate("/MainAdmin/ListVehicle");
@@ -132,7 +142,7 @@ const CreateVehicle = () => {
                 <label className="font-bold">Hãng xe</label>
               </div>
               <div className="col-span-12">
-                <input
+                {/* <input
                   placeholder="Nhập tên hãng"
                   className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
                   type="text"
@@ -140,7 +150,49 @@ const CreateVehicle = () => {
                   onChange={(e) =>
                     setVehicle({ ...Vehicle, Branch: e.target.value })
                   }
-                />
+                /> */}
+                <select
+                  className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
+                  name=""
+                  value={Vehicle.Branch}
+                  onChange={(e) =>
+                    setVehicle({ ...Vehicle, Branch: e.target.value })
+                  }
+                >
+                  <option value="" disabled selected>
+                    Chọn hãng xe
+                  </option>
+                  <option value="Acura">Acura</option>
+                  <option value="Audi">Audi</option>
+                  <option value="BMW">BMW</option>
+                  <option value="Buick">Buick</option>
+                  <option value="Chevrolet">Chevrolet</option>
+                  <option value="Chrysler">Chrysler</option>
+                  <option value="Dodge">Dodge</option>
+                  <option value="Ferrari">Ferrari</option>
+                  <option value="Ford">Ford</option>
+                  <option value="GMC">GMC</option>
+                  <option value="Honda">Honda</option>
+                  <option value="Hyundai">Hyundai</option>
+                  <option value="Infiniti">Infiniti</option>
+                  <option value="Jaguar">Jaguar</option>
+                  <option value="Jeep">Jeep</option>
+                  <option value="Kia">Kia</option>
+                  <option value="Lamborghini">Lamborghini</option>
+                  <option value="Land Rover">Land Rover</option>
+                  <option value="Lexus">Lexus</option>
+                  <option value="Mazda">Mazda</option>
+                  <option value="Mercedes-Benz">Mercedes-Benz</option>
+                  <option value="Mitsubishi">Mitsubishi</option>
+                  <option value="Nissan">Nissan</option>
+                  <option value="Peugeot">Peugeot</option>
+                  <option value="Porsche">Porsche</option>
+                  <option value="Subaru">Subaru</option>
+                  <option value="Tesla">Tesla</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Volkswagen">Volkswagen</option>
+                  <option value="Volvo">Volvo</option>
+                </select>
               </div>
             </div>
             <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] py-1 pl-4 rounded-lg h-12">
@@ -217,12 +269,11 @@ const CreateVehicle = () => {
             </div>
             <div className="col-span-12">
               <input
-                placeholder="Nhập link ảnh"
-                className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
-                type="text"
-                name="imgVehicle"
-                id="imgVehicle"
+                type="file"
+                id="imgFile"
+                accept="image/*"
                 onChange={handleImageChange}
+                className="file-input outline-none file:border-0 file:rounded-full file:shadow-md file:shadow-[#ffffff] file:text-[#3b7097] file:bg-[#ffffff] w-full bg-[#a9d09e] shadow-md shadow-[#ffffff] text-[#ffffff] placeholder-[#ffffff] text-lg rounded-full"
               />
             </div>
           </div>
@@ -253,8 +304,9 @@ const CreateVehicle = () => {
                       className="mb-2 mx-2 text-[#4ca771] font-semibold"
                     >
                       <img
-                        className="w-ful rounded-xl h-full"
-                        src={img.imgVehicle}
+                        className="w-full h-auto rounded-xl"
+                        src={img}
+                        alt={`Image ${index + 1}`}
                       />
                     </div>
                   ))}

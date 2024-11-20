@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [vehicles, setVehicles] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([4, 8, 16, 30, 45]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const URL = "https://cnpm-ncserver.vercel.app/api"; // URL of the server
@@ -45,24 +45,24 @@ const Home = () => {
     }).format(price);
   };
 
-  const fetchSeats = async () => {
-    try {
-      const res = await fetch(`${URL}/getSort_Vehicle`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      setSelectedSeats(data);
-    } catch (error) {
-      setError("Không thể lấy dữ liệu từ máy chủ của chỗ ngối");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const fetchSeats = async () => {
+  //   try {
+  //     const res = await fetch(`${URL}/getSort_Vehicle`);
+  //     if (!res.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+  //     const data = await res.json();
+  //     setSelectedSeats(data);
+  //   } catch (error) {
+  //     setError("Không thể lấy dữ liệu từ máy chủ của chỗ ngối");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchSeats();
-  }, []);
+  // useEffect(() => {
+  //   fetchSeats();
+  // }, []);
 
   const fetchVehicles = async () => {
     try {
@@ -72,6 +72,7 @@ const Home = () => {
       }
       const data = await res.json();
       setVehicles(data);
+      console.log(data);
     } catch (error) {
       setError("Không thể lấy dữ liệu từ máy chủ");
     } finally {
@@ -106,23 +107,19 @@ const Home = () => {
             tabIndex={0}
             role="button"
             className="font-semibold bg-[#75bde0] hover:bg-[#ffffff] text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] outline-none px-4 py-2 rounded-full"
-            onClick={() => setOpenDropdown(!openDropdown)}
-          >
+            onClick={() => setOpenDropdown(!openDropdown)}>
             <FontAwesomeIcon className="mr-2" icon={faFilter} /> Số chỗ ngồi
           </div>
           {openDropdown && (
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-[#ffffff] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#75bde0] mt-1"
-            >
+              className="dropdown-content menu bg-[#ffffff] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#75bde0] mt-1">
               <li
                 key="all"
-                className="flex items-center text-[#2b7a78] text-lg"
-              >
+                className="flex items-center text-[#2b7a78] text-lg">
                 <a
                   onClick={() => handleSort("All")}
-                  className="w-full hover:bg-[#75bde0] hover:text-[#ffffff] bg-[#ffffff] active:font-bold border-2 border-transparent active:border-[#4ca771]"
-                >
+                  className="w-full hover:bg-[#75bde0] hover:text-[#ffffff] bg-[#ffffff] active:font-bold border-2 border-transparent active:border-[#4ca771]">
                   Tất cả
                 </a>
               </li>
@@ -130,12 +127,10 @@ const Home = () => {
               {selectedSeats.map((seat, index) => (
                 <li
                   key={index}
-                  className="flex items-center text-[#2b7a78] text-lg"
-                >
+                  className="flex items-center text-[#2b7a78] text-lg">
                   <a
                     onClick={() => handleSort(seat)}
-                    className="w-full hover:bg-[#75bde0] hover:text-[#ffffff] bg-[#ffffff] active:font-bold border-2 border-transparent active:border-[#4ca771]"
-                  >
+                    className="w-full hover:bg-[#75bde0] hover:text-[#ffffff] bg-[#ffffff] active:font-bold border-2 border-transparent active:border-[#4ca771]">
                     {seat}
                   </a>
                 </li>
@@ -153,8 +148,7 @@ const Home = () => {
               : `/Reservation/${vehicle._id}`
           }
           key={vehicle._id}
-          className="w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]"
-        >
+          className="w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]">
           <img
             src={vehicle.imageVehicle[0]}
             alt=""

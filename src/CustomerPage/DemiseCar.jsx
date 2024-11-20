@@ -7,7 +7,7 @@ const DemiseCar = () => {
   const [Vehicle, setVehicle] = useState({
     _id: "",
     Number_Seats: "",
-    Image: "",
+    VehicleName: "",
     Branch: "",
     Price: "",
     Description: "",
@@ -90,8 +90,7 @@ const DemiseCar = () => {
   return (
     <div
       id="overBg"
-      className="bg-gradient-to-r from-[#ffffff] to-[#75bde0] transition-colors ease-in-out p-10"
-    >
+      className="bg-gradient-to-r from-[#ffffff] to-[#75bde0] transition-colors ease-in-out p-10">
       <div className="w-full bg-[#ffffff] p-4 px-10 rounded-xl shadow-2xl">
         <h1 className="text-4xl text-[#3b7097] mb-10 mt-4 w-full text-center font-bold">
           Đăng ký cho thuê xe
@@ -150,23 +149,6 @@ const DemiseCar = () => {
             </div>
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
               <div className="w-full h-full">
-                <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
-                  <div className="col-span-5">
-                    <label className="font-bold">Ảnh chính</label>
-                  </div>
-                  <div className="col-span-12">
-                    <input
-                      placeholder="Nhập link ảnh chính"
-                      className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] px-2 py-2 h-full w-full rounded-lg bg-[#ffffff]"
-                      type="text"
-                      value={Vehicle.Image}
-                      onChange={(e) => {
-                        setVehicle({ ...Vehicle, Image: e.target.value });
-                        setMainImg(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
                 <div className="mt-10 grid grid-cols-2 gap-10">
                   <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                     <div className="col-span-12">
@@ -220,8 +202,7 @@ const DemiseCar = () => {
                     <button
                       type="button"
                       className="col-span-3 border-2 border-[#75bde0] bg-[#75bde0] border-l-0 hover:bg-[#ffffff] font-semibold text-[#ffffff] hover:text-[#75bde0] px-4 py-2 rounded-r-lg"
-                      onClick={addImage}
-                    >
+                      onClick={addImage}>
                       Add Image
                     </button>
                   </div>
@@ -234,7 +215,7 @@ const DemiseCar = () => {
             <div className="mt-10 grid grid-cols-1 gap-10 item-center">
               <div className="border-8 border-[#75bde0] rounded-lg h-fit py-2">
                 <h2 className="text-xl font-bold text-[#3b7097] ml-4">
-                  Sub image:
+                  Images:
                 </h2>
                 <div className="mt-2 px-4">
                   <div className="grid lg:grid-cols-3 grid-cols-1">
@@ -261,16 +242,14 @@ const DemiseCar = () => {
                   //     .getElementById("driverRegister")
                   //     .classList.remove("translate-x-[200%]");
                   // }}
-                  className="bg-[#75bde0] hover:bg-[#ffffff] cursor-pointer font-bold text-lg text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full"
-                >
+                  className="bg-[#75bde0] hover:bg-[#ffffff] cursor-pointer font-bold text-lg text-[#ffffff] hover:text-[#75bde0] border-2 border-[#75bde0] p-2 rounded-lg flex items-center justify-center w-full">
                   Cho thuê
                 </button>
               </div>
               <div className="col-span-5">
                 <Link
                   to="/Home"
-                  className="bg-[#3b7097] hover:bg-[#ffffff] cursor-pointer font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full"
-                >
+                  className="bg-[#3b7097] hover:bg-[#ffffff] cursor-pointer font-bold text-lg text-[#ffffff] hover:text-[#3b7097] border-2 border-[#3b7097] p-2 rounded-lg flex items-center justify-center w-full">
                   Quay về
                 </Link>
               </div>
@@ -279,8 +258,7 @@ const DemiseCar = () => {
           </div>
           <div
             id="driverRegister"
-            className="absolute top-0 w-full bg-[#ffffff] translate-x-[200%] transition-all ease-in-out duration-1000 rounded-xl"
-          >
+            className="absolute top-0 w-full bg-[#ffffff] translate-x-[200%] transition-all ease-in-out duration-1000 rounded-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               <div className="grid grid-cols-12 items-center bg-gradient-to-l from-[#ffffff] to-[#75bde0] text-[#ffffff] py-1 pl-4 rounded-lg h-12">
                 <div className="col-span-12">
@@ -402,8 +380,7 @@ const DemiseCar = () => {
                     <button
                       type="button"
                       className="col-span-3 border-2 border-[#75bde0] bg-[#75bde0] border-l-0 hover:bg-[#ffffff] font-semibold text-[#ffffff] hover:text-[#75bde0] px-4 py-2 rounded-r-lg"
-                      onClick={addImage}
-                    >
+                      onClick={addImage}>
                       Add Image
                     </button>
                   </div>
