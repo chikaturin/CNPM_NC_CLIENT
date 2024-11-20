@@ -132,7 +132,7 @@ const CreateVehicle = () => {
                 <label className="font-bold">Hãng xe</label>
               </div>
               <div className="col-span-12">
-                <input
+                {/* <input
                   placeholder="Nhập tên hãng"
                   className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
                   type="text"
@@ -140,7 +140,48 @@ const CreateVehicle = () => {
                   onChange={(e) =>
                     setVehicle({ ...Vehicle, Branch: e.target.value })
                   }
-                />
+                /> */}
+                <select
+                  className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
+                  name=""
+                  value={Vehicle.Branch}
+                  onChange={(e) =>
+                    setVehicle({ ...Vehicle, Branch: e.target.value })
+                  }>
+                  <option value="" disabled selected>
+                    Chọn hãng xe
+                  </option>
+                  <option value="Acura">Acura</option>
+                  <option value="Audi">Audi</option>
+                  <option value="BMW">BMW</option>
+                  <option value="Buick">Buick</option>
+                  <option value="Chevrolet">Chevrolet</option>
+                  <option value="Chrysler">Chrysler</option>
+                  <option value="Dodge">Dodge</option>
+                  <option value="Ferrari">Ferrari</option>
+                  <option value="Ford">Ford</option>
+                  <option value="GMC">GMC</option>
+                  <option value="Honda">Honda</option>
+                  <option value="Hyundai">Hyundai</option>
+                  <option value="Infiniti">Infiniti</option>
+                  <option value="Jaguar">Jaguar</option>
+                  <option value="Jeep">Jeep</option>
+                  <option value="Kia">Kia</option>
+                  <option value="Lamborghini">Lamborghini</option>
+                  <option value="Land Rover">Land Rover</option>
+                  <option value="Lexus">Lexus</option>
+                  <option value="Mazda">Mazda</option>
+                  <option value="Mercedes-Benz">Mercedes-Benz</option>
+                  <option value="Mitsubishi">Mitsubishi</option>
+                  <option value="Nissan">Nissan</option>
+                  <option value="Peugeot">Peugeot</option>
+                  <option value="Porsche">Porsche</option>
+                  <option value="Subaru">Subaru</option>
+                  <option value="Tesla">Tesla</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Volkswagen">Volkswagen</option>
+                  <option value="Volvo">Volvo</option>
+                </select>
               </div>
             </div>
             <div className="grid grid-cols-12 items-center bg-[#c0e6ba] text-[#4ca771] py-1 pl-4 rounded-lg h-12">
@@ -176,14 +217,12 @@ const CreateVehicle = () => {
                       Number_Seats: Number(e.target.value),
                     });
                     console.log(e.target.value);
-                  }}
-                >
+                  }}>
                   <option
                     value="4"
                     disabled
                     selected
-                    className="text-[#2F4F4F]"
-                  >
+                    className="text-[#2F4F4F]">
                     Chọn số chỗ ngồi
                   </option>
                   <option value="4">4</option>
@@ -239,8 +278,7 @@ const CreateVehicle = () => {
                   <button
                     type="button"
                     className="lg:col-span-2 border-2 border-[#4ca771] bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] px-4 py-2 rounded-bl-lg"
-                    onClick={addImage}
-                  >
+                    onClick={addImage}>
                     Add Image
                   </button>
                 </div>
@@ -250,8 +288,7 @@ const CreateVehicle = () => {
                   {Vehicle.ImageVehicles.map((img, index) => (
                     <div
                       key={index}
-                      className="mb-2 mx-2 text-[#4ca771] font-semibold"
-                    >
+                      className="mb-2 mx-2 text-[#4ca771] font-semibold">
                       <img
                         className="w-ful rounded-xl h-full"
                         src={img.imgVehicle}
@@ -268,16 +305,14 @@ const CreateVehicle = () => {
             <div className="col-span-5">
               <button
                 className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-2 rounded-lg flex items-center justify-center w-full"
-                onClick={handleSubmit}
-              >
+                onClick={handleSubmit}>
                 Create
               </button>
             </div>
             <div className="col-span-5">
               <Link
                 to="/MainAdmin/ListVehicle"
-                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-2 rounded-lg flex items-center justify-center w-full"
-              >
+                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-2 rounded-lg flex items-center justify-center w-full">
                 Back
               </Link>
             </div>
