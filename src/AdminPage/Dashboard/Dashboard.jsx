@@ -7,7 +7,7 @@ import {
   faArrowDown,
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { Pie, Line } from "react-chartjs-2";
+import { Pie, Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -18,6 +18,7 @@ import {
   PointElement,
   LineElement,
   Title,
+  BarElement,
 } from "chart.js";
 
 ChartJS.register(
@@ -28,7 +29,12 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  Title
+  Title,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend
 );
 
 const Dashboard = () => {
@@ -52,25 +58,24 @@ const Dashboard = () => {
   const [filteredDataDriver, setFilteredDataDriver] = useState([]); // Khởi tạo mảng dữ liệu tài xế sau khi lọc
 
   const URL = "https://cnpm-ncserver.vercel.app/api"; // URL of the server
-  
+
   const TotalCar = car.length;
 
-  //Viết hàm tính tổng hãng xe không trùng lắp trong dữ liệu lấy về
-  const totalCar = () => {
-    const uniqueCar = [...new Set(filteredDataCar.map((item) => item.Branch))];
-    return uniqueCar.length;
-  };
+ 
 
   //Viết hàm tính tổng số xe có sẵn
   const totalAvailableCar = () => {
     return car.filter((item) => item.State === "Available").length;
   };
 
+  const tempA = totalAvailableCar();
+
   //Viết hàm tính tổng số xe không có sẵn
   const totalUnavailableCar = () => {
     return car.filter((item) => item.State === "Unavailable").length;
   };
 
+  const tempB = totalUnavailableCar();
 
   const fetchVehicles = async () => {
     try {
@@ -93,41 +98,40 @@ const Dashboard = () => {
 
   console.log(year);
 
-
   useEffect(() => {
     fetchVehicles();
   }, []);
 
   console.log(car);
-   //Lọc dữ liệu được truyền vào theo tháng và năm
-   const filterCar = () => {
+  //Lọc dữ liệu được truyền vào theo tháng và năm
+  const filterCar = () => {
     const filteredCar = car.filter((item) => {
       const date = new Date(item.CreateDate || item.Date);
       const matchesMonthYear =
-        ( date.getMonth() + 1 === parseInt(selectedMonth)) &&
-        ( date.getFullYear() === parseInt(selectedYear));
+        date.getMonth() + 1 === parseInt(selectedMonth) &&
+        date.getFullYear() === parseInt(selectedYear);
       return matchesMonthYear;
     });
     setFilteredDataCar(filteredCar);
   };
-    console.log(filteredDataCar);
+  console.log(filteredDataCar);
 
-    useEffect(() => {
-      filterCar();
-    }, [car, selectedMonth, selectedYear]);
+  useEffect(() => {
+    filterCar();
+  }, [car, selectedMonth, selectedYear]);
 
-    const countVehicleByBranch = () => {
-      return filteredDataCar.reduce((acc, item) => {
-        acc[item.Branch] = (acc[item.Branch] || 0) + 1;
-        return acc;
-      }, {});
-    };
+  const countVehicleByBranch = () => {
+    return filteredDataCar.reduce((acc, item) => {
+      acc[item.Branch] = (acc[item.Branch] || 0) + 1;
+      return acc;
+    }, {});
+  };
 
   const lineChartCar = {
     labels: Object.keys(countVehicleByBranch()),
     datasets: [
       {
-        label: "Số lượng xe của từng hãng",
+        label: "Số lượng xe của mỗi hãng",
         data: Object.values(countVehicleByBranch()),
         borderColor: "rgb(75, 192, 192)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -233,8 +237,6 @@ const Dashboard = () => {
     return `rgb(${r}, ${g}, ${b})`;
   };
 
- 
-
   const filterDriver = () => {
     if (driver.length === 0) return;
 
@@ -269,7 +271,7 @@ const Dashboard = () => {
       <select
         value={selected}
         onChange={handleSelect}
-        className=" text-md h-full w-full text-center font-bold text-lg "
+        className=" text-md h-full w-full text-center font-bold text-lg mb-5   "
       >
         <option value="nonSelection">Hãy chọn loại thống kê bạn muốn</option>
         <option value="car">Thống kê xe theo từng loại</option>
@@ -295,8 +297,49 @@ const Dashboard = () => {
       {selected === "car" && (
         <>
           <div>
-            <select
+            <div className="grid grid-cols-3 h-[150px] gap-2 w-full">
+            <div>
+                <div className=" w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                  <div className="p-4 border-b border-gray-200">
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      Tổng số xe hiện có 
+                    </h3>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-4xl font-bold text-blue-600">{TotalCar}</p>
+                    <p className="text-sm text-gray-500">Số lượng xe</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className=" w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                  <div className="p-4 border-b border-gray-200">
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      Tổng số xe đang hoạt động
+                    </h3>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-4xl font-bold text-blue-600">{tempA}</p>
+                    <p className="text-sm text-gray-500">Số lượng xe</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                  <div className="p-4 border-b border-gray-200">
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      Tổng số xe không hoạt động
+                    </h3>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-4xl font-bold text-blue-600">{tempB}</p>
+                    <p className="text-sm text-gray-500">Số lượng xe</p>
+                  </div>
+                </div>
+              </div>
+              <select
               value={selectedMonth}
+              className="text-md h-full w-full text-center font-bold text-lg mb-5   "
               onChange={(e) => {
                 setSelectedMonth(e.target.value);
                 filterCar();
@@ -310,6 +353,7 @@ const Dashboard = () => {
             </select>
             <select
               value={selectedYear}
+              className="text-md h-full w-full text-center font-bold text-lg mb-5   "
               onChange={(e) => {
                 setSelectedYear(e.target.value);
                 filterCar();
@@ -321,26 +365,16 @@ const Dashboard = () => {
                 </option>
               ))}
             </select>
-
-            <div></div>
-            <div className="grid grid-rows-4 h-[150px] gap-2 w-[30%]">
-              <div className="totalCar bg-gradient-to-tr from-[#389FC8] to-[#DFE2EB] rounded-[10px] flex items-center justify-center text-white">
-                <FontAwesomeIcon className="mr-2" icon={faCar} /> {TotalCar}
-              </div>
-              <div className="increase bg-gradient-to-tr from-[#00FB9A] to-[#E4CECF] rounded-[10px] flex items-center justify-center text-white">
-                <FontAwesomeIcon className="mr-2" icon={faArrowUp} /> Available
-              </div>
-              <div className="degree bg-gradient-to-tr from-[#FA0307] to-[#E4CECF] rounded-[10px] flex items-center justify-center text-white">
-                <FontAwesomeIcon className="mr-2" icon={faArrowDown} />{" "}
-                UnAvailable
-              </div>
+              
             </div>
             {filteredDataCar.length > 0 ? (
-              <div className="flex justify-center">
-                <Line data={lineChartCar} options={options} />
+              <div className="h-[500px] pt-20">
+                <div className="flex justify-center h-full w-full">
+                  <Bar data={lineChartCar} options={options} />
+                </div>
               </div>
             ) : (
-              <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold">
+              <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
                 Không có dữ liệu
               </div>
             )}
@@ -348,63 +382,67 @@ const Dashboard = () => {
         </>
       )}
 
-      {selected === "driver" && <div>
-        <select
-              value={selectedMonth}
-              onChange={(e) => {
-                setSelectedMonth(e.target.value);
-                filterCar();
-              }}
-            >
-              {months.map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedYear}
-              onChange={(e) => {
-                setSelectedYear(e.target.value);
-                filterCar();
-              }}
-            >
-              {year.map((year, index) => (
-                <option key={index} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-        
-        </div>}
+      {selected === "driver" && (
+        <div>
+          <select
+            value={selectedMonth}
+            onChange={(e) => {
+              setSelectedMonth(e.target.value);
+              filterCar();
+            }}
+          >
+            {months.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+          <select
+            value={selectedYear}
+            onChange={(e) => {
+              setSelectedYear(e.target.value);
+              filterCar();
+            }}
+          >
+            {year.map((year, index) => (
+              <option key={index} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
-      {selected === "order" && <div>
-        <select
-              value={selectedMonth}
-              onChange={(e) => {
-                setSelectedMonth(e.target.value);
-                filterCar();
-              }}
-            >
-              {months.map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedYear}
-              onChange={(e) => {
-                setSelectedYear(e.target.value);
-                filterCar();
-              }}
-            >
-              {year.map((year, index) => (
-                <option key={index} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select></div>}
+      {selected === "order" && (
+        <div>
+          <select
+            value={selectedMonth}
+            onChange={(e) => {
+              setSelectedMonth(e.target.value);
+              filterCar();
+            }}
+          >
+            {months.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+          <select
+            value={selectedYear}
+            onChange={(e) => {
+              setSelectedYear(e.target.value);
+              filterCar();
+            }}
+          >
+            {year.map((year, index) => (
+              <option key={index} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <br />
     </div>
