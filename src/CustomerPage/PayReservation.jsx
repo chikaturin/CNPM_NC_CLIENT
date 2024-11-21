@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
-const Payment = () => {
+const PayReservation = () => {
   const { id } = useParams();
   const location = useLocation();
   const [error, setError] = useState(null);
@@ -17,6 +17,9 @@ const Payment = () => {
   const [PickupDriver, setPickupDriver] = useState(null); //hàm chọn driver để thanh toán
   const URL = "https://cnpm-ncserver.vercel.app/api";
   const navigate = useNavigate();
+
+  let TotalPriceReserve = (TotalPrice * 20) / 100;
+  console.log("totalpricereserve", TotalPriceReserve);
 
   const fetchCalculate = async () => {
     try {
@@ -105,36 +108,40 @@ const Payment = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const confirm = window.confirm("Are you sure you want to pay?");
     if (!confirm) return;
-    else {
-      e.preventDefault();
-      try {
-        const response = await fetch(`${URL}/PaymentContract`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-          body: JSON.stringify({
-            Pickup_Date: formatDateCreate(PickupDate).toISOString(),
-            Return_Date: formatDateCreate(ReturnDate).toISOString(),
-            MaVehicle: id,
-            MaDriver: PickupDriver,
-            Total_Pay: Total,
-          }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-          alert("Vehicle created successfully");
-          navigate("/Home");
-        } else {
-          alert("Error: " + (data?.message || "Failed to create payment"));
-        }
-      } catch (err) {
-        console.error("Error payment:", err);
-        alert("An error occurred while creating the payment");
+
+    if (!PickupDate || !ReturnDate) {
+      alert("Please provide both Pickup Date and Return Date.");
+      return;
+    }
+    try {
+      const response = await fetch(`${URL}/createVehicle_Reservation_Book`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify({
+          Desired_Date: formatDateCreate(PickupDate).toISOString(),
+          Return_Date: formatDateCreate(ReturnDate).toISOString(),
+          MaVehicle: id,
+          Price: (TotalPrice * 80) / 100,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Vehicle created successfully");
+        navigate("/Home");
+      } else {
+        alert("Error: " + (data?.message || "Failed to create reservation"));
       }
+    } catch (err) {
+      console.error("Error creating reservation:", err);
+      alert("An error occurred while creating the reservation.");
     }
   };
 
@@ -157,7 +164,7 @@ const Payment = () => {
   return (
     <div className="p-10 min-h-screen bg-[#ffffff] text-[#3b7097] text-lg">
       <Link
-        to={`/CarDetail/${id}`}
+        to={`/Reservation/${id}`}
         className="text-left py-2 px-4 cursor-pointer w-fit hover:underline flex items-center"
       >
         <FontAwesomeIcon className="mr-2" icon={faChevronLeft} />
@@ -167,6 +174,7 @@ const Payment = () => {
         THANH TOÁN
       </h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-6">
+        <div className="col-span-2"></div>
         <div className="col-span-8">
           <div className="w-full shadow-lg shadow-[#75bde0] rounded-xl p-10">
             <p className="text-3xl font-bold mb-2">{Name}</p>
@@ -210,53 +218,11 @@ const Payment = () => {
             <div className="grid grid-cols-2 text-2xl">
               <p className="font-bold">Tổng cộng:</p>
               <p className="text-right">
-                {!Total ? TotalPrice : formattedPrice(Total)}
+                {!Total
+                  ? formattedPrice(Total)
+                  : formattedPrice(TotalPriceReserve)}
               </p>
             </div>
-          </div>
-        </div>
-        <div className="col-span-4 p-6 border-8 border-l-8 border-r-0 border-[#75bde0] rounded-l-3xl">
-          <h1 className="text-2xl font-bold mb-4">Chọn tài xế</h1>
-          <div className="h-96 overflow-scroll overflow-x-hidden">
-            {Driver.map((driver) => (
-              <div
-                className={`w-full grid grid-cols-12 my-2 rounded-lg ${
-                  driver == PickupDriver ? "bg-[#75bde0] text-[#fff]" : ""
-                } hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer`}
-                onClick={() => setPickupDriver(driver)}
-                key={driver._id}
-                value={driver.Driving_License}
-              >
-                <div className="col-span-4 rounded-lg overflow-hidden flex justify-center bg-[#75bde0]">
-                  <img src={driver.Image} alt="" className="h-32 rounded-lg" />
-                </div>
-                <div className="col-span-8 flex items-center px-6 border-l-2 border-[#fff]">
-                  <div className="w-full">
-                    <p className="font-bold w-full text-center mb-4">
-                      {driver.NameDriver}
-                    </p>
-                    <div className="grid grid-cols-2">
-                      <p className="font-bold">Giá:</p>
-                      <p className="text-right">
-                        {formattedPrice(driver.Price)}
-                      </p>
-                      <div></div>
-                    </div>
-                    <div className="grid grid-cols-2">
-                      <p className="font-bold">Số điện thoại:</p>
-                      <p className="text-right">{driver.NumberPhone}</p>
-                      <div></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div
-            onClick={() => setPickupDriver(null)}
-            className="w-full flex items-center justify-center h-16 border-4 border-[#75bde0] rounded-xl mt-6 font-bold text-xl text-[#75bde0] hover:bg-[#75bde0] hover:text-[#fff] cursor-pointer"
-          >
-            Unselect driver
           </div>
         </div>
         <button
@@ -270,4 +236,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default PayReservation;

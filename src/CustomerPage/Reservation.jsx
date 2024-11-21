@@ -156,14 +156,14 @@ const Reservation = () => {
     }
     if (!PickupDate && !ReturnDate) {
       setNull2("Vui lòng chọn ngày nhận và trả xe");
-    } else if (ReturnDate && PickupDate && PickupDate < ReturnDate) {
-      navigate(`/Payment/${id}`, {
+    } else if (ReturnDate && PickupDate && PickupDate < ReturnDate && total) {
+      navigate(`/PayReservation/${id}`, {
         state: {
           Name: vehicle.VehicleName,
           PickupDate: formatDate(PickupDate),
           ReturnDate: formatDate(ReturnDate),
           Price: formattedPrice(vehicle.Price),
-          TotalPrice: formattedPrice(total),
+          TotalPrice: total,
           Insurance: formattedPrice(insurance),
         },
       });
@@ -403,7 +403,10 @@ const Reservation = () => {
             </div>
             <form onSubmit={() => {}} className="bg-[#ffffff] rounded-xl p-4">
               <p className="font-semibold text-lg mb-4">
-                <span className="text-3xl">{vehicle.Price}</span>/ngày
+                <span className="text-3xl">
+                  {formattedPrice(vehicle.Price)}
+                </span>
+                /ngày
               </p>
               <div className="grid grid-cols-2 text-[#ffffff] text-md">
                 <div className="rounded-l-lg shadow-xl shadow-[#75bde0] p-4">
