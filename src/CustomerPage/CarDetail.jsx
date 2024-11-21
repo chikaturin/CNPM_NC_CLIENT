@@ -127,7 +127,7 @@ const DetailVehicle = () => {
       setNull("Vui lòng chọn ngày trả xe");
     } else if (new Date(date) < new Date()) {
       setNull("Ngày trả xe không hợp lệ");
-    } else {
+    } else if (total) {
       navigate(`/Payment/${id}`, {
         state: {
           Name: vehicle.VehicleName,
