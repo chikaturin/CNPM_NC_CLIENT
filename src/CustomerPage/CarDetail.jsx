@@ -199,6 +199,7 @@ const DetailVehicle = () => {
           <img
             className="w-full rounded-xl h-full object-cover"
             src={vehicle.images[0].imageVehicle}
+
             alt="Vehicle"
             onClick={handleSeemore}
           />
