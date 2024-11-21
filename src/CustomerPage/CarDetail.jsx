@@ -198,7 +198,8 @@ const DetailVehicle = () => {
         <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
           <img
             className="w-full rounded-xl h-full object-cover"
-            src={vehicle.imageVehicle[0]}
+            src={vehicle.images[0].imageVehicle}
+
             alt="Vehicle"
             onClick={handleSeemore}
           />

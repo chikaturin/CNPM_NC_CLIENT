@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CreateVehicle = () => {
-  const URL = "https://cnpm-ncserver.vercel.app/api";
+  const URL = "http://localhost:8000/api";
 
   const [Vehicle, setVehicle] = useState({
     _id: "",
@@ -20,19 +20,22 @@ const CreateVehicle = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleImageChange = (e) => {
-    const { name, value } = e.target;
-    setImageVehicle((prev) => ({ ...prev, [name]: value }));
+    const file = e.target.files[0];
+    setImageVehicle((prev) => ({ ...prev, imgVehicle: file }));
   };
 
   const addImage = () => {
-    if (!imageVehicle.imgVehicle) {
-      alert("Please fill all the imageVehicle fields");
+    if (
+      !imageVehicle.imgVehicle ||
+      !(imageVehicle.imgVehicle instanceof File)
+    ) {
+      alert("Please select a valid image file");
       return;
     }
 
     setVehicle((prev) => ({
       ...prev,
-      ImageVehicles: [...prev.ImageVehicles, imageVehicle],
+      ImageVehicles: [...prev.ImageVehicles, imageVehicle.imgVehicle],
     }));
 
     setImageVehicle({ imgVehicle: "" });
@@ -55,24 +58,31 @@ const CreateVehicle = () => {
       return;
     }
 
+    const formdata = new FormData();
+    formdata.append("_id", Vehicle._id);
+    formdata.append("Number_Seats", Vehicle.Number_Seats);
+    formdata.append("VehicleName", Vehicle.VehicleName);
+    formdata.append("Branch", Vehicle.Branch);
+    formdata.append("Price", Vehicle.Price);
+    formdata.append("Description", Vehicle.Description);
+    Vehicle.ImageVehicles.forEach((image) => {
+      formdata.append("images", image);
+    });
+
     try {
       const response = await fetch(`${URL}/createVehicle`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: JSON.stringify({
-          ...Vehicle,
-          Number_Seats: Number(Vehicle.Number_Seats),
-          Price: Number(Vehicle.Price),
-          ImageVehicles: Object(
-            Vehicle.ImageVehicles.map((img) => img.imgVehicle)
-          ),
-        }),
+        body: formdata,
       });
 
-      const data = await response.json();
+      console.log("Response status:", response.status);
+
+      const data = await response.json(); // Chỉ đọc một lần dưới dạng JSON
+      console.log("Response body:", data);
+
       if (response.ok) {
         alert("Vehicle created successfully");
         navigate("/MainAdmin/ListVehicle");
@@ -147,7 +157,8 @@ const CreateVehicle = () => {
                   value={Vehicle.Branch}
                   onChange={(e) =>
                     setVehicle({ ...Vehicle, Branch: e.target.value })
-                  }>
+                  }
+                >
                   <option value="" disabled selected>
                     Chọn hãng xe
                   </option>
@@ -217,12 +228,14 @@ const CreateVehicle = () => {
                       Number_Seats: Number(e.target.value),
                     });
                     console.log(e.target.value);
-                  }}>
+                  }}
+                >
                   <option
                     value="4"
                     disabled
                     selected
-                    className="text-[#2F4F4F]">
+                    className="text-[#2F4F4F]"
+                  >
                     Chọn số chỗ ngồi
                   </option>
                   <option value="4">4</option>
@@ -256,12 +269,11 @@ const CreateVehicle = () => {
             </div>
             <div className="col-span-12">
               <input
-                placeholder="Nhập link ảnh"
-                className="border-2 border-[#c0e6ba] outline-none px-2 py-2 h-full w-full rounded-lg bg-white"
-                type="text"
-                name="imgVehicle"
-                id="imgVehicle"
+                type="file"
+                id="imgFile"
+                accept="image/*"
                 onChange={handleImageChange}
+                className="file-input outline-none file:border-0 file:rounded-full file:shadow-md file:shadow-[#ffffff] file:text-[#3b7097] file:bg-[#ffffff] w-full bg-[#a9d09e] shadow-md shadow-[#ffffff] text-[#ffffff] placeholder-[#ffffff] text-lg rounded-full"
               />
             </div>
           </div>
@@ -278,7 +290,8 @@ const CreateVehicle = () => {
                   <button
                     type="button"
                     className="lg:col-span-2 border-2 border-[#4ca771] bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] px-4 py-2 rounded-bl-lg"
-                    onClick={addImage}>
+                    onClick={addImage}
+                  >
                     Add Image
                   </button>
                 </div>
@@ -288,10 +301,12 @@ const CreateVehicle = () => {
                   {Vehicle.ImageVehicles.map((img, index) => (
                     <div
                       key={index}
-                      className="mb-2 mx-2 text-[#4ca771] font-semibold">
+                      className="mb-2 mx-2 text-[#4ca771] font-semibold"
+                    >
                       <img
-                        className="w-ful rounded-xl h-full"
-                        src={img.imgVehicle}
+                        className="w-full h-auto rounded-xl"
+                        src={img}
+                        alt={`Image ${index + 1}`}
                       />
                     </div>
                   ))}
@@ -305,14 +320,16 @@ const CreateVehicle = () => {
             <div className="col-span-5">
               <button
                 className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-2 rounded-lg flex items-center justify-center w-full"
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+              >
                 Create
               </button>
             </div>
             <div className="col-span-5">
               <Link
                 to="/MainAdmin/ListVehicle"
-                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-2 rounded-lg flex items-center justify-center w-full">
+                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-2 rounded-lg flex items-center justify-center w-full"
+              >
                 Back
               </Link>
             </div>

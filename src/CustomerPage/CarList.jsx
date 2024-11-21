@@ -66,7 +66,7 @@ const Home = () => {
 
   const fetchVehicles = async () => {
     try {
-      const res = await fetch(`${URL}/getVehicleByCus`);
+      const res = await fetch(`${URL}/getVehicleByAdmin`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -150,7 +150,8 @@ const Home = () => {
           key={vehicle._id}
           className="w-full rounded-2xl p-4 bg-[#f3f3f3] text-[#3b7097] shadow-xl shadow-[#75bde0]">
           <img
-            src={vehicle.imageVehicle[0]}
+            src={vehicle.images[0].ImageVehicle}
+
             alt=""
             className="rounded-xl h-3/5 w-full"
           />
