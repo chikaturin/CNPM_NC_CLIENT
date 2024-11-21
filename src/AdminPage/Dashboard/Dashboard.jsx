@@ -43,7 +43,7 @@ const Dashboard = () => {
   const [driver, setDriver] = useState([]); // Khởi tạo mảng dữ liệu tài xế
   const [contact, setContact] = useState([]); // Khởi tạo mảng dữ liệu hợp đồng
   const [car, setCar] = useState([]); // Khởi tạo mảng dữ liệu xe
-  const [selected, setSelected] = useState("nonSelection"); // Khởi tạo giá trị ban đầu của dropdown
+  const [selected, setSelected] = useState("car"); // Khởi tạo giá trị ban đầu của dropdown
 
   const [selectedMonth, setSelectedMonth] = useState(
     (new Date().getMonth() + 1).toString()
@@ -104,6 +104,7 @@ const Dashboard = () => {
   console.log(car);
   //Lọc dữ liệu được truyền vào theo tháng và năm
   const filterCar = () => {
+    if(car.length === 0) return;
     const filteredCar = car.filter((item) => {
       const date = new Date(item.CreateDate || item.Date);
       const matchesMonthYear =
@@ -124,7 +125,9 @@ const Dashboard = () => {
       acc[item.Branch] = (acc[item.Branch] || 0) + 1;
       return acc;
     }, {});
-  };
+  };  
+
+  
 
   const lineChartCar = {
     labels: Object.keys(countVehicleByBranch()),
@@ -132,7 +135,7 @@ const Dashboard = () => {
       {
         label: "Số lượng xe của mỗi hãng",
         data: Object.values(countVehicleByBranch()),
-        borderColor: "rgb(75, 192, 192)",
+        borderColor:"rgba(75, 192, 192, 0.2)" ,
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: true,
         tension: 0.1,
@@ -162,28 +165,7 @@ const Dashboard = () => {
     },
   };
 
-  const fetchDrivers = async () => {
-    try {
-      const res = await fetch(`${URL}/GetDriverByAdmin`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      setDriver(data);
-      const uniqueYears = [
-        ...new Set(data.map((item) => new Date(item.Date).getFullYear())),
-      ];
-      setYear(uniqueYears);
-    } catch (error) {
-      setError("Không thể lấy dữ liệu tài xế từ máy chủ");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDrivers();
-  }, []);
+  
 
   const fetchContact = async () => {
     try {
@@ -192,9 +174,9 @@ const Dashboard = () => {
         throw new Error("Network response was not ok");
       }
       const data = await res.json();
-      setDriver(data);
+      setContact(data);
       const uniqueYears = [
-        ...new Set(data.map((item) => new Date(item.Date).getFullYear())),
+        ...new Set(data.map((item) => new Date(item.ContractDate).getFullYear())),
       ];
       setYear(uniqueYears);
     } catch (error) {
@@ -204,9 +186,70 @@ const Dashboard = () => {
     }
   };
 
+  const fetchDriver = async () => {
+    try {
+      const res = await fetch(`${URL}/GetDriverByAdmin`);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      setDriver(data); 
+    } catch (error) {
+      setError("Không thể lấy dữ liệu hợp đồng từ máy chủ");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDriver();
+  }, []);
+
+
   useEffect(() => {
     fetchContact();
   }, []);
+
+  const filterContact = () => {
+    if (contact.length === 0) return;
+    const filtered = contact.filter((item) => {
+      const DateContact = new Date(item.ContractDate);
+      const matchesMonthYear =
+        (!selectedMonth || DateContact.getMonth() + 1 === parseInt(selectedMonth)) &&
+        (!selectedYear || DateContact.getFullYear() === parseInt(selectedYear));
+      return matchesMonthYear;
+    });
+    setFilteredDataContact(filtered);
+  };
+
+  useEffect(() => {
+    filterContact();
+  }, [contact, selectedMonth, selectedYear]);
+
+  useEffect(() => {
+    const datasets = []
+    if(filteredDataContact.length > 0) {
+      const count = filteredDataContact.reduce((acc, item) => {
+        acc[item.ContractStatus] = (acc[item.ContractStatus] || 0) + 1;
+        return acc;
+      }, {});
+      datasets.push({
+        label: "Số lượng hợp đồng",
+        data: Object.values(count),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+        ],
+        borderWidth: 1,
+      });
+    }
+  })
 
   const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
@@ -229,41 +272,12 @@ const Dashboard = () => {
     setSelected(e.target.value);
   };
 
-  const generateRandomColor = () => {
-    const r = Math.floor(Math.random() * 128 + 127);
-    const g = Math.floor(Math.random() * 128 + 127);
-    const b = Math.floor(Math.random() * 128 + 127);
-    return `rgb(${r}, ${g}, ${b})`;
-  };
+  
 
-  const filterDriver = () => {
-    if (driver.length === 0) return;
 
-    const filtered = driver.filter((item) => {
-      const Date = new Date(item.Date);
-      const matchesMonthYear =
-        (!selectedMonth || Date.getMonth() + 1 === parseInt(selectedMonth)) &&
-        (!selectedYear || Date.getFullYear() === parseInt(selectedYear));
-      return matchesMonthYear;
-    });
-    setFilteredDataDriver(filtered);
-  };
+ 
 
-  console.log(filteredDataDriver);
-  const filterContact = () => {
-    if (contact.length === 0) return;
-
-    const filtered = contact.filter((item) => {
-      const Date = new Date(item.Date);
-      const matchesMonthYear =
-        (!selectedMonth || Date.getMonth() + 1 === parseInt(selectedMonth)) &&
-        (!selectedYear || Date.getFullYear() === parseInt(selectedYear));
-      return matchesMonthYear;
-    });
-    setFilteredDataContact(filtered);
-  };
-
-  console.log(filteredDataContact);
+  
 
   return (
     <div className="min-h-screen">
@@ -272,9 +286,7 @@ const Dashboard = () => {
         onChange={handleSelect}
         className=" text-md h-full w-full text-center font-bold text-lg mb-5   "
       >
-        <option value="nonSelection">Hãy chọn loại thống kê bạn muốn</option>
-        <option value="car">Thống kê xe theo từng loại</option>
-        <option value="order">Thống kê doanh thu và đơn hàng</option>
+        <option value="car">Thống kê xe</option>
       </select>
 
       {selected === "nonSelection" && (
@@ -399,6 +411,7 @@ const Dashboard = () => {
 
       {selected === "order" && (
         <div>
+
           <select
             value={selectedMonth}
             onChange={(e) => {
