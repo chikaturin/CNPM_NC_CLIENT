@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faEdit,
+  faXmark,
+  faImage,
+} from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -10,8 +15,13 @@ const DetailVehicle = () => {
   const [vehicle, setVehicle] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [SeeMore, setSeeMore] = useState(false);
   const navigate = useNavigate();
   const URL = "https://cnpm-ncserver.vercel.app/api";
+
+  const handleSeemore = () => {
+    setSeeMore(!SeeMore);
+  };
 
   const DetailFetch = async () => {
     try {
@@ -85,23 +95,62 @@ const DetailVehicle = () => {
         </div>
         <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
           <img
-            className="w-full mx-2 rounded-xl h-full object-cover"
-            src={vehicle.Image}
+            className="w-full rounded-xl h-full object-cover"
+            src={vehicle.imageVehicle[0]}
             alt="Vehicle"
+            onClick={handleSeemore}
           />
-          <div className="ml-2 grid grid-cols-3 lg:block w-full">
+          <div
+            className={`grid gap-4 w-full ${
+              SeeMore
+                ? "fixed inset-0 bg-black bg-opacity-80 z-50 p-10 overflow-y-scroll"
+                : "grid-cols-3 lg:grid-cols-1 lg:grid-rows-3"
+            }`}
+          >
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
-              vehicle.imageVehicle.map((img, index) => (
-                <div key={index} className="w-full p-1">
+              vehicle.imageVehicle.map((img, index) =>
+                index >= 1 && index <= 3 && !SeeMore ? (
                   <img
+                    key={index}
                     src={img}
                     alt="Vehicle Image"
-                    className="w-full h-64 lg:mb-2 rounded-xl object-cover"
+                    onClick={handleSeemore}
+                    className="w-full h-64 rounded-xl object-cover"
                   />
-                </div>
-              ))
+                ) : SeeMore ? (
+                  <img
+                    key={index}
+                    src={img}
+                    alt="Vehicle Image"
+                    className="w-full h-full rounded-xl object-cover"
+                  />
+                ) : null
+              )
             ) : (
               <p>Không có ảnh</p>
+            )}
+
+            {SeeMore && (
+              <div className="fixed top-4 right-14 z-50">
+                <span
+                  className="bg-[#c8f1c1] rounded-lg text-[#3b9741] p-2 m-2 cursor-pointer"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  Close
+                </span>
+              </div>
+            )}
+            {!SeeMore && vehicle.imageVehicle.length > 3 && (
+              <div className="w-full absolute top-[100%] mt-12 right-8 float-right text-right rounded-xl">
+                <span
+                  className="bg-[#c8f1c1] rounded-lg text-[#3b9741] p-2 m-2"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  See More
+                </span>
+              </div>
             )}
           </div>
         </div>

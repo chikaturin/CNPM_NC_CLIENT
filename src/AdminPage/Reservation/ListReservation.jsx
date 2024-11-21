@@ -44,13 +44,18 @@ const ListReservation = () => {
   }, []);
 
   const handleSubmit = async (id) => {
+    console.log("index", id);
     if (!reservation[id]) {
       alert("Reservation not found!");
       return;
     }
 
-    const { Desired_Date, Return_Date, Price } = reservation[id];
-
+    const { Desired_Date, Return_Date, Price, MaVehicle, _id } =
+      reservation[id];
+    if (!Desired_Date || !Return_Date || !Price) {
+      alert("Invalid reservation data!");
+      return;
+    }
     try {
       const response = await fetch(`${URL}/PaymentContract`, {
         method: "POST",
@@ -61,7 +66,7 @@ const ListReservation = () => {
         body: JSON.stringify({
           Pickup_Date: new Date(Desired_Date).toISOString(),
           Return_Date: new Date(Return_Date).toISOString(),
-          MaVehicle: id,
+          MaVehicle: MaVehicle,
           Total_Pay: Price,
         }),
       });
@@ -70,7 +75,7 @@ const ListReservation = () => {
 
       if (response.ok) {
         alert("Created successfully");
-        handleDeleteReservation(id);
+        handleDeleteReservation2(_id);
       } else {
         alert("Error: " + (data?.message || "Failed to create "));
       }
@@ -86,6 +91,20 @@ const ListReservation = () => {
       const data = await res.json();
       if (res.status === 200) {
         alert("Xóa reservation thành công");
+      } else {
+        alert("Error: " + (data?.message || "Failed to delete reservation"));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDeleteReservation2 = async (id) => {
+    try {
+      const res = await fetch(`${URL}/deletevehicle_reservation/${id}`);
+      const data = await res.json();
+      if (res.status === 200) {
+        console.log("Xóa reservation thành công");
+        window.location.reload();
       } else {
         alert("Error: " + (data?.message || "Failed to delete reservation"));
       }
@@ -116,65 +135,69 @@ const ListReservation = () => {
           Danh sách đặt xe trước
         </h1>
         <div className="grid mx-2 grid-cols-1 lg:grid-cols-2 gap-4">
-          {reservation.map((res) => (
-            <div
-              key={res._id}
-              className="w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]"
-            >
-              <h2 className="text-2xl font-bold mb-3">{res._id}</h2>
-              <div className="grid grid-cols-12">
-                <div className="col-span-8">
-                  <p>
-                    <span className="font-bold text-[#4ca771]">
-                      Ngày đặt trước:
-                    </span>{" "}
-                    {date(res.Desired_Date)}
-                  </p>
-                  <p>
-                    <span className="font-bold text-[#4ca771]">Ngày trả:</span>{" "}
-                    {date(res.Return_Date)}
-                  </p>
-                  <p>
-                    <span className="font-bold text-[#4ca771]">
-                      Mã khách hàng:
-                    </span>{" "}
-                    {res.MaKH}
-                  </p>
-                  <p>
-                    <span className="font-bold text-[#4ca771]">
-                      Mã Phương tiện:
-                    </span>{" "}
-                    {res.MaVehicle}
-                  </p>
-                  <p>
-                    <span className="font-bold text-[#4ca771]">
-                      Số tiền còn lại:
-                    </span>{" "}
-                    {formattedPrice(res.Price)}
-                  </p>
-                </div>
-                <div className="col-span-4">
-                  <div className="w-full pt-3">
-                    <button
-                      onClick={() => handleSubmit(res._id)}
-                      className="bg-[#3a942a] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#3a942a] px-4 py-2 rounded-lg flex items-center"
-                    >
-                      Create Contract
-                    </button>
+          {reservation.map((res, index) => {
+            return (
+              <div
+                key={res._id}
+                className="w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]"
+              >
+                <h2 className="text-2xl font-bold mb-3">{res._id}</h2>
+                <div className="grid grid-cols-12">
+                  <div className="col-span-8">
+                    <p>
+                      <span className="font-bold text-[#4ca771]">
+                        Ngày đặt trước:
+                      </span>{" "}
+                      {date(res.Desired_Date)}
+                    </p>
+                    <p>
+                      <span className="font-bold text-[#4ca771]">
+                        Ngày trả:
+                      </span>{" "}
+                      {date(res.Return_Date)}
+                    </p>
+                    <p>
+                      <span className="font-bold text-[#4ca771]">
+                        Mã khách hàng:
+                      </span>{" "}
+                      {res.MaKH}
+                    </p>
+                    <p>
+                      <span className="font-bold text-[#4ca771]">
+                        Mã Phương tiện:
+                      </span>{" "}
+                      {res.MaVehicle}
+                    </p>
+                    <p>
+                      <span className="font-bold text-[#4ca771]">
+                        Số tiền còn lại:
+                      </span>{" "}
+                      {formattedPrice(res.Price)}
+                    </p>
                   </div>
-                  <div className="w-full pt-3">
-                    <button
-                      onClick={() => handleDeleteReservation(res._id)}
-                      className="bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-10 py-2 rounded-lg flex items-center"
-                    >
-                      <FontAwesomeIcon icon={faTrash} className="mr-2" />
-                      Delete
-                    </button>
+                  <div className="col-span-4">
+                    <div className="w-full pt-3">
+                      <button
+                        onClick={() => handleSubmit(index)}
+                        className="bg-[#3a942a] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#3a942a] px-4 py-2 rounded-lg flex items-center"
+                      >
+                        Create Contract
+                      </button>
+                    </div>
+                    <div className="w-full pt-3">
+                      <button
+                        onClick={() => handleDeleteReservation(res._id)}
+                        className="bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-10 py-2 rounded-lg flex items-center"
+                      >
+                        <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

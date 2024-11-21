@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faXmark, faImage } from "@fortawesome/free-solid-svg-icons";
 
 const EditVehicle = () => {
   const { id } = useParams();
@@ -9,8 +9,13 @@ const EditVehicle = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [SeeMore, setSeeMore] = useState(false);
   const navigate = useNavigate();
   const URL = "https://cnpm-ncserver.vercel.app/api";
+
+  const handleSeemore = () => {
+    setSeeMore(!SeeMore);
+  };
 
   const DetailFetch = async () => {
     try {
@@ -21,6 +26,7 @@ const EditVehicle = () => {
       }
       const data = await res.json();
       setData(data);
+      console.log("data edit", data);
     } catch (error) {
       setError("Không thể lấy dữ liệu từ máy chủ");
     } finally {
@@ -84,23 +90,62 @@ const EditVehicle = () => {
         </h1>
         <div className="grid lg:grid-cols-2 gap-4 grid-cols-1">
           <img
-            className="w-full mx-2 rounded-xl h-full object-cover"
-            src={data.Image}
+            className="w-full rounded-xl h-full object-cover"
+            src={data.imageVehicle[0]}
             alt="Vehicle"
+            onClick={handleSeemore}
           />
-          <div className="ml-2 grid grid-cols-3 lg:block w-full">
+          <div
+            className={`grid gap-4 w-full ${
+              SeeMore
+                ? "fixed inset-0 bg-black bg-opacity-80 z-50 p-10 overflow-y-scroll"
+                : "grid-cols-3 lg:grid-cols-1 lg:grid-rows-3"
+            }`}
+          >
             {data.imageVehicle && data.imageVehicle.length > 0 ? (
-              data.imageVehicle.map((img, index) => (
-                <div key={index} className="w-full p-1">
+              data.imageVehicle.map((img, index) =>
+                index >= 1 && index <= 3 && !SeeMore ? (
                   <img
+                    key={index}
                     src={img}
                     alt="Vehicle Image"
-                    className="w-full h-64 lg:mb-2 rounded-xl object-cover"
+                    onClick={handleSeemore}
+                    className="w-full h-64 rounded-xl object-cover"
                   />
-                </div>
-              ))
+                ) : SeeMore ? (
+                  <img
+                    key={index}
+                    src={img}
+                    alt="Vehicle Image"
+                    className="w-full h-full rounded-xl object-cover"
+                  />
+                ) : null
+              )
             ) : (
               <p>Không có ảnh</p>
+            )}
+
+            {SeeMore && (
+              <div className="fixed top-4 right-14 z-50">
+                <span
+                  className="bg-[#c8f1c1] rounded-lg text-[#3b9741] p-2 m-2 cursor-pointer"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  Close
+                </span>
+              </div>
+            )}
+            {!SeeMore && data.imageVehicle.length > 3 && (
+              <div className="w-full absolute top-[100%] mt-12 right-10 float-right text-right rounded-xl">
+                <span
+                  className="bg-[#c8f1c1] rounded-lg text-[#3b9741] p-2 m-2"
+                  onClick={handleSeemore}
+                >
+                  <FontAwesomeIcon className="mr-3" icon={faImage} />
+                  See More
+                </span>
+              </div>
             )}
           </div>
         </div>
@@ -188,7 +233,7 @@ const EditVehicle = () => {
               <div className="col-span-12">
                 <input
                   placeholder={data.Description}
-                  className="border-2 border-[#c0e6ba] outline-none px-2 py-10 h-full w-full rounded-lg bg-white"
+                  className="border-2 border-[#c0e6ba] outline-none px-2 py-4 h-full w-full rounded-lg bg-white"
                   type="text"
                   onChange={(e) =>
                     setVehicle({ ...vehicle, Description: e.target.value })

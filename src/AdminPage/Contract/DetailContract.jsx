@@ -16,7 +16,7 @@ const DetailContract = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const URL = "https://cnpm-ncserver.vercel.app/api";
+  const URL = "http://localhost:8000/api";
 
   const DetailFetch = async () => {
     try {
@@ -40,6 +40,39 @@ const DetailContract = () => {
       month: "2-digit",
       year: "numeric",
     });
+  };
+
+  const changePDF = () => {
+    const pdfUrl = `http://localhost:9999/MainAdmin/DetailContract/${id}`;
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = `Hợp Đồng ${contract._id}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const submitContract = async () => {
+    try {
+      const res = await fetch(`${URL}/CompletedContract/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || `HTTP error! Status: ${res.status}`);
+      }
+
+      alert("Contract completed successfully");
+      navigate("/MainAdmin/ListContract");
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+      console.error("Error completing contract:", error);
+    }
   };
 
   useEffect(() => {
@@ -154,7 +187,7 @@ const DetailContract = () => {
           </div>
         </div> */}
         <div className="w-full grid grid-cols-12 gap-8 text-[#4ca771] text-lg">
-          <div className="col-span-8 pr-12 grid h-fit gap-6">
+          <div className="col-span-12 pr-12 grid h-fit gap-6">
             <div className="w-full flex">
               <p className="w-1/4 font-bold">Bên cho thuê: </p>
               <p className="w-full text-right border-b border-[#4ca771] text-[#2F4F4F]">
@@ -237,17 +270,46 @@ const DetailContract = () => {
               trạng ban đầu, ngoại trừ hao mòn tự nhiên.
             </p>
           </div>
-          <div className="col-span-4">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/1048/1048359.png"
-              alt=""
-            />
-            <p className="w-full font-bold mt-10">Xác nhận của bên thuê</p>
-            <p className="text-base">(Ký và ghi rõ họ tên)</p>
-            <p className="w-full text-center mt-10">
-              {" "}
-              {date(contract.ContractDate) || "N/A"}
-            </p>
+          <div className=" grid grid-cols-12 col-span-12">
+            <div className="col-span-6">
+              <p className="w-full font-bold mt-10">Xác nhận của bên thuê</p>
+              <p className="text-base">(Ký và ghi rõ họ tên)</p>
+              <p className="w-full text-lefts mt-10">
+                {" "}
+                {date(contract.ContractDate) || "N/A"}
+              </p>
+            </div>
+            <div className="col-span-6 text-right mr-20">
+              <p className="w-full font-bold mt-10">Xác nhận của bên thuê</p>
+              <p className="text-base">(Ký và ghi rõ họ tên)</p>
+              <p className="w-full text-right mt-10">
+                {" "}
+                {date(contract.ContractDate) || "N/A"}
+              </p>
+            </div>
+          </div>
+          <div className=" flex justify-center w-full col-span-12">
+            {contract.StatePay === "Paid" ? (
+              ""
+            ) : (
+              <div className="col-span-5 mx-5">
+                <button
+                  onClick={() => submitContract()}
+                  className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-5 rounded-lg flex items-center justify-center w-full"
+                >
+                  <span className="ml-2">Hoàn thành contract</span>
+                </button>
+              </div>
+            )}
+            <div className="col-span-2"></div>
+            <div className="col-span-5 mx-5 ">
+              <button
+                onClick={() => changePDF()}
+                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-5 px-16 rounded-lg flex items-center justify-center w-full"
+              >
+                In hợp đồng
+              </button>
+            </div>
           </div>
         </div>
       </div>
