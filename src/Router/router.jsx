@@ -27,6 +27,7 @@ import History from "../CustomerPage/History.jsx";
 import Reservation from "../CustomerPage/Reservation.jsx";
 import Payment from "../CustomerPage/Payment.jsx";
 import PayReservation from "../CustomerPage/PayReservation.jsx";
+import HistoryContract from "../AdminPage/Dashboard/HistoryContract.jsx";
 
 const AuthLayout = () => {
   return (
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
             path: "Dashboard",
             element: <Dashboard />,
           },
+          {
+            path: "HistoryContact",
+            element: <HistoryContract />,
+          }
         ],
       },
       {
@@ -159,6 +164,7 @@ const router = createBrowserRouter([
             path: "PayReservation/:id",
             element: <PayReservation />,
           },
+         
         ],
       },
       {
