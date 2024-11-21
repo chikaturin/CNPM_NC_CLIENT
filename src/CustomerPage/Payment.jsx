@@ -73,6 +73,14 @@ const Payment = () => {
     fetchDriver();
   }, []);
 
+  const date = (a) => {
+    return new Date(a).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
   // const DetailDriverFetch = async () => {
   //   try {
   //     const res = await fetch(`${URL}/GetDriverById/${id}`);
@@ -117,8 +125,8 @@ const Payment = () => {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
           body: JSON.stringify({
-            Pickup_Date: formatDateCreate(PickupDate).toISOString(),
-            Return_Date: formatDateCreate(ReturnDate).toISOString(),
+            Pickup_Date: new Date(PickupDate).toISOString(),
+            Return_Date: new Date(ReturnDate).toISOString(),
             MaVehicle: id,
             MaDriver: PickupDriver,
             Total_Pay: Total,
@@ -176,7 +184,8 @@ const Payment = () => {
               <p className="text-right">Thành phố Hồ Chí Minh</p>
             </div>
             <p className="w-full mt-3 text-xl">
-              Xe được thuê từ ngày {PickupDate} đến ngày {ReturnDate}
+              Xe được thuê từ ngày {date(PickupDate)} đến ngày{" "}
+              {date(ReturnDate)}
             </p>
             <div className="grid grid-cols-2 mt-3">
               <p className="font-bold">Đơn giá:</p>
