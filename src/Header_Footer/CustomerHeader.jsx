@@ -34,7 +34,7 @@ const CustomerHeader = () => {
             <FontAwesomeIcon className="mr-2" icon={faCarSide} />
             Cars
           </Link>
-          <Link
+          {/* <Link
             to="DemiseCar"
             className={`${
               location.pathname == "/DemiseCar"
@@ -43,6 +43,12 @@ const CustomerHeader = () => {
             } hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer`}>
             <FontAwesomeIcon className="mr-2" icon={faFileInvoice} />
             Cho thuê
+          </Link> */}
+          <Link
+            to="History"
+            className={` hover:bg-[#75bde0] font-bold text-xl hover:text-[#fff] p-2 rounded-lg w-full h-full flex items-center justify-center cursor-pointer`}>
+            <FontAwesomeIcon className="mr-2" icon={faClockRotateLeft} />
+            Log out
           </Link>
           <Link
             to="History"
