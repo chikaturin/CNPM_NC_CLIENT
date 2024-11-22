@@ -104,7 +104,7 @@ const Dashboard = () => {
   console.log(car);
   //Lọc dữ liệu được truyền vào theo tháng và năm
   const filterCar = () => {
-    if(car.length === 0) return;
+    if (car.length === 0) return;
     const filteredCar = car.filter((item) => {
       const date = new Date(item.CreateDate || item.Date);
       const matchesMonthYear =
@@ -125,9 +125,7 @@ const Dashboard = () => {
       acc[item.Branch] = (acc[item.Branch] || 0) + 1;
       return acc;
     }, {});
-  };  
-
-  
+  };
 
   const lineChartCar = {
     labels: Object.keys(countVehicleByBranch()),
@@ -135,7 +133,7 @@ const Dashboard = () => {
       {
         label: "Số lượng xe của mỗi hãng",
         data: Object.values(countVehicleByBranch()),
-        borderColor:"rgba(75, 192, 192, 0.2)" ,
+        borderColor: "rgba(75, 192, 192, 0.2)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: true,
         tension: 0.1,
@@ -165,8 +163,6 @@ const Dashboard = () => {
     },
   };
 
-  
-
   const fetchContact = async () => {
     try {
       const res = await fetch(`${URL}/ContractByAdmin`);
@@ -176,7 +172,9 @@ const Dashboard = () => {
       const data = await res.json();
       setContact(data);
       const uniqueYears = [
-        ...new Set(data.map((item) => new Date(item.ContractDate).getFullYear())),
+        ...new Set(
+          data.map((item) => new Date(item.ContractDate).getFullYear())
+        ),
       ];
       setYear(uniqueYears);
     } catch (error) {
@@ -193,7 +191,7 @@ const Dashboard = () => {
         throw new Error("Network response was not ok");
       }
       const data = await res.json();
-      setDriver(data); 
+      setDriver(data);
     } catch (error) {
       setError("Không thể lấy dữ liệu hợp đồng từ máy chủ");
     } finally {
@@ -205,7 +203,6 @@ const Dashboard = () => {
     fetchDriver();
   }, []);
 
-
   useEffect(() => {
     fetchContact();
   }, []);
@@ -215,7 +212,8 @@ const Dashboard = () => {
     const filtered = contact.filter((item) => {
       const DateContact = new Date(item.ContractDate);
       const matchesMonthYear =
-        (!selectedMonth || DateContact.getMonth() + 1 === parseInt(selectedMonth)) &&
+        (!selectedMonth ||
+          DateContact.getMonth() + 1 === parseInt(selectedMonth)) &&
         (!selectedYear || DateContact.getFullYear() === parseInt(selectedYear));
       return matchesMonthYear;
     });
@@ -227,8 +225,8 @@ const Dashboard = () => {
   }, [contact, selectedMonth, selectedYear]);
 
   useEffect(() => {
-    const datasets = []
-    if(filteredDataContact.length > 0) {
+    const datasets = [];
+    if (filteredDataContact.length > 0) {
       const count = filteredDataContact.reduce((acc, item) => {
         acc[item.ContractStatus] = (acc[item.ContractStatus] || 0) + 1;
         return acc;
@@ -249,7 +247,7 @@ const Dashboard = () => {
         borderWidth: 1,
       });
     }
-  })
+  });
 
   const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
@@ -272,20 +270,12 @@ const Dashboard = () => {
     setSelected(e.target.value);
   };
 
-  
-
-
- 
-
-  
-
   return (
     <div className="min-h-screen">
       <select
         value={selected}
         onChange={handleSelect}
-        className=" text-md h-full w-full text-center font-bold text-lg mb-5   "
-      >
+        className=" text-md h-full w-full text-center font-bold text-lg mb-5   ">
         <option value="car">Thống kê xe</option>
       </select>
 
@@ -370,8 +360,7 @@ const Dashboard = () => {
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
@@ -384,8 +373,7 @@ const Dashboard = () => {
                 onChange={(e) => {
                   setSelectedYear(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {year.map((year, index) => (
                   <option key={index} value={year}>
                     {year}
@@ -400,25 +388,28 @@ const Dashboard = () => {
                 </div>
               </div>
             ) : (
-              <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
-                Không có dữ liệu
+              <div>
+                <p>
+                  Không có hợp đồng nào trong tháng {selectedMonth + 1} năm{" "}
+                  {selectedYear}.
+                </p>
+                <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
+                  Không có dữ liệu
+                </div>
               </div>
             )}
           </div>
         </>
       )}
 
-
       {selected === "order" && (
         <div>
-
           <select
             value={selectedMonth}
             onChange={(e) => {
               setSelectedMonth(e.target.value);
               filterCar();
-            }}
-          >
+            }}>
             {months.map((month) => (
               <option key={month} value={month}>
                 {month}
@@ -430,8 +421,7 @@ const Dashboard = () => {
             onChange={(e) => {
               setSelectedYear(e.target.value);
               filterCar();
-            }}
-          >
+            }}>
             {year.map((year, index) => (
               <option key={index} value={year}>
                 {year}

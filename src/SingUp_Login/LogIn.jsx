@@ -121,7 +121,7 @@ const LogIn = () => {
         setSuccess("Đăng nhập thành công!");
 
         if (userRole === "Admin") {
-          navigate("/MainAdmin");
+          navigate("/MainAdmin/Dashboard");
         } else if (userRole === "Customer") {
           navigate("/Home");
         } else {
@@ -177,8 +177,7 @@ const LogIn = () => {
             <div className="w-full px-20">
               <button
                 type="submit"
-                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#ffffff] text-lg bg-[#75bde0] hover:bg-[#ffffff] hover:text-[#75bde0] rounded-2xl"
-              >
+                className="w-full py-4 font-bold border-4 border-[#75bde0] text-[#ffffff] text-lg bg-[#75bde0] hover:bg-[#ffffff] hover:text-[#75bde0] rounded-2xl">
                 {isLoading ? "Đang đăng nhập..." : "Đăng Nhập"}
               </button>
             </div>
@@ -249,8 +248,7 @@ const LogIn = () => {
                 id="documentType"
                 className="select w-full px-6 bg-[#ffffff] shadow-md shadow-[#a9d09e] text-[#3b7097] placeholder-[#a9d09e] outline-none text-lg rounded-full"
                 value={TypeCard}
-                onChange={(e) => setTypeCard(e.target.value)}
-              >
+                onChange={(e) => setTypeCard(e.target.value)}>
                 <option value="">--Chọn loại giấy tờ--</option>
                 <option value="CĂN CƯỚC CÔNG DÂN">CĂN CƯỚC CÔNG DÂN</option>
                 <option value="HỘ CHIẾU">HỘ CHIẾU</option>
@@ -283,8 +281,7 @@ const LogIn = () => {
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-6 top-1/2 transform -translate-y-1/2 cursor-pointer text-[#3b7097]"
-              >
+                className="absolute right-6 top-1/2 transform -translate-y-1/2 cursor-pointer text-[#3b7097]">
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </span>
             </div>
@@ -308,8 +305,7 @@ const LogIn = () => {
             <button
               type="submit"
               className="w-full py-4 font-bold border-4 border-[#a9d09e] text-[#ffffff] text-lg bg-[#a9d09e] hover:bg-[#ffffff] hover:text-[#a9d09e] rounded-2xl"
-              disabled={isLoading}
-            >
+              disabled={isLoading}>
               {isLoading ? "Đang đăng ký..." : "Đăng Ký"}
             </button>
             {/* <p className="mt-4 text-sm text-center text-gray-600">
@@ -327,8 +323,7 @@ const LogIn = () => {
       </div>
       <div
         id="coverPanel"
-        className="text-[#3b7097] bg-gradient-to-bl from-[#ffffff] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out"
-      >
+        className="text-[#3b7097] bg-gradient-to-bl from-[#ffffff] to-[#a9d09e] flex items-center absolute h-screen w-1/2 translate-x-full transition duration-1000 ease-in-out">
         <div className="w-full px-48" id="toSignUp">
           <img
             src="https://static.vecteezy.com/system/resources/previews/013/923/543/original/blue-car-logo-png.png"
@@ -346,8 +341,7 @@ const LogIn = () => {
                   .getElementById("coverPanel")
                   .classList.remove("translate-x-full");
               }}
-              className="font-bold hover:text-[#ffffff] cursor-pointer"
-            >
+              className="font-bold hover:text-[#ffffff] cursor-pointer">
               Sign up
             </a>
           </p>
@@ -363,8 +357,7 @@ const LogIn = () => {
             Already have an account?{" "}
             <a
               onClick={() => changePanel()}
-              className="font-bold hover:text-[#ffffff] cursor-pointer"
-            >
+              className="font-bold hover:text-[#ffffff] cursor-pointer">
               Login
             </a>
           </p>
