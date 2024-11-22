@@ -4,6 +4,12 @@ const HistoryContract = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedMonth, setSelectedMonth] = useState(
+      (new Date().getMonth() + 1).toString()
+    ); // Khởi tạo giá trị ban đầu của dropdown tháng
+    const [selectedYear, setSelectedYear] = useState(
+      new Date().getFullYear().toString()
+    ); // Khởi tạo giá trị ban đầu của dropdown năm
 
     const fetchContract = async () => {
         try {

@@ -115,9 +115,10 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: "HistoryContact",
+            path: "HistoryContract",
             element: <HistoryContract />,
           }
+          
         ],
       },
       {
