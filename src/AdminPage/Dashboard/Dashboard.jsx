@@ -332,8 +332,7 @@ console.log(result);
       <select
         value={selected}
         onChange={handleSelect}
-        className=" text-md h-full w-full text-center font-bold text-lg mb-5   "
-      >
+        className=" text-md h-full w-full text-center font-bold text-lg mb-5   ">
         <option value="car">Thống kê xe</option>
         <option value="order">Thống kê doanh thu</option>
         <option value="driver">Thống kê tài xế</option>
@@ -420,8 +419,7 @@ console.log(result);
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
@@ -434,8 +432,7 @@ console.log(result);
                 onChange={(e) => {
                   setSelectedYear(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {year.map((year, index) => (
                   <option key={index} value={year}>
                     {year}
@@ -450,8 +447,14 @@ console.log(result);
                 </div>
               </div>
             ) : (
-              <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
-                Không có dữ liệu
+              <div>
+                <p>
+                  Không có hợp đồng nào trong tháng {selectedMonth + 1} năm{" "}
+                  {selectedYear}.
+                </p>
+                <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
+                  Không có dữ liệu
+                </div>
               </div>
             )}
           </div>
