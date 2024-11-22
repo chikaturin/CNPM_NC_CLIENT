@@ -26,14 +26,14 @@ const Nav = () => {
               <FontAwesomeIcon icon={faChartLine} /> DashBoard
             </Link>
           </li>
-          <li className="w-full lg:hover:px-5 py-2 hover:bg-[#eaf9e7] hover:text-[#4ca771] text-center lg:text-left rounded-full mb-4">
+          {/* <li className="w-full lg:hover:px-5 py-2 hover:bg-[#eaf9e7] hover:text-[#4ca771] text-center lg:text-left rounded-full mb-4">
             <Link
-              to="HistoryContact"
+              to="HistoryContract"
               className="route text-lg lg:text-xl font-extrabold"
             >
               <FontAwesomeIcon icon={faChartLine} /> History
             </Link>
-          </li>
+          </li> */}
           <li className="w-full lg:hover:px-5 py-2 hover:bg-[#eaf9e7] hover:text-[#4ca771] text-center lg:text-left rounded-full mb-4">
             <Link
               to="ListVehicle"

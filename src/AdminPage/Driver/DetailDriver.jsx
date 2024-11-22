@@ -10,8 +10,16 @@ const DetailDriver = () => {
   const [driver, setDriver] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [salary, setSalary] = useState(null);
   const navigate = useNavigate();
   const URL = "https://cnpm-ncserver.vercel.app/api";
+
+  const formatPrice = (price) => {
+    return price.toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
 
   const DetailFetch = async () => {
     try {
@@ -30,6 +38,24 @@ const DetailDriver = () => {
 
   useEffect(() => {
     DetailFetch();
+  }, [id]);
+
+  const fetchsalary = async () => {
+    const res = await fetch(`${URL}/findContractDriver/${id}`);
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (data === null) {
+      setSalary("N/A");
+      return;
+    }
+    console.log(data);
+    setSalary(data.salary);
+    console.log(salary.salary);
+  };
+  useEffect(() => {
+    fetchsalary();
   }, [id]);
 
   const handleDelete = async (id) => {
@@ -127,9 +153,9 @@ const DetailDriver = () => {
               </p>
               <p className="text-xl my-2 flex justify-between pr-10">
                 <span className="font-bold text-[#4ca771]">
-                  Tài xế của xe:{" "}
+                  Lương tài xế tháng 11:{" "}
                 </span>
-                {driver.Vehicle_ID || "N/A"}
+                {salary || "N/A"}
               </p>
             </div>
           </div>
