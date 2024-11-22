@@ -16,7 +16,7 @@ const DetailContract = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const URL = "http://localhost:8000/api";
+  const URL = "https://cnpm-ncserver.vercel.app/api";
 
   const DetailFetch = async () => {
     try {
@@ -295,8 +295,7 @@ const DetailContract = () => {
               <div className="col-span-5 mx-5">
                 <button
                   onClick={() => submitContract()}
-                  className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-5 rounded-lg flex items-center justify-center w-full"
-                >
+                  className="bg-[#4ca771] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] p-5 rounded-lg flex items-center justify-center w-full">
                   <span className="ml-2">Hoàn thành contract</span>
                 </button>
               </div>
@@ -305,8 +304,7 @@ const DetailContract = () => {
             <div className="col-span-5 mx-5 ">
               <button
                 onClick={() => changePDF()}
-                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-5 px-16 rounded-lg flex items-center justify-center w-full"
-              >
+                className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-5 px-16 rounded-lg flex items-center justify-center w-full">
                 In hợp đồng
               </button>
             </div>

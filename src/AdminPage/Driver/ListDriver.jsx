@@ -67,8 +67,7 @@ const ListDriver = () => {
         <div className="flex justify-between my-2 h-fit w-full p-2">
           <Link
             to="/MainAdmin/CreateDriver"
-            className="font-semibold bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg"
-          >
+            className="font-semibold bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg">
             Create Driver
           </Link>
         </div>
@@ -76,8 +75,7 @@ const ListDriver = () => {
           {driver.map((driver) => (
             <div
               key={driver._id}
-              className=" w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]"
-            >
+              className=" w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]">
               <h2 className="text-2xl font-bold mb-3">{driver.NameDriver}</h2>
               <div className="grid grid-cols-12">
                 <div className="col-span-8">
@@ -95,7 +93,10 @@ const ListDriver = () => {
                   </p>
                   <p>
                     <span className="font-bold text-[#4ca771]">Giá tiền: </span>
-                    {driver.Price}
+                    {driver.Price.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </p>
                   <p className="font-bold text-[#4ca771]">
                     Trạng thái xe:{" "}
@@ -104,8 +105,7 @@ const ListDriver = () => {
                         driver.StateDriver === "Available"
                           ? "text-[#2E4F4F]"
                           : "text-[#b0211d]"
-                      }`}
-                    >
+                      }`}>
                       {driver.StateDriver}
                     </span>
                   </p>
@@ -113,15 +113,13 @@ const ListDriver = () => {
                 <div className="col-span-4 grid grid-rows-2 gap-2">
                   <Link
                     to={`/MainAdmin/DetailDriver/${driver._id}`}
-                    className="bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] px-4 py-2 rounded-lg flex items-center"
-                  >
+                    className="bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] px-4 py-2 rounded-lg flex items-center">
                     <FontAwesomeIcon className="mr-2" icon={faCircleInfo} />
                     Detail
                   </Link>
                   <button
                     onClick={() => handleDeleteDriver(driver._id)}
-                    className="bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg flex items-center"
-                  >
+                    className="bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg flex items-center">
                     <FontAwesomeIcon icon={faTrash} className="mr-2" />
                     Delete
                   </button>
