@@ -40,6 +40,7 @@ ChartJS.register(
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [driver, setDriver] = useState([]); // Khởi tạo mảng dữ liệu tài xế
   const [contact, setContact] = useState([]); // Khởi tạo mảng dữ liệu hợp đồng
   const [car, setCar] = useState([]); // Khởi tạo mảng dữ liệu xe
@@ -228,23 +229,34 @@ const Dashboard = () => {
 
   // console.log(filteredDataContact);
 
-  
+  const generateRandomColor = () => {
+    const r = Math.floor(Math.random() * 128 + 127);
+    const g = Math.floor(Math.random() * 128 + 127);
+    const b = Math.floor(Math.random() * 128 + 127);
+    return `rgb(${r}, ${g}, ${b})`;
+  };
+
   const joinDriversWithContracts = (contacts, drivers) => {
     // Khởi tạo một mảng kết quả mới chứa các tài xế với hợp đồng của họ
     return drivers.map((driver) => {
       // Lọc các hợp đồng của tài xế này
-      const driverContracts = contacts.filter(contact => contact.MaDriver === driver._id);
-      
+      const driverContracts = contacts.filter(
+        (contact) => contact.MaDriver === driver._id
+      );
+
       // Trả về tài xế với danh sách hợp đồng của họ
       return {
         ...driver, // Dữ liệu của tài xế
-        contracts: driverContracts // Mảng hợp đồng của tài xế
+        contracts: driverContracts, // Mảng hợp đồng của tài xế
       };
     });
   };
-  const joinDriversWithContractsData = joinDriversWithContracts(filteredDataContact, driver);
+  const joinDriversWithContractsData = joinDriversWithContracts(
+    filteredDataContact,
+    driver
+  );
   console.log(joinDriversWithContractsData);
-  
+
   const calculateDriverPayments = (drivers) => {
     return drivers
       .map((driver) => {
@@ -252,59 +264,64 @@ const Dashboard = () => {
         const totalWorkDays = driver.contracts.reduce((totalDays, contract) => {
           const pickupDate = new Date(contract.Pickup_Date);
           const returnDate = new Date(contract.Return_Date);
-          const rentalDays = Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)); // Số ngày làm tròn
+          const rentalDays = Math.ceil(
+            (returnDate - pickupDate) / (1000 * 60 * 60 * 24)
+          ); // Số ngày làm tròn
           return totalDays + rentalDays;
         }, 0);
-  
+
         // Tính tổng tiền cho tất cả các hợp đồng của tài xế
         const totalPayment = driver.contracts.reduce((total, contract) => {
           const pickupDate = new Date(contract.Pickup_Date);
           const returnDate = new Date(contract.Return_Date);
-          const rentalDays = Math.ceil((returnDate - pickupDate) / (1000 * 60 * 60 * 24)); // Số ngày làm tròn
-  
+          const rentalDays = Math.ceil(
+            (returnDate - pickupDate) / (1000 * 60 * 60 * 24)
+          ); // Số ngày làm tròn
+
           // Tính chi phí tài xế cho hợp đồng này
           const driverPrice = driver.Price || 0;
           const totalDriverCost = rentalDays * driverPrice * 0.9; // Chi phí tài xế sau khi giảm 10%
-  
+
           return total + (contract.Total_Pay - totalDriverCost);
         }, 0);
-  
+
         // Cập nhật thông tin tài xế với tổng số ngày làm việc và tổng tiền
         return {
           ...driver, // Giữ nguyên thông tin tài xế
           totalWorkDays, // Tổng số ngày làm việc
-          totalPayment // Tổng tiền cần trả cho tài xế sau khi trừ chi phí
+          totalPayment, // Tổng tiền cần trả cho tài xế sau khi trừ chi phí
         };
       })
       .filter((driver) => driver.totalWorkDays > 0 && driver.totalPayment > 0); // Lọc chỉ tài xế có ngày làm việc và tổng tiền
   };
 
   const result = calculateDriverPayments(joinDriversWithContractsData);
-console.log(result);
+  console.log(result);
+  const DriverChart = {
+    labels: result.map((driver) => driver.NameDriver),
+    datasets: [
+      {
+        label: "Tổng số ngày làm việc của tài xế",
+        data: result.map((driver) => driver.totalWorkDays),
+        borderColor: "rgba(75, 192, 192, 0.2)",
+        backgroundColor: "rgba(80, 192, 192)",
+        tension: 0.1,
+      },
+    ],
+  };
 
- const DriverChart ={
-  labels:result.map((driver) => driver.NameDriver),
-  datasets: [{
-    label: 'Tổng số ngày làm việc của tài xế',
-    data: result.map((driver) => driver.totalWorkDays),
-    borderColor: "rgba(75, 192, 192, 1)",
-    tension: 0.1,
-  }]
- }
-
- const PieDriverChart ={
-  labels:result.map((driver) => driver.NameDriver),
-  datasets: [{
-    label: 'Tổng tiền cho tài xế',
-    data: result.map((driver) => driver.totalPayment),
-    backgroundColor: "rgba(75, 192, 192, 1)",
-    tension: 0.1,
-  }]
- }
-
-
-
- 
+  const PieDriverChart = {
+    labels: result.map((driver) => driver.NameDriver),
+    datasets: [
+      {
+        label: "Tổng tiền cho tài xế",
+        data: result.map((driver) => driver.totalPayment),
+        backgroundColor: result.map(() => generateRandomColor()),
+        borderColor: "rgba(75, 192, 192, 0.2)",
+        boderWidth: 1,
+      },
+    ],
+  };
 
   const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
@@ -332,9 +349,9 @@ console.log(result);
       <select
         value={selected}
         onChange={handleSelect}
-        className=" text-md h-full w-full text-center font-bold text-lg mb-5   ">
+        className=" text-md h-full w-full text-center font-bold text-lg mb-5   "
+      >
         <option value="car">Thống kê xe</option>
-        <option value="order">Thống kê doanh thu</option>
         <option value="driver">Thống kê tài xế</option>
       </select>
 
@@ -419,7 +436,8 @@ console.log(result);
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                   filterCar();
-                }}>
+                }}
+              >
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
@@ -432,7 +450,8 @@ console.log(result);
                 onChange={(e) => {
                   setSelectedYear(e.target.value);
                   filterCar();
-                }}>
+                }}
+              >
                 {year.map((year, index) => (
                   <option key={index} value={year}>
                     {year}
@@ -525,23 +544,57 @@ console.log(result);
                 ))}
               </select>
             </div>
-            {
-              joinDriversWithContractsData.length > 0 ? (
-                <div className="h-[500px] pt-20">
-                <div className="flex justify-center h-full w-full">
-                  <Bar data={DriverChart} options={options} />
+            {joinDriversWithContractsData.length > 0 ? (
+              <div>
+                <div className="h-fit pt-20 grid grid-cols-2 gap-0 px-5 mb-5">
+                  <div className="flex justify-center h-[350px]  w-full">
+                    <Bar data={DriverChart} options={options} />
+                  </div>
+                  <div className="flex justify-center  h-[350px] w-full">
+                    <Pie data={PieDriverChart} />
+                  </div>
                 </div>
-                <div className="flex justify-center h-full w-full">
-                  <Pie data={PieDriverChart} options={options} />
-                </div>
-              </div>
+                <h1 className=" font-bold text-center text-2xl">Danh sách thu nhập tài xế</h1>
+                <div
+                      className="grid grid-cols-3 gap-0 p-4 border-b border-gray-200 hover:bg-gray-100 rounded-lg"
+                    >
+                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-[#1153f9]">
+                      Tên tài xế
+                      </div>
+                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-[#1153f9]">
+                       Tổng số ngày làm
+                      </div>
+                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-[#1153f9]">
+                        Tổng thu nhập
+                      </div>
+                    </div>
 
-              ) :(
-                <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
+                {result.map((driver, index) => (
+                  // Sử dụng key cho React.Fragment hoặc div thay vì React.Fragment trong trường hợp này
+
+                  <div key={index} className="">
+                    <div
+                      key={index}
+                      className="grid grid-cols-3 gap-0 p-4 border-b border-gray-200 hover:bg-gray-100 rounded-lg"
+                    >
+                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-white">
+                        {driver.NameDriver}
+                      </div>
+                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-white">
+                        {driver.totalWorkDays}
+                      </div>
+                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-white  ">
+                        {driver.totalPayment.toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
                 Không có dữ liệu
               </div>
-              )
-            }
+            )}
           </div>
         </div>
       )}
