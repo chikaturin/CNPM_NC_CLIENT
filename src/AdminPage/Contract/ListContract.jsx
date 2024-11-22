@@ -85,45 +85,37 @@ const ListContract = () => {
               tabIndex={0}
               role="button"
               className="font-semibold bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] outline-none px-4 py-2 rounded-lg"
-              onClick={() => setOpenDropdown(!openDropdown)}
-            >
+              onClick={() => setOpenDropdown(!openDropdown)}>
               <FontAwesomeIcon className="mr-2" icon={faFilter} /> Sort by state
             </div>
             {openDropdown && (
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-[#eaf9e7] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#4ca771] mt-2"
-              >
+                className="dropdown-content menu bg-[#eaf9e7] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#4ca771] mt-2">
                 <li
                   key="All"
-                  className="flex items-center text-[#2F4F4F] text-lg"
-                >
+                  className="flex items-center text-[#2F4F4F] text-lg">
                   <a
                     onClick={() => handleSort("All")}
-                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]"
-                  >
+                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]">
                     All
                   </a>
                 </li>
                 <li
                   key="Staked"
-                  className="flex items-center text-[#2F4F4F] text-lg"
-                >
+                  className="flex items-center text-[#2F4F4F] text-lg">
                   <a
                     onClick={() => handleSort("Staked")}
-                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]"
-                  >
+                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]">
                     Staked
                   </a>
                 </li>
                 <li
                   key="Paid"
-                  className="flex items-center text-[#2F4F4F] text-lg"
-                >
+                  className="flex items-center text-[#2F4F4F] text-lg">
                   <a
                     onClick={() => handleSort("Paid")}
-                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]"
-                  >
+                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]">
                     Paid
                   </a>
                 </li>
@@ -135,8 +127,7 @@ const ListContract = () => {
           {contract.map((contract) => (
             <div
               key={contract._id}
-              className=" w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]"
-            >
+              className=" w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]">
               <h2 className="text-2xl font-bold mb-3">{contract._id}</h2>
               <div className="grid grid-cols-12">
                 <div className="col-span-8">
@@ -150,7 +141,10 @@ const ListContract = () => {
                   </p>
                   <p>
                     <span className="font-bold text-[#4ca771]">Giá tiền: </span>
-                    {contract.Total_Pay}
+                    {contract.Total_Pay.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </p>
                   <p className="font-bold text-[#4ca771]">
                     Trạng thái xe:{" "}
@@ -159,8 +153,7 @@ const ListContract = () => {
                         contract.StatePay === "Paid"
                           ? "text-[#388046]"
                           : "text-[#ff5303]"
-                      }`}
-                    >
+                      }`}>
                       {contract.StatePay}
                     </span>
                   </p>
@@ -168,8 +161,7 @@ const ListContract = () => {
                 <div className="col-span-4 grid grid-rows-2 gap-2">
                   <Link
                     to={`/MainAdmin/DetailContract/${contract._id}`}
-                    className="bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] px-4 py-2 rounded-lg flex items-center"
-                  >
+                    className="bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] px-4 py-2 rounded-lg flex items-center">
                     <FontAwesomeIcon className="mr-2" icon={faCircleInfo} />
                     Detail
                   </Link>
