@@ -44,7 +44,7 @@ const Dashboard = () => {
   const [driver, setDriver] = useState([]); // Khởi tạo mảng dữ liệu tài xế
   const [contact, setContact] = useState([]); // Khởi tạo mảng dữ liệu hợp đồng
   const [car, setCar] = useState([]); // Khởi tạo mảng dữ liệu xe
-  const [selected, setSelected] = useState("driver"); // Khởi tạo giá trị ban đầu của dropdown
+  const [selected, setSelected] = useState("car"); // Khởi tạo giá trị ban đầu của dropdown
   const [calculatedContracts, setCalculatedContracts] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(
     (new Date().getMonth() + 1).toString()
@@ -345,12 +345,11 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen text-[#2F4F4F]">
       <select
         value={selected}
         onChange={handleSelect}
-        className=" text-md h-full w-full text-center font-bold text-lg mb-5   "
-      >
+        className=" text-md h-full w-full text-center font-bold text-lg mb-5   ">
         <option value="car">Thống kê xe</option>
         <option value="driver">Thống kê tài xế</option>
       </select>
@@ -432,12 +431,11 @@ const Dashboard = () => {
               </div>
               <select
                 value={selectedMonth}
-                className="text-md h-full w-full text-center font-bold text-lg mb-5   "
+                className="col-start-2 text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
@@ -446,12 +444,11 @@ const Dashboard = () => {
               </select>
               <select
                 value={selectedYear}
-                className="text-md h-full w-full text-center font-bold text-lg mb-5   "
+                className="text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
                 onChange={(e) => {
                   setSelectedYear(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {year.map((year, index) => (
                   <option key={index} value={year}>
                     {year}
@@ -487,8 +484,7 @@ const Dashboard = () => {
             onChange={(e) => {
               setSelectedMonth(e.target.value);
               filterContact();
-            }}
-          >
+            }}>
             {months.map((month) => (
               <option key={month} value={month}>
                 {month}
@@ -500,8 +496,7 @@ const Dashboard = () => {
             onChange={(e) => {
               setSelectedYear(e.target.value);
               filterContact();
-            }}
-          >
+            }}>
             {year.map((year, index) => (
               <option key={index} value={year}>
                 {year}
@@ -514,15 +509,14 @@ const Dashboard = () => {
       {selected === "driver" && (
         <div>
           <div>
-            <div className="grid grid-cols-4 h-fit  gap-2 w-full">
+            <div className="grid grid-cols-4 h-fit gap-2 w-full">
               <select
                 value={selectedMonth}
-                className="text-md h-full w-full text-center font-bold text-lg mb-5   "
+                className="col-start-2 text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                   filterContact();
-                }}
-              >
+                }}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
@@ -531,12 +525,11 @@ const Dashboard = () => {
               </select>
               <select
                 value={selectedYear}
-                className="text-md h-full w-full text-center font-bold text-lg mb-5   "
+                className="text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
                 onChange={(e) => {
                   setSelectedYear(e.target.value);
                   filterContact();
-                }}
-              >
+                }}>
                 {year.map((year, index) => (
                   <option key={index} value={year}>
                     {year}
@@ -554,20 +547,20 @@ const Dashboard = () => {
                     <Pie data={PieDriverChart} />
                   </div>
                 </div>
-                <h1 className=" font-bold text-center text-2xl">Danh sách thu nhập tài xế</h1>
-                <div
-                      className="grid grid-cols-3 gap-0 p-4 border-b border-gray-200 hover:bg-gray-100 rounded-lg"
-                    >
-                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-[#1153f9]">
-                      Tên tài xế
-                      </div>
-                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-[#1153f9]">
-                       Tổng số ngày làm
-                      </div>
-                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-[#1153f9]">
-                        Tổng thu nhập
-                      </div>
-                    </div>
+                <h1 className="pb-4 font-bold text-center text-2xl">
+                  Danh sách thu nhập tài xế
+                </h1>
+                <div className="grid grid-cols-3 gap-0 px-4 hover:bg-gray-100 rounded-lg">
+                  <div className="py-2 text-center font-medium text-lg text-[#fff] border-2 border-[#4ca771] bg-[#4ca771] rounded-tl-xl">
+                    Tên tài xế
+                  </div>
+                  <div className="py-2 text-center font-medium text-lg text-[#fff] border-2 border-[#4ca771] bg-[#4ca771]">
+                    Tổng số ngày làm
+                  </div>
+                  <div className="py-2 text-center font-medium text-lg text-[#fff] border-2 border-[#4ca771] bg-[#4ca771] rounded-tr-xl">
+                    Tổng thu nhập
+                  </div>
+                </div>
 
                 {result.map((driver, index) => (
                   // Sử dụng key cho React.Fragment hoặc div thay vì React.Fragment trong trường hợp này
@@ -575,16 +568,18 @@ const Dashboard = () => {
                   <div key={index} className="">
                     <div
                       key={index}
-                      className="grid grid-cols-3 gap-0 p-4 border-b border-gray-200 hover:bg-gray-100 rounded-lg"
-                    >
-                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-white">
+                      className="grid grid-cols-3 gap-0 px-4 hover:bg-gray-100 rounded-lg">
+                      <div className="py-2 text-center font-medium text-lg text-gray-700 border-2 border-[#4ca771] bg-white">
                         {driver.NameDriver}
                       </div>
-                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-white">
+                      <div className="py-2 text-center font-medium text-lg text-gray-700 border-2 border-[#4ca771] bg-white">
                         {driver.totalWorkDays}
                       </div>
-                      <div className="text-center font-medium text-lg text-gray-700 border-2 border-solid bg-white  ">
-                        {driver.totalPayment.toLocaleString()}
+                      <div className="py-2 text-center font-medium text-lg text-gray-700 border-2 border-[#4ca771] bg-white  ">
+                        {driver.totalPayment.toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
                       </div>
                     </div>
                   </div>

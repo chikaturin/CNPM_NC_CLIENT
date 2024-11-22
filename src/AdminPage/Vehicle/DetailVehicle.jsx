@@ -105,8 +105,7 @@ const DetailVehicle = () => {
               SeeMore
                 ? "fixed inset-0 bg-black bg-opacity-80 z-50 p-10 overflow-y-scroll"
                 : "grid-cols-3 lg:grid-cols-1 lg:grid-rows-3"
-            }`}
-          >
+            }`}>
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
               vehicle.imageVehicle.map((img, index) =>
                 index >= 1 && index <= 3 && !SeeMore ? (
@@ -134,8 +133,7 @@ const DetailVehicle = () => {
               <div className="fixed top-4 right-14 z-50">
                 <span
                   className="bg-[#c8f1c1] rounded-lg text-[#3b9741] p-2 m-2 cursor-pointer"
-                  onClick={handleSeemore}
-                >
+                  onClick={handleSeemore}>
                   <FontAwesomeIcon className="mr-3" icon={faImage} />
                   Close
                 </span>
@@ -145,8 +143,7 @@ const DetailVehicle = () => {
               <div className="w-full absolute top-[100%] mt-12 right-8 float-right text-right rounded-xl">
                 <span
                   className="bg-[#c8f1c1] rounded-lg text-[#3b9741] p-2 m-2"
-                  onClick={handleSeemore}
-                >
+                  onClick={handleSeemore}>
                   <FontAwesomeIcon className="mr-3" icon={faImage} />
                   See More
                 </span>
@@ -167,8 +164,7 @@ const DetailVehicle = () => {
                     vehicle.State === "Available"
                       ? "text-green-500"
                       : "text-red-500"
-                  }`}
-                >
+                  }`}>
                   {vehicle.State}
                 </span>
               </span>
@@ -184,7 +180,14 @@ const DetailVehicle = () => {
             </div>
             <div className="w-full p-2 grid lg:grid-cols-2 grid-col-1 ">
               <span className="text-xl font-bold text-[#4ca771]">
-                Giá: <span className="font-normal">{vehicle.Price} đ/ngày</span>
+                Giá:{" "}
+                <span className="font-normal">
+                  {vehicle.Price.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                  /ngày
+                </span>
               </span>
               <span className="text-xl font-bold text-[#4ca771]">
                 Mô tả:{" "}
@@ -206,8 +209,7 @@ const DetailVehicle = () => {
           <div className="col-span-5">
             <button
               className="bg-[#2F4F4F] hover:bg-[#eaf9e7] mt-6  font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-5 rounded-lg flex items-center justify-center w-full"
-              onClick={() => handleDeleteVehicle(id)}
-            >
+              onClick={() => handleDeleteVehicle(id)}>
               <FontAwesomeIcon icon={faTrash} />
               <span className="ml-2">Delete</span>
             </button>

@@ -12,7 +12,7 @@ const ListVehicle = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const URL = "https://cnpm-ncserver.vercel.app/api";   // URL of the server
+  const URL = "https://cnpm-ncserver.vercel.app/api"; // URL of the server
   const [openDropdown, setOpenDropdown] = useState(false);
 
   const handleSort = async (selectedNumberSeat) => {
@@ -116,24 +116,20 @@ const ListVehicle = () => {
               tabIndex={0}
               role="button"
               className="font-semibold bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] outline-none px-4 py-2 rounded-lg"
-              onClick={() => setOpenDropdown(!openDropdown)}
-            >
+              onClick={() => setOpenDropdown(!openDropdown)}>
               <FontAwesomeIcon className="mr-2" icon={faFilter} /> Sort by
               NumberSeats
             </div>
             {openDropdown && (
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-[#eaf9e7] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#4ca771] mt-2"
-              >
+                className="dropdown-content menu bg-[#eaf9e7] rounded-box z-[1] w-52 p-2 shadow-inner shadow-[#4ca771] mt-2">
                 <li
                   key="all"
-                  className="flex items-center text-[#2F4F4F] text-lg"
-                >
+                  className="flex items-center text-[#2F4F4F] text-lg">
                   <a
                     onClick={() => handleSort("all")}
-                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]"
-                  >
+                    className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]">
                     All
                   </a>
                 </li>
@@ -141,12 +137,10 @@ const ListVehicle = () => {
                 {selectedSeats.map((seat, index) => (
                   <li
                     key={index}
-                    className="flex items-center text-[#2F4F4F] text-lg"
-                  >
+                    className="flex items-center text-[#2F4F4F] text-lg">
                     <a
                       onClick={() => handleSort(seat)}
-                      className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]"
-                    >
+                      className="w-full hover:bg-[#4ca771] hover:text-[#eaf9e7] bg-[#eaf9e7] active:font-bold border-2 border-transparent active:border-[#4ca771]">
                       {seat}
                     </a>
                   </li>
@@ -156,8 +150,7 @@ const ListVehicle = () => {
           </div>
           <Link
             to="/MainAdmin/CreateVehicle"
-            className="font-semibold bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg"
-          >
+            className="font-semibold bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg">
             Create Vehicle
           </Link>
         </div>
@@ -165,8 +158,7 @@ const ListVehicle = () => {
           {vehicles.map((vehicle) => (
             <div
               key={vehicle._id}
-              className=" w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]"
-            >
+              className=" w-full rounded-lg p-4 bg-[#c0e6b3] text-[#2F4F4F]">
               <h2 className="text-2xl font-bold mb-3">{vehicle._id}</h2>
               <div className="grid grid-cols-12">
                 <div className="col-span-8">
@@ -180,7 +172,10 @@ const ListVehicle = () => {
                   </p>
                   <p>
                     <span className="font-bold text-[#4ca771]">Giá tiền: </span>
-                    {vehicle.Price}
+                    {vehicle.Price.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </p>
                   <p className="font-bold text-[#4ca771]">
                     Trạng thái xe:{" "}
@@ -189,8 +184,7 @@ const ListVehicle = () => {
                         vehicle.State === "Available"
                           ? "text-[#2E4F4F]"
                           : "text-[#b0211d]"
-                      }`}
-                    >
+                      }`}>
                       {vehicle.State}
                     </span>
                   </p>
@@ -198,15 +192,13 @@ const ListVehicle = () => {
                 <div className="col-span-4 grid grid-rows-2 gap-2">
                   <Link
                     to={`/MainAdmin/DetailVehicle/${vehicle._id}`}
-                    className="bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] px-4 py-2 rounded-lg flex items-center"
-                  >
+                    className="bg-[#4ca771] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#4ca771] border-2 border-[#4ca771] px-4 py-2 rounded-lg flex items-center">
                     <FontAwesomeIcon className="mr-2" icon={faCircleInfo} />
                     Detail
                   </Link>
                   <button
                     onClick={() => handleDeleteVehecle(vehicle._id)}
-                    className="bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg flex items-center"
-                  >
+                    className="bg-[#2F4F4F] hover:bg-[#eaf9e7] text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] px-4 py-2 rounded-lg flex items-center">
                     <FontAwesomeIcon icon={faTrash} className="mr-2" />
                     Delete
                   </button>

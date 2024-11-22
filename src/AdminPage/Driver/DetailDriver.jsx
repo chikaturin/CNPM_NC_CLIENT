@@ -126,8 +126,7 @@ const DetailDriver = () => {
                     driver.StateDriver === "Available"
                       ? "text-green-500"
                       : "text-red-500"
-                  }`}
-                >
+                  }`}>
                   {driver.StateDriver}
                 </span>
               </span>
@@ -149,7 +148,10 @@ const DetailDriver = () => {
                 <span className="font-bold text-[#4ca771]">
                   Giá tiền/Ngày:{" "}
                 </span>
-                {driver.Price || "N/A"}
+                {driver.Price.toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                }) || "N/A"}
               </p>
               <p className="text-xl my-2 flex justify-between pr-10">
                 <span className="font-bold text-[#4ca771]">
@@ -173,8 +175,7 @@ const DetailDriver = () => {
           <div className="col-span-5">
             <button
               className="bg-[#2F4F4F] hover:bg-[#eaf9e7] font-bold text-lg text-[#eaf9e7] hover:text-[#2F4F4F] border-2 border-[#2F4F4F] p-5 rounded-lg flex items-center justify-center w-full"
-              onClick={() => handleDelete(id)}
-            >
+              onClick={() => handleDelete(id)}>
               <FontAwesomeIcon icon={faTrash} />
               <span className="ml-2">Delete</span>
             </button>
