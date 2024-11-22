@@ -181,7 +181,7 @@ const DetailVehicle = () => {
     <div className="grid grid-cols-12 bg-gradient-to-bl to-[#75bde0] from-30% from-[#ffffff]">
       <div className="col-span-10 col-start-2 w-full py-6">
         <div className="grid grid-cols-12 text-[#3b7097]">
-          <div className="col-span-12 flex items-center justify-between px-2 my-4">
+          <div className="col-span-12 flex items-center justify-between px-2 my-10">
             <div>
               <div className="bg-transparent w-10 h-10 border-4 border-transparent text-transparent font-bold rounded-full"></div>
             </div>
@@ -208,8 +208,7 @@ const DetailVehicle = () => {
               SeeMore
                 ? "fixed inset-0 bg-black bg-opacity-80 z-50 p-10 overflow-y-scroll"
                 : "grid-cols-3 lg:grid-cols-1 lg:grid-rows-3"
-            }`}
-          >
+            }`}>
             {vehicle.imageVehicle && vehicle.imageVehicle.length > 0 ? (
               vehicle.imageVehicle.map((img, index) =>
                 index >= 1 && index <= 3 && !SeeMore ? (
@@ -237,19 +236,17 @@ const DetailVehicle = () => {
               <div className="fixed top-4 right-14 z-50">
                 <span
                   className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2 cursor-pointer"
-                  onClick={handleSeemore}
-                >
+                  onClick={handleSeemore}>
                   <FontAwesomeIcon className="mr-3" icon={faImage} />
                   Close
                 </span>
               </div>
             )}
             {!SeeMore && vehicle.imageVehicle.length > 3 && (
-              <div className="w-full absolute top-[100%] mt-12 right-40 float-right text-right rounded-xl">
+              <div className="w-full absolute top-[100%] mt-52 right-40 float-right text-right rounded-xl cursor-pointer">
                 <span
                   className="bg-[#C1E1F1] rounded-lg text-[#3B7097] p-2 m-2"
-                  onClick={handleSeemore}
-                >
+                  onClick={handleSeemore}>
                   <FontAwesomeIcon className="mr-3" icon={faImage} />
                   See More
                 </span>
@@ -388,8 +385,7 @@ const DetailVehicle = () => {
                     </div>
                     <div
                       className="col-span-12  mt-3 w-full"
-                      onClick={toggleCalendar}
-                    >
+                      onClick={toggleCalendar}>
                       <span className="border-2 border-[#75bde0] outline-none text-[#3b7097] placeholder:text-[#75bde0] py-[0.65rem] pr-14 px-2 h-full w-full rounded-lg bg-[#ffffff]">
                         {date ? (
                           <span>{formatDate(date)}</span>
@@ -399,8 +395,7 @@ const DetailVehicle = () => {
                         {show && (
                           <div
                             className="absolute mt-6 right-40 z-50 bg-[#ffffff] rounded-lg shadow-xl shadow-[#75bde0] p-4"
-                            onClick={(e) => e.stopPropagation()}
-                          >
+                            onClick={(e) => e.stopPropagation()}>
                             <Calendar
                               onChange={handleDateChange}
                               value={date}
@@ -438,8 +433,7 @@ const DetailVehicle = () => {
               <button
                 onClick={OnclickPay}
                 type="submit"
-                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl"
-              >
+                className="mt-10 w-full text-center py-4 cursor-pointer shadow-lg shadow-[#75bde0] text-xl font-bold text-[#ffffff] hover:text-[#75bde0] bg-[#75bde0] hover:bg-[#ffffff] rounded-xl">
                 Chọn thuê
               </button>
             </form>
