@@ -227,7 +227,7 @@ const Dashboard = () => {
     return contracts.reduce((acc, contract) => {
       // Lấy ngày từ ContractDate
       const date = new Date(contract.ContractDate).toISOString().split("T")[0];
-
+  
       // Nếu ngày đã tồn tại trong kết quả, cộng dồn Total_Pay
       if (acc[date]) {
         acc[date] += contract.Total_Pay;
@@ -235,18 +235,18 @@ const Dashboard = () => {
         // Nếu chưa, khởi tạo giá trị
         acc[date] = contract.Total_Pay;
       }
-
+  
       return acc;
     }, {});
   };
 
   const incomeData = calculateIncomeByContractDate(filteredDataContact);
 
-  // Chuyển đổi thành mảng dữ liệu cho biểu đồ
-  const labels = Object.keys(incomeData); // Các ngày
-  const dataValues = Object.values(incomeData); // Tổng tiền tương ứng
+   // Chuyển đổi thành mảng dữ liệu cho biểu đồ
+   const labels = Object.keys(incomeData); // Các ngày
+   const dataValues = Object.values(incomeData); // Tổng tiền tương ứng
 
-  const chartContact = {
+   const chartContact = {
     labels,
     datasets: [
       {
@@ -258,6 +258,10 @@ const Dashboard = () => {
       },
     ],
   };
+
+
+
+
 
   useEffect(() => {
     filterContact();
@@ -385,11 +389,11 @@ const Dashboard = () => {
       <select
         value={selected}
         onChange={handleSelect}
-        className=" text-md h-full w-full text-center font-bold text-lg mb-5   "
-      >
+        className=" text-md h-full w-full text-center font-bold text-lg mb-5   ">
         <option value="car">Thống kê xe</option>
         <option value="driver">Thống kê tài xế</option>
         <option value="order">Thống kê doanh thu</option>
+
       </select>
 
       {selected === "nonSelection" && (
@@ -473,8 +477,7 @@ const Dashboard = () => {
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
@@ -487,8 +490,7 @@ const Dashboard = () => {
                 onChange={(e) => {
                   setSelectedYear(e.target.value);
                   filterCar();
-                }}
-              >
+                }}>
                 {year.map((year, index) => (
                   <option key={index} value={year}>
                     {year}
@@ -518,90 +520,47 @@ const Dashboard = () => {
       )}
 
       {selected === "order" && (
-        <div>
-          <div className="grid grid-cols-4 h-fit gap-2 w-full">
-            <select
-              value={selectedMonth}
-              className="col-start-2 text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
-              onChange={(e) => {
-                setSelectedMonth(e.target.value);
-                filterContact();
-              }}
-            >
-              {months.map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedYear}
-              className="text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
-              onChange={(e) => {
-                setSelectedYear(e.target.value);
-                filterContact();
-              }}
-            >
-              {year.map((year, index) => (
-                <option key={index} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            {filteredDataContact.length > 0 ? (
-              <div className="h-fit pt-20 grid grid-cols-2 gap-0 px-5 mb-5">
-                <div className="flex justify-center h-[350px]  w-full">
-                  <Bar data={chartContact} options={options} />
-                </div>
-              </div>
-            ) : (
-              <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
-                Không có dữ liệu
-              </div>
-            )}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredDataContact.map((contract) => (
-              <div
-                key={contract._id}
-                className="flex bg-white shadow-md rounded-lg overflow-hidden"
-              >
-                {/* Bên trái */}
-                <div className="bg-green-500 text-white p-6 flex items-center justify-center w-1/3">
-                  <div className="text-center font-bold">{contract._id}</div>
-                </div>
-
-                {/* Bên phải */}
-                <div className="p-6 flex-1">
-                  <p className="text-gray-600">
-                    <span className="font-bold">Ngày kí kết hợp đồng:</span>{" "}
-                    {new Date(contract.ContractDate).toLocaleDateString(
-                      "vi-VN"
-                    )}
-                  </p>
-                  <p className="text-gray-600">
-                    <span className="font-bold">Ngày nhận xe:</span>{" "}
-                    {new Date(contract.Pickup_Date).toLocaleDateString("vi-VN")}
-                  </p>
-                  <p className="text-gray-600">
-                    <span className="font-bold">Ngày trả xe:</span>{" "}
-                    {new Date(contract.Return_Date).toLocaleDateString("vi-VN")}
-                  </p>
-                  <p className="text-gray-600">
-                    <span className="font-bold">Mã xe:</span>{" "}
-                    {contract.MaVehicle}
-                  </p>
-                  <p className="text-gray-600">
-                    <span className="font-bold">Mã tài xế:</span>{" "}
-                    {contract.MaDriver}
-                  </p>
-                </div>
-              </div>
-            ))}
+       <div className="grid grid-cols-4 h-fit gap-2 w-full">
+       <select
+         value={selectedMonth}
+         className="col-start-2 text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
+         onChange={(e) => {
+           setSelectedMonth(e.target.value);
+           filterContact();
+         }}>
+         {months.map((month) => (
+           <option key={month} value={month}>
+             {month}
+           </option>
+         ))}
+       </select>
+       <select
+         value={selectedYear}
+         className="text-md h-full w-full text-center font-bold text-lg mb-5 rounded-lg"
+         onChange={(e) => {
+           setSelectedYear(e.target.value);
+           filterContact();
+         }}>
+         {year.map((year, index) => (
+           <option key={index} value={year}>
+             {year}
+           </option>
+         ))}
+       </select>
+       <div>
+        {filteredDataContact.length > 0 ? (
+          <div className="h-fit pt-20 grid grid-cols-2 gap-0 px-5 mb-5">
+          <div className="flex justify-center h-[350px]  w-full">
+            <Bar data={chartContact} options={options} />
           </div>
         </div>
+        ):(
+           <div className="text-center w-full text-4xl translate-y-1/2 h-full font-extrabold mt-20">
+                Không có dữ liệu
+              </div>
+        )}
+       </div>
+     </div>
       )}
 
       {selected === "driver" && (
@@ -614,8 +573,7 @@ const Dashboard = () => {
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                   filterContact();
-                }}
-              >
+                }}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
@@ -628,8 +586,7 @@ const Dashboard = () => {
                 onChange={(e) => {
                   setSelectedYear(e.target.value);
                   filterContact();
-                }}
-              >
+                }}>
                 {year.map((year, index) => (
                   <option key={index} value={year}>
                     {year}
@@ -668,8 +625,7 @@ const Dashboard = () => {
                   <div key={index} className="">
                     <div
                       key={index}
-                      className="grid grid-cols-3 gap-0 px-4 hover:bg-gray-100 rounded-lg"
-                    >
+                      className="grid grid-cols-3 gap-0 px-4 hover:bg-gray-100 rounded-lg">
                       <div className="py-2 text-center font-medium text-lg text-gray-700 border-2 border-[#4ca771] bg-white">
                         {driver.NameDriver}
                       </div>
