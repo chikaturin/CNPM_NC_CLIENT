@@ -223,6 +223,46 @@ const Dashboard = () => {
     setFilteredDataContact(filtered);
   };
 
+  const calculateIncomeByContractDate = (contracts) => {
+    return contracts.reduce((acc, contract) => {
+      // Lấy ngày từ ContractDate
+      const date = new Date(contract.ContractDate).toISOString().split("T")[0];
+  
+      // Nếu ngày đã tồn tại trong kết quả, cộng dồn Total_Pay
+      if (acc[date]) {
+        acc[date] += contract.Total_Pay;
+      } else {
+        // Nếu chưa, khởi tạo giá trị
+        acc[date] = contract.Total_Pay;
+      }
+  
+      return acc;
+    }, {});
+  };
+
+  const incomeData = calculateIncomeByContractDate(filteredDataContact);
+
+   // Chuyển đổi thành mảng dữ liệu cho biểu đồ
+   const labels = Object.keys(incomeData); // Các ngày
+   const dataValues = Object.values(incomeData); // Tổng tiền tương ứng
+
+   const chartContact = {
+    labels,
+    datasets: [
+      {
+        label: "Tổng Thu Nhập Theo Ngày",
+        data: dataValues,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "#4B5563",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+
+
+
+
   useEffect(() => {
     filterContact();
   }, [contact, selectedMonth, selectedYear]);
@@ -353,6 +393,8 @@ const Dashboard = () => {
       >
         <option value="car">Thống kê xe</option>
         <option value="driver">Thống kê tài xế</option>
+        <option value="order">Thống kê doanh thu</option>
+
       </select>
 
       {selected === "nonSelection" && (
@@ -508,6 +550,7 @@ const Dashboard = () => {
               </option>
             ))}
           </select>
+
         </div>
       )}
 
